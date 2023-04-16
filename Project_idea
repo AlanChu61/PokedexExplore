@@ -1,0 +1,13 @@
+# 1. Retail project
+- I have a walmart open API https://www.walmart.io/ (I am still playing with it...)
+- We can signup/login have own profile and shopping cart. 
+- As we signup, we could let user to fill out a form(preference). 
+- As user login, we let the homapage show some ads/promotion related to the user's preference
+- Add comments (One to many relation)
+
+# 2. Pokemon Project
+- We can fetch API from pokemon api https://pokeapi.co/
+- We can CRUD Pokemon data(photo, level, skills, move ...)
+- We can signup/login user, and group pokemon as team( one to many relations)
+- As we have pokemons, we can train/feed to level up or evolve (many to many relation)
+- We can bring the team to battle with raid? (still thinking how to setup raid?)
