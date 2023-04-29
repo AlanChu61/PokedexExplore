@@ -1,8 +1,6 @@
-Porject HW3
+Porject HW4
 # Pokemon Project
-(I am working on a dajango porject about pokemon now...) I will show you!
-If possible, I may use the similar ideas to implement my project! 
-And I was thinking maybe I can ise different framework (React+flask?)
+Tech used: React+flask?
 
 The version 1(almost ready):
 User can sign up and create its own player profile(postgreSQL).
@@ -10,6 +8,7 @@ User can fetch pokemon from API and store into postgreSQL.
 User can feed pokemon(Many to Many) and Pokemon can level up as meet the feeding requirements. 
 User can put pokemons into box or travel with them. 
 User can buy "stone" from store(pokemon item API) and evolve the pokemon (I really really love this feature!!!!)
+**New featured idea: shopping cart with stripe and chat with other players**
 
 The version 2:
 - Pokemon can evolve as it reach the specific level. (I am still working on it now..) 
