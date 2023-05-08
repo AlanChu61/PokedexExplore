@@ -25,7 +25,7 @@ Link: Replace this with a link to your data model
     - Comment can be edited/deleted by the user(U/D)
     - If there are 3 comments, pokemon will be happy to level up. (U)
 - User can sign up, log in, log out
-- User can setup profile
+- User can create profile
 
 ### 2.0
 
