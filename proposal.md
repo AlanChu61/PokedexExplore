@@ -15,13 +15,13 @@ Link: Replace this with a link to your data model
 
 ### MVP
 
-- CRUD Pokemon in the database
--- Pokemon can be captured by the user(C)
--- Pokemon can be viewed by the user(R)
--- Pokemon can be edited/deleted by the user(U/D)
+- CRUD Pokemon in the database (Seed databse -> Fecth API)
+    - Pokemon can be captured by the user(C)
+    - Pokemon can be viewed by the user(R)
+    - Pokemon can be edited/deleted by the user(U/D)
+- Use can make comments on Pokemon
 - User can sign up, log in, log out
 - User can setup profile
-- Use can make comments on Pokemon
 
 ### 2.0
 
