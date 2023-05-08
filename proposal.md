@@ -20,13 +20,15 @@ Link: Replace this with a link to your data model
 -- Pokemon can be viewed by the user(R)
 -- Pokemon can be edited/deleted by the user(U/D)
 - User can sign up, log in, log out
+- User can setup profile
+- Use can make comments on Pokemon
 
 ### 2.0
 
-- Pokemon store to buy items
-- Train Pokemon to level up
 - Capture Pokemon on Google Map API
 - Capture Pokemon by throwing Pokeball
+- Pokemon store to buy items
+- Train Pokemon to level up
 
 ### Nice-to-haves
 
