@@ -20,6 +20,10 @@ Link: Replace this with a link to your data model
     - Pokemon can be viewed by the user(R)
     - Pokemon can be edited/deleted by the user(U/D)
 - Use can make comments on Pokemon
+    - Comment can be created by the user(C)
+    - Comment can be viewed by the user(R)
+    - Comment can be edited/deleted by the user(U/D)
+    - If there are 3 comments, pokemon will be happy to level up. (U)
 - User can sign up, log in, log out
 - User can setup profile
 
@@ -27,8 +31,8 @@ Link: Replace this with a link to your data model
 
 - Capture Pokemon on Google Map API
 - Capture Pokemon by throwing Pokeball
-- Pokemon store to buy items
 - Train Pokemon to level up
+- Pokemon store to buy items
 
 ### Nice-to-haves
 
