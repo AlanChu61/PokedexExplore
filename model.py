@@ -1,3 +1,4 @@
+import datetime
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
@@ -42,11 +43,41 @@ class Player (db.Model):
     password = db.Column(db.String(25), nullable=False)
     username = db.Column(db.String(25), nullable=False, unique=True)
     img = db.Column(db.String(255), nullable=True)
+    pokemons = db.relationship(
+        "Pokemon", secondary="player_pokemons", back_populates="player")
 
     def __repr__(self):
         """Show info about user."""
 
         return f'<User user_id={self.player_id} username={self.username}>'
+
+
+class PlayerPokemon(db.Model):
+    """A player's pokemon."""
+    __tablename__ = 'player_pokemons'
+    player_pokemon_id = db.Column(
+        db.Integer, autoincrement=True, primary_key=True)
+    player_id = db.Column(db.Integer, db.ForeignKey(
+        'players.player_id', ondelete='cascade'))
+    pokemon_id = db.Column(db.Integer, db.ForeignKey(
+        'fetch_pokemons.pokemon_id', ondelete='cascade'))
+
+
+class Pokemon(db.Model):
+    """A pokemon."""
+    __tablename__ = 'pokemons'
+    pokemon_id = db.foreignKey(
+        'fetch_pokemons.pokemon_id', ondelete='cascade', primary_key=True)
+    nickname = db.Column(db.String(25))
+    capture_date = db.Column(
+        db.DateTime, nullable=False, default=datetime.utcnow)
+    player = db.relationship(
+        'Player', secondary='player_pokemons', back_populates='pokemons')
+
+    def __repr__(self):
+        """Show info about user."""
+
+        return f'<User pokemon_id={self.pokemon_id} nickname={self.nickname}>'
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///pokemons", echo=True):
