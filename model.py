@@ -32,19 +32,21 @@ class Fetch_Pokemon(db.Model):
         return f'<Pokemon pokemon_id={self.pokemon_id} name={self.name}>'
 
 
-class User (db.Model):
-    """A user."""
+class Player (db.Model):
+    """A player."""
 
-    __tablename__ = 'users'
+    __tablename__ = 'players'
 
-    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    player_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    email = db.Column(db.String(50), nullable=False, unique=True)
+    password = db.Column(db.String(25), nullable=False)
     username = db.Column(db.String(25), nullable=False, unique=True)
-    password = db.Column(db.String(25), )
+    img = db.Column(db.String(255), nullable=True)
 
     def __repr__(self):
         """Show info about user."""
 
-        return f'<User user_id={self.user_id} username={self.username} email={self.email}>'
+        return f'<User user_id={self.player_id} username={self.username}>'
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///pokemons", echo=True):
