@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
@@ -42,7 +42,7 @@ class Player (db.Model):
     email = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(25), nullable=False)
     username = db.Column(db.String(25), nullable=False, unique=True)
-    img = db.Column(db.String(255), nullable=True)
+    # img = db.Column(db.String(255), nullable=True)
     pokemons = db.relationship(
         "Pokemon", secondary="player_pokemons", back_populates="player")
 
@@ -60,24 +60,26 @@ class PlayerPokemon(db.Model):
     player_id = db.Column(db.Integer, db.ForeignKey(
         'players.player_id', ondelete='cascade'))
     pokemon_id = db.Column(db.Integer, db.ForeignKey(
-        'fetch_pokemons.pokemon_id', ondelete='cascade'))
+        'pokemons.pokemon_id', ondelete='cascade'))
 
 
 class Pokemon(db.Model):
     """A pokemon."""
     __tablename__ = 'pokemons'
-    pokemon_id = db.foreignKey(
-        'fetch_pokemons.pokemon_id', ondelete='cascade', primary_key=True)
+    pokemon_id = db.Column(
+        db.Integer, autoincrement=True, primary_key=True)
     nickname = db.Column(db.String(25))
-    capture_date = db.Column(
-        db.DateTime, nullable=False, default=datetime.utcnow)
+    # captured_date = db.Column(
+    #     db.DateTime, nullable=False, default=datetime.utcnow)
+    kind_id = db.Column(db.Integer, db.ForeignKey(
+        'fetch_pokemons.pokemon_id'))
     player = db.relationship(
         'Player', secondary='player_pokemons', back_populates='pokemons')
 
     def __repr__(self):
-        """Show info about user."""
+        """Show info about Pokemon."""
 
-        return f'<User pokemon_id={self.pokemon_id} nickname={self.nickname}>'
+        return f'<Pokemon pokemon_id={self.pokemon_id} nickname={self.nickname}>'
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///pokemons", echo=True):

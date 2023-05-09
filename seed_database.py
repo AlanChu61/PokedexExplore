@@ -1,10 +1,11 @@
+from datetime import datetime
 import os
 import json
-
+from random import choice, randint
 import model
 import crud
 import server
-
+import datetime
 # 1. drop db and create db
 os.system('dropdb pokemons')
 os.system('createdb pokemons')
@@ -20,10 +21,8 @@ for pokemon_data_file in sorted(os.listdir('data')):
     print("Data Loading:", pokemon_data_file)
     with open(os.path.join('data', pokemon_data_file)) as f:
         pokemon_data = json.load(f)
-        print("lenOf F:", len(pokemon_data))
 
     # handle pokemon_data as a list of dictionaries
-    print("lenth of pokemon_data:", len(pokemon_data))
     for pokemon in pokemon_data:
         if pokemon.get('id') > 1010:
             break
@@ -48,8 +47,27 @@ for pokemon_data_file in sorted(os.listdir('data')):
         pokemon = crud.create_fetch_pokemon(abilities, base_experience, forms, game_indices, height, held_items,
                                             is_default, location_area_encounters, moves, name, order, past_types, species, sprites, stats, types, weight)
         pokemons_in_db.append(pokemon)
-
-    print("pokemons in db length:", len(pokemons_in_db))
 # 4. add all pokemons to session and commit
 model.db.session.add_all(pokemons_in_db)
+model.db.session.commit()
+
+# 5 Create Player
+
+for i in range(1, 3):
+    email = f"Player{i}@google.com"
+    password = "test"
+    username = f"Player{i}"
+    print(f'Creating Player{i}')
+    player = crud.create_player(email, password, username)
+
+    # Create Pokemon 6 times for each player
+    for i in range(0, 6):
+        random_pokemon = choice(pokemons_in_db)
+        nickname = f"Lovely Pokemon {i}"
+        capture_date = datetime.datetime.now()
+        print("capture_date:", capture_date)
+        pokemon = crud.create_pokemon(
+            nickname,  random_pokemon.pokemon_id)
+        player.pokemons.append(pokemon)
+    model.db.session.add(player)
 model.db.session.commit()
