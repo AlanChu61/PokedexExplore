@@ -74,8 +74,20 @@ def view_pokemons_json():
         print(type(pokemon_info))
         pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
         pokemons.append(pokemon_dict)
-    print("---------pokemons---------", pokemons)
     return jsonify({'pokemons': pokemons})
+
+
+@app.route('/delete_pokemon/<int:pokemon_id>', methods=['DELETE'])
+def delete_pokemon(pokemon_id):
+    """Delete a pokemon."""
+    if crud.delete_pokemon_by_pokemon_id(pokemon_id):
+        return {
+            "success": True,
+            "status": f"Your deleted successfully!"}
+    else:
+        return {
+            "success": False,
+            "status": f"Your deleted failed!"}
 
 
 def convert_pokemon_obj2dict(pokemon):

@@ -26,7 +26,7 @@ function FetchPokemon() {
             });
     }
     function Pokemon(props) {
-        return <React.Fragment>
+        return <div className="fetchPokemon">
             <div>Show Pokemon's info</div>
             <img src={props.image} alt="pokemon image" />
             <div>id: {props.id}</div>
@@ -34,12 +34,12 @@ function FetchPokemon() {
             {/* <div>height: {props.height}</div>
             <div>weight: {props.weight}</div> */}
             <button onClick={handleClick}>Capture</button>
-        </React.Fragment>
+        </div>
     }
 
     const pokemonList = []
     for (const pokemon of pokemons) {
-        console.log(pokemon)
+        // console.log(pokemon)
         pokemonList.push(
             <Pokemon
                 key={pokemon.pokemon_id}

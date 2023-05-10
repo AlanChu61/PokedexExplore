@@ -44,5 +44,14 @@ def get_pokemons_by_user_id(player_id):
     # find the player
     player = Player.query.get(player_id)
     # return list of pokemons
-    print(player.pokemons)
+    # print(player.pokemons)
     return player.pokemons
+
+# Delete a pokemon
+
+
+def delete_pokemon_by_pokemon_id(pokemon_id):
+    pokemon = Pokemon.query.get(pokemon_id)
+    db.session.delete(pokemon)
+    db.session.commit()
+    return True
