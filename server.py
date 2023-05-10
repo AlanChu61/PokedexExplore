@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from model import connect_to_db, db, Fetch_Pokemon, Player
 import crud
 from jinja2 import StrictUndefined
-
+from random import sample
 app = Flask(__name__)
 app.secret_key = "ThisIsASecretKey"
 app.jinja_env.undefined = StrictUndefined
@@ -22,12 +22,44 @@ def fetch_pokemons():
     return render_template('fetch_pokemons.html', pokemons=pokemons)
 
 
-# @app.route('/fetch_pokemon')
-# def fetch_pokemons_json():
-#     """Show all pokemons."""
-#     query = request.args.get('query')
-#     pokemons = crud.get_fetch_pokemon()[0]
-#     return jsonify(pokemons)
+@app.route('/fetch_pokemon_json')
+def fetch_pokemons_json():
+    """Show all pokemons."""
+    pokemons = crud.get_fetch_pokemon()  # array
+    random_pokemons = sample(pokemons, 3)  # array
+    pokemons = []
+    for pokemon in random_pokemons:
+        # print("pokemon:", pokemon)
+        pokemon_dict = convert_pokemon_obj2dict(pokemon)
+        pokemons.append(pokemon_dict)
+    # print("pokemons", pokemons)
+    return jsonify({'pokemons': pokemons})
+
+
+@app.route('/capture_pokemon', methods=['POST'])
+def capture_pokemon():
+    kind_id = request.json.get('kind_id')
+    print("kind_id", kind_id)
+    pokemon = crud.create_pokemon(nickname='test', kind_id=kind_id)
+
+    # get a user take 1 for example
+    player = crud.get_player_by_id(1)
+    player.pokemons.append(pokemon)
+    db.session.commit()
+    return {
+        "success": True,
+        "status": f"Your captured successfully!"}
+
+
+def convert_pokemon_obj2dict(pokemon):
+    pokemon_dict = {}
+    pokemon_dict['pokemon_id'] = pokemon.pokemon_id
+    pokemon_dict['name'] = pokemon.name
+    # pokemon_dict['height'] = pokemon.height
+    # pokemon_dict['weight'] = pokemon.weight
+    pokemon_dict['image'] = pokemon.sprites['other'].get(
+        'official-artwork').get('front_default')
+    return pokemon_dict
 
 
 if __name__ == '__main__':
