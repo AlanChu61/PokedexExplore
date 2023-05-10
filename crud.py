@@ -10,8 +10,8 @@ def create_fetch_pokemon(abilities, base_experience, forms, game_indices, height
     return fetch_pokemon
 
 
-def get_fetch_pokemon_by_id(pokemon_id):
-    return Fetch_Pokemon.query.get(pokemon_id)
+def get_fetch_pokemon_by_id(kind_id):
+    return Fetch_Pokemon.query.get(kind_id)
 
 
 def get_fetch_pokemon():
@@ -38,3 +38,11 @@ def get_player_by_id(player_id):
 def create_pokemon(nickname, kind_id):
     pokemon = Pokemon(nickname=nickname, kind_id=kind_id)
     return pokemon
+
+
+def get_pokemons_by_user_id(player_id):
+    # find the player
+    player = Player.query.get(player_id)
+    # return list of pokemons
+    print(player.pokemons)
+    return player.pokemons

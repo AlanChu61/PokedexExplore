@@ -3,6 +3,7 @@ from model import connect_to_db, db, Fetch_Pokemon, Player
 import crud
 from jinja2 import StrictUndefined
 from random import sample
+import json
 app = Flask(__name__)
 app.secret_key = "ThisIsASecretKey"
 app.jinja_env.undefined = StrictUndefined
@@ -23,7 +24,7 @@ def fetch_pokemons():
 
 
 @app.route('/fetch_pokemon_json')
-def fetch_pokemons_json():
+def fetch_pokemon_json():
     """Show all pokemons."""
     pokemons = crud.get_fetch_pokemon()  # array
     random_pokemons = sample(pokemons, 3)  # array
@@ -49,6 +50,32 @@ def capture_pokemon():
     return {
         "success": True,
         "status": f"Your captured successfully!"}
+
+
+@app.route('/view_pokemons')
+def view_pokemons():
+    return render_template('view_pokemons.html')
+
+
+@app.route('/view_pokemons_json')
+def view_pokemons_json():
+    # get a user take 1 for example
+    player = crud.get_player_by_id(1)
+    # get pokemons with player_id
+    player_pokemons = crud.get_pokemons_by_user_id(player.player_id)
+    pokemons = []
+    for pokemon in player_pokemons:
+        pokemon_dict = {}
+        pokemon_dict['pokemon_id'] = pokemon.pokemon_id
+        pokemon_dict['nickname'] = pokemon.nickname
+        kind_id = pokemon.kind_id
+        # get pokemon info
+        pokemon_info = crud.get_fetch_pokemon_by_id(kind_id)
+        print(type(pokemon_info))
+        pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
+        pokemons.append(pokemon_dict)
+    print("---------pokemons---------", pokemons)
+    return jsonify({'pokemons': pokemons})
 
 
 def convert_pokemon_obj2dict(pokemon):
