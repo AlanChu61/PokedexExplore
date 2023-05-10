@@ -34,10 +34,14 @@ def get_player_by_id(player_id):
 
 # Pokemons
 
+# C
+
 
 def create_pokemon(nickname, kind_id):
     pokemon = Pokemon(nickname=nickname, kind_id=kind_id)
     return pokemon
+
+# R
 
 
 def get_pokemons_by_user_id(player_id):
@@ -46,6 +50,16 @@ def get_pokemons_by_user_id(player_id):
     # return list of pokemons
     # print(player.pokemons)
     return player.pokemons
+
+
+def get_pokemon_by_pokemon_id(pokemon_id):
+    pokemon = Pokemon.query.get(pokemon_id)
+    return pokemon
+
+
+def get_nickname_by_pokemon_id(pokemon_id):
+    pokemon = Pokemon.query.get(pokemon_id)
+    return pokemon.nickname
 
 # Delete a pokemon
 

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>{{title}}</title>
+{% endblock %}
+
+{% block content %}
+<div id="pokemon_id">pokdmon_id:{{pokemon_id}}</div>
+<div id="pokemon_detail">
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/detail_pokemon.jsx" type="text/jsx"></script>
+{% endblock %}

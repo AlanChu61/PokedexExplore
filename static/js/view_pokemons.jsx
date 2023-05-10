@@ -32,13 +32,15 @@ function ViewPokemons() {
     function Pokemon(props) {
         return <div className="pokemon">
             <div hidden>pokemon_id:{props.pokemon_id}</div>
-            <img src={props.image} alt="pokemon image" />
+            <a href={`/detail_pokemon/${props.pokemon_id}`}>
+                <img src={props.image} alt="pokemon image" />
+            </a>
             <div>id: {props.id}</div>
             <div>name: {props.name}</div>
             <div>nickname: {props.nickname}</div>
             <button onClick={handleDelete}>Release</button>
 
-        </div>
+        </div >
     }
     const pokemonList = []
     for (const pokemon of pokemons) {

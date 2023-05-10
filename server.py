@@ -76,6 +76,31 @@ def view_pokemons_json():
         pokemons.append(pokemon_dict)
     return jsonify({'pokemons': pokemons})
 
+# Detail of a pokemon
+
+
+@app.route('/detail_pokemon/<int:pokemon_id>')
+def detail_pokemon(pokemon_id):
+    """Show detail of a pokemon."""
+    session['pokemon_id'] = pokemon_id
+    nickname = crud.get_nickname_by_pokemon_id(pokemon_id)
+    title = nickname+"'s Detail"
+    return render_template('detail_pokemon.html', title=title, pokemon_id=pokemon_id)
+
+
+@app.route('/detail_pokemon_json/<int:pokemon_id>')
+def detail_pokemon_json(pokemon_id):
+    pokemon = crud.get_pokemon_by_pokemon_id(pokemon_id)
+    pokemon_dict = {}
+    pokemon_dict['pokemon_id'] = pokemon.pokemon_id
+    pokemon_dict['nickname'] = pokemon.nickname
+    kind_id = pokemon.kind_id
+    # get pokemon info
+    pokemon_info = crud.get_fetch_pokemon_by_id(kind_id)
+    pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
+    print("-----pokemon_dict-----", pokemon_dict)
+    return jsonify({'pokemon': pokemon_dict})
+
 
 @app.route('/delete_pokemon/<int:pokemon_id>', methods=['DELETE'])
 def delete_pokemon(pokemon_id):
