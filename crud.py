@@ -29,6 +29,10 @@ def get_players():
     return Player.query.all()
 
 
+def get_player_by_email(email):
+    return Player.query.filter(Player.email == email).first()
+
+
 def get_player_by_id(player_id):
     return Player.query.get(player_id)
 

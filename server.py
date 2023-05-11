@@ -114,6 +114,29 @@ def delete_pokemon(pokemon_id):
             "success": False,
             "status": f"Your deleted failed!"}
 
+# sign up
+
+
+@app.route('/signup', methods=['POST', 'GET'])
+def signup():
+    if request.method == 'POST':
+        """Create a new user."""
+        email = request.json.get('email')
+        password = request.json.get('password')
+        username = request.json.get('username')
+        if crud.get_player_by_email(email):
+            # print("account exists")
+            # flash('Email already exists. Please try again.')
+            return redirect('/signup')
+        else:
+            new_player = crud.create_player(email, password, username)
+            print("new account")
+            db.session.add(new_player)
+            db.session.commit()
+            return redirect('/view_pokemons')
+    else:
+        return render_template('signup.html')
+
 
 def convert_pokemon_obj2dict(pokemon):
     pokemon_dict = {}

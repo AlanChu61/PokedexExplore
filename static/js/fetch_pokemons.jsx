@@ -12,7 +12,6 @@ function FetchPokemon() {
     function handleClick(evt) {
         evt.preventDefault();
         const kind_id = evt.target.parentElement.children[2].innerText.split(" ")[1]
-        console.log(kind_id)
         const name = evt.target.parentElement.children[3].innerText.split(" ")[1]
         const requestOptions = {
             method: 'POST',

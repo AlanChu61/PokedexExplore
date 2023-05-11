@@ -57,6 +57,8 @@ function ViewPokemons() {
             />,
         )
     };
+
+
     return (
         <div>
             <div className="pokemonContainer">
