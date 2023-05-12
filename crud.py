@@ -73,3 +73,9 @@ def delete_pokemon_by_pokemon_id(pokemon_id):
     db.session.delete(pokemon)
     db.session.commit()
     return True
+
+# Login
+
+
+def player_login(email, password):
+    return Player.query.filter(Player.email == email, Player.password == password).first()

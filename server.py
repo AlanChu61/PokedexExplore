@@ -119,23 +119,60 @@ def delete_pokemon(pokemon_id):
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
+    """Show signup form."""
+    if request.method == 'GET':
+        return render_template('signup.html')
+
+    """Create a new user."""
     if request.method == 'POST':
-        """Create a new user."""
-        email = request.json.get('email')
-        password = request.json.get('password')
-        username = request.json.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        username = request.form.get('username')
+
         if crud.get_player_by_email(email):
-            # print("account exists")
-            # flash('Email already exists. Please try again.')
+            """account exists"""
+            flash('Email already exists. Please try again.')
             return redirect('/signup')
         else:
+            """new account"""
             new_player = crud.create_player(email, password, username)
-            print("new account")
             db.session.add(new_player)
             db.session.commit()
+            flash('Sign up successfully!')
+            session['player_id'] = new_player.player_id
+            session['email'] = email
+            session['username'] = username
             return redirect('/view_pokemons')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Show login form."""
+    if request.method == 'GET':
+        return render_template('login.html')
     else:
-        return render_template('signup.html')
+        """Log in a user."""
+        email = request.form.get('email')
+        password = request.form.get('password')
+        print(email, password)
+        logined_player = crud.player_login(email, password)
+        print("logined_player", logined_player)
+        if logined_player:
+            session['player_id'] = logined_player.player_id
+            session['email'] = email
+            session['username'] = logined_player.username
+            flash('Login successfully!')
+            return redirect('/view_pokemons')
+        else:
+            flash('Email or password is incorrect. Please try again.')
+            return redirect('/login')
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    """Show login form."""
+    session.clear()
+    return redirect('/')
 
 
 def convert_pokemon_obj2dict(pokemon):
