@@ -43,8 +43,9 @@ def capture_pokemon():
     print("kind_id", kind_id)
     pokemon = crud.create_pokemon(nickname='test', kind_id=kind_id)
 
-    # get a user take 1 for example
-    player = crud.get_player_by_id(1)
+    # get player_id from session(login info)
+    player_id = session['player_id']
+    player = crud.get_player_by_id(player_id)
     player.pokemons.append(pokemon)
     db.session.commit()
     return {
@@ -59,8 +60,10 @@ def view_pokemons():
 
 @app.route('/view_pokemons_json')
 def view_pokemons_json():
-    # get a user take 1 for example
-    player = crud.get_player_by_id(1)
+    """Show all pokemons."""
+    # get player_id from session(login info)
+    player_id = session['player_id']
+    player = crud.get_player_by_id(player_id)
     # get pokemons with player_id
     player_pokemons = crud.get_pokemons_by_user_id(player.player_id)
     pokemons = []
@@ -82,7 +85,6 @@ def view_pokemons_json():
 @app.route('/detail_pokemon/<int:pokemon_id>')
 def detail_pokemon(pokemon_id):
     """Show detail of a pokemon."""
-    session['pokemon_id'] = pokemon_id
     nickname = crud.get_nickname_by_pokemon_id(pokemon_id)
     title = nickname+"'s Detail"
     return render_template('detail_pokemon.html', title=title, pokemon_id=pokemon_id)
@@ -100,6 +102,21 @@ def detail_pokemon_json(pokemon_id):
     pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
     print("-----pokemon_dict-----", pokemon_dict)
     return jsonify({'pokemon': pokemon_dict})
+
+
+@app.route('/update_pokemon/<int:pokemon_id>', methods={'PUT'})
+def update_pokemon(pokemon_id):
+    """Update a pokemon."""
+    new_nickname = request.json.get('nickname')
+    print(new_nickname)
+    if crud.update_pokemon_by_pokemon_id(pokemon_id, new_nickname):
+        return {
+            "success": True,
+            "status": f"Your updated successfully!"}
+    else:
+        return {
+            "success": False,
+            "status": f"Your updated failed!"}
 
 
 @app.route('/delete_pokemon/<int:pokemon_id>', methods=['DELETE'])

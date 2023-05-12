@@ -65,6 +65,14 @@ def get_nickname_by_pokemon_id(pokemon_id):
     pokemon = Pokemon.query.get(pokemon_id)
     return pokemon.nickname
 
+# U
+
+
+def update_pokemon_by_pokemon_id(pokemon_id, new_nickname):
+    pokemon = get_pokemon_by_pokemon_id(pokemon_id)
+    pokemon.nickname = new_nickname
+    db.session.commit()
+    return True
 # Delete a pokemon
 
 
