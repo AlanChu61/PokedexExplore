@@ -89,6 +89,9 @@ class Comment(db.Model):
 
     comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     content = db.Column(db.String(255), nullable=False)
+    created_date = db.Column(
+        db.DateTime, nullable=False, default=datetime.utcnow)
+
     player_id = db.Column(db.Integer, db.ForeignKey(
         'players.player_id', ondelete='cascade'))
     pokemon_id = db.Column(db.Integer, db.ForeignKey(

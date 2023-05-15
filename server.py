@@ -216,6 +216,7 @@ def convert_comment_obj2dict(comments):
     comment_dict = {}
     comment_dict['comment_id'] = comments.comment_id
     comment_dict['content'] = comments.content
+    comment_dict['created_date'] = comments.created_date
     return comment_dict
 
 

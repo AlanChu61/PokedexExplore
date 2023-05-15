@@ -4,7 +4,7 @@ function DetailPokemon(props) {
     const [pokemon, setPokemon] = React.useState({});
     const [pokemon_id, setPokemonId] = React.useState(props.pokemon_id);
     const [nickname, setNickname] = React.useState("");
-    const [comments, setComments] = React.useState("");
+    const [comments, setComments] = React.useState([]);
     const [capturedDate, setCapturedDate] = React.useState("");
     const [isUpdateing, setIsUpdateing] = React.useState(false);
     React.useEffect(() => {
@@ -13,8 +13,8 @@ function DetailPokemon(props) {
             .then((data) => {
                 setPokemon(data.pokemon.kind_info);
                 setNickname(data.pokemon.nickname);
-                setComments(data.pokemon.comments);
                 setCapturedDate(data.pokemon.captured_date);
+                setComments(data.pokemon.comments);
             });
 
     }, []);
@@ -42,6 +42,7 @@ function DetailPokemon(props) {
     function Comment(props) {
         return <div className="comment">
             <div>Comment: {props.content}</div>
+            <div>Comment: {props.createdDate}</div>
         </div >
     }
     const commentList = []
@@ -50,6 +51,7 @@ function DetailPokemon(props) {
             <Comment
                 key={comment.comment_id}
                 content={comment.content}
+                createdDate={comment.created_date}
             />
         );
     }
