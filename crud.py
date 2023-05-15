@@ -1,4 +1,4 @@
-from model import db, Fetch_Pokemon, Player, PlayerPokemon, Pokemon
+from model import db, Fetch_Pokemon, Player, PlayerPokemon, Pokemon, Comment
 
 # fetch_pokemons
 
@@ -81,6 +81,14 @@ def delete_pokemon_by_pokemon_id(pokemon_id):
     db.session.delete(pokemon)
     db.session.commit()
     return True
+
+# Comment
+
+
+def create_comment(player, pokemon, content):
+    comment = Comment(player=player, pokemon=pokemon, content=content)
+    return comment
+
 
 # Login
 

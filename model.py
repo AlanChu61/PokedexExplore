@@ -45,6 +45,7 @@ class Player (db.Model):
     # img = db.Column(db.String(255), nullable=True)
     pokemons = db.relationship(
         "Pokemon", secondary="player_pokemons", back_populates="player")
+    comments = db.relationship("Comment", back_populates="player")
 
     def __repr__(self):
         """Show info about user."""
@@ -75,11 +76,25 @@ class Pokemon(db.Model):
         'fetch_pokemons.pokemon_id'))
     player = db.relationship(
         'Player', secondary='player_pokemons', back_populates='pokemons')
+    comments = db.relationship("Comment", back_populates="pokemon")
 
     def __repr__(self):
         """Show info about Pokemon."""
 
         return f'<Pokemon pokemon_id={self.pokemon_id} nickname={self.nickname}>'
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    content = db.Column(db.String(255), nullable=False)
+    player_id = db.Column(db.Integer, db.ForeignKey(
+        'players.player_id', ondelete='cascade'))
+    pokemon_id = db.Column(db.Integer, db.ForeignKey(
+        'pokemons.pokemon_id', ondelete='cascade'))
+    player = db.relationship('Player', back_populates='comments')
+    pokemon = db.relationship('Pokemon', back_populates='comments')
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///pokemons", echo=True):
