@@ -23,11 +23,16 @@ def fetch_pokemons():
     return render_template('fetch_pokemons.html', pokemons=pokemons)
 
 
+@app.route('/map_pokemons')
+def get_map_pokemons():
+    return render_template('map_pokemons.html')
+
+
 @app.route('/fetch_pokemon_json')
 def fetch_pokemon_json():
     """Show all pokemons."""
     pokemons = crud.get_fetch_pokemon()  # array
-    random_pokemons = sample(pokemons, 3)  # array
+    random_pokemons = sample(pokemons, 20)  # array
     pokemons = []
     for pokemon in random_pokemons:
         # print("pokemon:", pokemon)
@@ -172,7 +177,6 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         logined_player = crud.player_login(email, password)
-        print("logined_player", logined_player)
         if logined_player:
             session['player_id'] = logined_player.player_id
             session['email'] = email
@@ -197,6 +201,7 @@ def convert_pokemon_obj2dict(pokemon):
     pokemon_dict['name'] = pokemon.name
     # pokemon_dict['height'] = pokemon.height
     # pokemon_dict['weight'] = pokemon.weight
+    pokemon_dict['icon'] = pokemon.sprites['front_default']
     pokemon_dict['image'] = pokemon.sprites['other'].get(
         'official-artwork').get('front_default')
     return pokemon_dict

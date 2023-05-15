@@ -1,4 +1,3 @@
-
 function DetailPokemon(props) {
 
     // fecth data from API
