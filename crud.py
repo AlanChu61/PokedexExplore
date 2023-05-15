@@ -90,6 +90,9 @@ def create_comment(player, pokemon, content):
     return comment
 
 
+def get_comment_by_pokemon_id(pokemon_id):
+    return Comment.query.filter(Comment.pokemon_id == pokemon_id).all()
+
 # Login
 
 

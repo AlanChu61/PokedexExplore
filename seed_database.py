@@ -54,8 +54,8 @@ model.db.session.commit()
 # 5 Create Player
 
 for i in range(1, 3):
-    email = f"Player{i}@google.com"
-    password = "test"
+    email = f"test{i}"
+    password = f"test{i}"
     username = f"Player{i}"
     print(f'Creating Player{i}')
     player = crud.create_player(email, password, username)

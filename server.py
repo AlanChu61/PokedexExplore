@@ -98,14 +98,18 @@ def detail_pokemon(pokemon_id):
 @app.route('/detail_pokemon_json/<int:pokemon_id>')
 def detail_pokemon_json(pokemon_id):
     pokemon = crud.get_pokemon_by_pokemon_id(pokemon_id)
+    comments = crud.get_comment_by_pokemon_id(pokemon_id)
     pokemon_dict = {}
     pokemon_dict['pokemon_id'] = pokemon.pokemon_id
     pokemon_dict['nickname'] = pokemon.nickname
+    comment_dict = []
+    for comment in comments:
+        comment_dict.append(convert_comment_obj2dict(comment))
+    pokemon_dict['comments'] = comment_dict
     kind_id = pokemon.kind_id
     # get pokemon info
     pokemon_info = crud.get_fetch_pokemon_by_id(kind_id)
     pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
-    print("-----pokemon_dict-----", pokemon_dict)
     return jsonify({'pokemon': pokemon_dict})
 
 
@@ -205,6 +209,13 @@ def convert_pokemon_obj2dict(pokemon):
     pokemon_dict['image'] = pokemon.sprites['other'].get(
         'official-artwork').get('front_default')
     return pokemon_dict
+
+
+def convert_comment_obj2dict(comments):
+    comment_dict = {}
+    comment_dict['comment_id'] = comments.comment_id
+    comment_dict['content'] = comments.content
+    return comment_dict
 
 
 if __name__ == '__main__':

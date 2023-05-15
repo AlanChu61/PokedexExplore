@@ -96,6 +96,11 @@ class Comment(db.Model):
     player = db.relationship('Player', back_populates='comments')
     pokemon = db.relationship('Pokemon', back_populates='comments')
 
+    def __repr__(self):
+        """Show info about Comment."""
+
+        return f'<Comment {self.player} made {self.pokemon} about {self.content}>'
+
 
 def connect_to_db(flask_app, db_uri="postgresql:///pokemons", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

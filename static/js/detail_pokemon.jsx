@@ -3,6 +3,7 @@ function DetailPokemon(props) {
     // fecth data from API
     const [pokemon, setPokemon] = React.useState({});
     const [nickname, setNickname] = React.useState("");
+    const [comments, setComments] = React.useState("");
     const [pokemon_id, setPokemonId] = React.useState(props.pokemon_id);
     const [isUpdateing, setIsUpdateing] = React.useState(false);
     React.useEffect(() => {
@@ -11,6 +12,7 @@ function DetailPokemon(props) {
             .then((data) => {
                 setPokemon(data.pokemon.kind_info);
                 setNickname(data.pokemon.nickname);
+                setComments(data.pokemon.comments);
             });
 
     }, []);
@@ -35,20 +37,42 @@ function DetailPokemon(props) {
                 setNickname(new_nickname);
             });
     }
+    function Comment(props) {
+        console.log(props)
+        return <div className="comment">
+            <div>Comment: {props.content}</div>
+        </div >
+    }
+    const commentList = []
+    for (let comment of comments) {
+        console.log(comment);
+        commentList.push(
+            <Comment
+                key={comment.comment_id}
+                content={comment.content}
+            />
+        );
+    }
+
 
     function Pokemon(props) {
         return (
-            <div className="detailPokemon">
-                <img src={props.pokemon.image} alt="pokemon image" />
-                <div>nickname: {props.nickname}</div>
-                <div>id: {props.pokemon.pokemon_id}</div>
-                <div>name: {props.pokemon.name}</div>
-                More details...
-                <button onClick={handleEdit}>Edit</button>
-            </div>
-
+            <div className="detailPokemon row">
+                <div className="col-6">
+                    <img src={props.pokemon.image} alt="pokemon image" />
+                    <div>nickname: {props.nickname}</div>
+                    <div>id: {props.pokemon.pokemon_id}</div>
+                    <div>name: {props.pokemon.name}</div>
+                    More details...
+                    <button onClick={handleEdit}>Edit</button>
+                </div> <div className="col-6">
+                    <h1>here is comment</h1>
+                    I want to add comment or edit comment here
+                    {commentList}
+                </div></div>
         );
-    } function UpdateForm() {
+    }
+    function UpdateForm() {
         return (
             <form onSubmit={handleUpdate}>
                 <input type="text" id="updateForm" />
@@ -74,10 +98,8 @@ function DetailPokemon(props) {
             </div>
         );
     }
+
 }
-
-
-
 
 const pokemon_id = document.getElementById('pokemon_id').innerText.split(':')[1];
 ReactDOM.render(<DetailPokemon pokemon_id={pokemon_id} />, document.getElementById('pokemon_detail'));

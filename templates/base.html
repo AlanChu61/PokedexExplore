@@ -18,25 +18,19 @@
 <body>
   <div class="container">
     <nav>
-      {% if session %}
-        {% if session.username %}<h1>Welcome {{session.username}}</h1>
-        {% endif %}
-      {% endif %}
+
       <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link" href="/">Homepage</a></li> 
             <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
             <li class="nav-item"><a  class="nav-link"href="/map_pokemons">MAP</a></li>
             <li class="nav-item"><a class="nav-link"href="/fetch_pokemons">Fetch Pokemon</a></li>
-      {% if session %}
-          {% if session.username %}
+
             <li class="nav-item"><a class="nav-link"href="/view_pokemons">View Pokemon</a></li>
             <li class="nav-item"><a class="nav-link"href="/logout">Logout</a></li>
-            {% endif %}
-            {% else %}
+
             <li class="nav-item"><a class="nav-link"href="/login">Login</a></li>          
-            <li class="nav-item"><a class="nav-link"href="/signup">Signup</a></li>
-            
-      {% endif %}
+            <li class="nav-item"><a class="nav-link"href="/signup">Signup</a></li>  
+
         </ul>
     </nav>
     {% for msg in get_flashed_messages() %}
