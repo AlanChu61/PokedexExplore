@@ -2,9 +2,10 @@ function DetailPokemon(props) {
 
     // fecth data from API
     const [pokemon, setPokemon] = React.useState({});
+    const [pokemon_id, setPokemonId] = React.useState(props.pokemon_id);
     const [nickname, setNickname] = React.useState("");
     const [comments, setComments] = React.useState("");
-    const [pokemon_id, setPokemonId] = React.useState(props.pokemon_id);
+    const [capturedDate, setCapturedDate] = React.useState("");
     const [isUpdateing, setIsUpdateing] = React.useState(false);
     React.useEffect(() => {
         fetch(`/detail_pokemon_json/${props.pokemon_id}`)
@@ -13,6 +14,7 @@ function DetailPokemon(props) {
                 setPokemon(data.pokemon.kind_info);
                 setNickname(data.pokemon.nickname);
                 setComments(data.pokemon.comments);
+                setCapturedDate(data.pokemon.captured_date);
             });
 
     }, []);
@@ -38,14 +40,12 @@ function DetailPokemon(props) {
             });
     }
     function Comment(props) {
-        console.log(props)
         return <div className="comment">
             <div>Comment: {props.content}</div>
         </div >
     }
     const commentList = []
     for (let comment of comments) {
-        console.log(comment);
         commentList.push(
             <Comment
                 key={comment.comment_id}
@@ -63,6 +63,7 @@ function DetailPokemon(props) {
                     <div>nickname: {props.nickname}</div>
                     <div>id: {props.pokemon.pokemon_id}</div>
                     <div>name: {props.pokemon.name}</div>
+                    <div>Captured Date:{props.captureDate}</div>
                     More details...
                     <button onClick={handleEdit}>Edit</button>
                 </div> <div className="col-6">
@@ -88,7 +89,7 @@ function DetailPokemon(props) {
             <div>
                 <h1>Detail Pokemon</h1>
                 <div>
-                    <Pokemon pokemon={pokemon} nickname={nickname} />
+                    <Pokemon pokemon={pokemon} nickname={nickname} captureDate={capturedDate} />
                     {isUpdateing && <UpdateForm />}
                 </div>
 

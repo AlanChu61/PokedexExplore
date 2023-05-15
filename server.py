@@ -102,6 +102,7 @@ def detail_pokemon_json(pokemon_id):
     pokemon_dict = {}
     pokemon_dict['pokemon_id'] = pokemon.pokemon_id
     pokemon_dict['nickname'] = pokemon.nickname
+    pokemon_dict['captured_date'] = pokemon.captured_date
     comment_dict = []
     for comment in comments:
         comment_dict.append(convert_comment_obj2dict(comment))

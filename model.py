@@ -70,8 +70,8 @@ class Pokemon(db.Model):
     pokemon_id = db.Column(
         db.Integer, autoincrement=True, primary_key=True)
     nickname = db.Column(db.String(25))
-    # captured_date = db.Column(
-    #     db.DateTime, nullable=False, default=datetime.utcnow)
+    captured_date = db.Column(
+        db.DateTime, nullable=False, default=datetime.utcnow)
     kind_id = db.Column(db.Integer, db.ForeignKey(
         'fetch_pokemons.pokemon_id'))
     player = db.relationship(
