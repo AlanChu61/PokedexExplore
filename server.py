@@ -171,7 +171,6 @@ def login():
         """Log in a user."""
         email = request.form.get('email')
         password = request.form.get('password')
-        print(email, password)
         logined_player = crud.player_login(email, password)
         print("logined_player", logined_player)
         if logined_player:
