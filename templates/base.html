@@ -11,7 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <!-- Your custom styles -->
     
-
     {% block title %}
     <title>Pokemon</title>
     {% endblock %}
@@ -20,23 +19,22 @@
   <div class="container">
     <nav>
       {% if session %}
-        {% if session.username %}
-        <h1>Welcome {{session.username}}</h1>
+        {% if session.username %}<h1>Welcome {{session.username}}</h1>
         {% endif %}
       {% endif %}
-        <ul>
-            <li><a href="/">Homepage</a></li> 
-            <li><a href="/about">About</a></li>
-            <li><a href="/map_pokemons">MAP</a></li>
-            <li><a href="/fetch_pokemons">Fetch Pokemon</a></li>
+      <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link" href="/">Homepage</a></li> 
+            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+            <li class="nav-item"><a  class="nav-link"href="/map_pokemons">MAP</a></li>
+            <li class="nav-item"><a class="nav-link"href="/fetch_pokemons">Fetch Pokemon</a></li>
       {% if session %}
           {% if session.username %}
-            <li><a href="/view_pokemons">View Pokemon</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li class="nav-item"><a class="nav-link"href="/view_pokemons">View Pokemon</a></li>
+            <li class="nav-item"><a class="nav-link"href="/logout">Logout</a></li>
             {% endif %}
             {% else %}
-            <li><a href="/login">Login</a></li>          
-            <li><a href="/signup">Signup</a></li>
+            <li class="nav-item"><a class="nav-link"href="/login">Login</a></li>          
+            <li class="nav-item"><a class="nav-link"href="/signup">Signup</a></li>
             
       {% endif %}
         </ul>

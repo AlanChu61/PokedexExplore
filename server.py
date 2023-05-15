@@ -32,7 +32,7 @@ def get_map_pokemons():
 def fetch_pokemon_json():
     """Show all pokemons."""
     pokemons = crud.get_fetch_pokemon()  # array
-    random_pokemons = sample(pokemons, 20)  # array
+    random_pokemons = sample(pokemons, 5)  # array
     pokemons = []
     for pokemon in random_pokemons:
         # print("pokemon:", pokemon)

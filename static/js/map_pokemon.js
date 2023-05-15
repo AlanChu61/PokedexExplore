@@ -24,18 +24,42 @@ function initMap() {
         lat: 37.601773,
         lng: -122.20287,
     };
+    const userLocation = sfBayCoords;
+
+    // setup directions service and renderer
+    let directionsService = new google.maps.DirectionsService();
+    let directionsRenderer = new google.maps.DirectionsRenderer();
 
     const map = new google.maps.Map(document.querySelector('#map'), {
-        center: sfBayCoords,
+        center: userLocation,
         scrollwheel: false,
-        zoom: 6,
+        zoom: 10,
         zoomControl: true,
         panControl: false,
         streetViewControl: false,
         // styles: MAPSTYLES, // mapStyles is defined in mapstyles.js
-        mapTypeId: google.maps.MapTypeId.TERRAIN,
-    });
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    })
+    directionsRenderer.setMap(map);
+    directionsRenderer.setPanel(document.getElementById('directionsPanel'));
+    ;
 
+    const userMarker = new google.maps.Marker({
+        position: userLocation,
+        title: 'You are here',
+        map: map,
+        icon: {
+            url: 'https://archives.bulbagarden.net/media/upload/thumb/d/d3/Lets_Go_Pikachu_Eevee_Red.png/250px-Lets_Go_Pikachu_Eevee_Red.png',
+            scaledSize: new google.maps.Size(25, 25),
+        },
+    });
+    userMarker.addListener('click', () => {
+        const userInfoWindow = new google.maps.InfoWindow({
+            content: 'You are here',
+        });
+        userInfoWindow.open(map, userMarker);
+
+    });
     const pokemonInfo = new google.maps.InfoWindow();
 
     fetch('/fetch_pokemon_json')
@@ -48,8 +72,9 @@ function initMap() {
         .then((data) => {
             const pokemons = data.pokemons;
             pokemons.forEach((pokemon) => {
-                let lat = (sfBayCoords.lat + Math.random() * 2).toFixed(2) * 1;
-                let lng = (sfBayCoords.lng + Math.random() * 2).toFixed(2) * 1;
+                const sizeParameter = (Math.random() - 0.5) * 0.5
+                let lat = (userLocation.lat + sizeParameter).toFixed(2) * 1;
+                let lng = (userLocation.lng + sizeParameter).toFixed(2) * 1;
                 const pokemonInfoContent = `
           <div class="pokemon-info">
             <p>Kind ID: ${pokemon.pokemon_id}</p>
