@@ -156,6 +156,34 @@ def create_comment(pokemon_id):
         "success": True,
         "status": f"Your comment successfully!",
         "comment": convert_comment_obj2dict(comment)}
+
+
+@app.route('/update_comment/<int:comment_id>', methods={'PUT'})
+def update_comment(comment_id):
+    """Update a comment."""
+    new_content = request.json.get('content')
+    print(new_content)
+    if crud.update_comment_by_comment_id(comment_id, new_content):
+        return {
+            "success": True,
+            "status": f"Your updated successfully!"}
+    else:
+        return {
+            "success": False,
+            "status": f"Your updated failed!"}
+
+
+@app.route('/delete_comment/<int:comment_id>', methods=['DELETE'])
+def delete_comment(comment_id):
+    """Delete a comment."""
+    if crud.delete_comment_by_comment_id(comment_id):
+        return {
+            "success": True,
+            "status": f"Your deleted successfully!"}
+    else:
+        return {
+            "success": False,
+            "status": f"Your deleted failed!"}
 # sign up
 
 

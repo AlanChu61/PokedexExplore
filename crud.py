@@ -93,6 +93,20 @@ def create_comment(player, pokemon, content):
 def get_comment_by_pokemon_id(pokemon_id):
     return Comment.query.filter(Comment.pokemon_id == pokemon_id).all()
 
+
+def update_comment_by_comment_id(comment_id, new_content):
+    comment = Comment.query.get(comment_id)
+    comment.content = new_content
+    db.session.commit()
+    return True
+
+
+def delete_comment_by_comment_id(comment_id):
+    comment = Comment.query.get(comment_id)
+    db.session.delete(comment)
+    db.session.commit()
+    return True
+
 # Login
 
 

@@ -10,8 +10,7 @@ function ViewPokemons() {
 
     function handleDelete(evt) {
         evt.preventDefault();
-        const pokemon_id = evt.target.parentElement.firstChild.innerHTML.split(":")[1]
-        console.log(pokemon_id)
+        const pokemon_id = evt.target.parentElement.firstChild.innerHTML.split(":")[1];
         fetch(`/delete_pokemon/${pokemon_id}`, {
             method: 'DELETE',
             headers: {

@@ -23,6 +23,7 @@ function DetailPokemon(props) {
         setIsUpdateing(true);
     }
     function handleUpdate(evt) {
+
         const new_nickname = evt.target.firstChild.value;
         evt.preventDefault();
         fetch(`/update_pokemon/${pokemon_id}`, {
@@ -42,6 +43,10 @@ function DetailPokemon(props) {
     function addComment(evt) {
         evt.preventDefault();
         const content = evt.target.childNodes[1].value
+        if (content == "") {
+            alert("Please enter comment")
+            return
+        }
         fetch(`/create_comment/${pokemon_id}`, {
             method: "POST",
             headers: {
@@ -55,11 +60,60 @@ function DetailPokemon(props) {
                 setComments((prevComments) => [...prevComments, data.comment]);
             });
     }
+    function editComment(evt) {
+        evt.preventDefault();
+        const comment_id = parseInt(evt.target.parentNode.childNodes[0].innerHTML);
+        const content = evt.target.parentNode.childNodes[1].innerHTML;
+        const new_content = prompt("Please enter new comment", content);
+        if (new_content == "") {
+            alert("Please enter comment")
+            return
+        }
+        else {
+            fetch(`/update_comment/${comment_id}`, {
+                method: "PUT",
+                headers: {
+                    "content-type": "application/json",
+                }, body: JSON.stringify({
+                    content: new_content,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setComments((prevComments) => prevComments.map((comment) => {
+                        if (comment.comment_id === comment_id) {
+                            return { ...comment, content: new_content };
+                        } else {
+                            return comment;
+                        }
+                    }));
+                });
+        }
+    }
 
+    function deleteComment(evt) {
+        evt.preventDefault();
+        const comment_id = parseInt(evt.target.parentNode.childNodes[0].innerHTML);
+
+        fetch(`/delete_comment/${comment_id}`, {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setComments((prevComments) => prevComments.filter((comment) => comment.comment_id !== comment_id));
+            });
+    }
 
     function Comment(props) {
         return <div className="comment">
-            <div>Comment: {props.content} on {props.createdDate}</div>
+            <div hidden> {props.comment_id}</div>
+            <li> {props.content}</li>
+            <li> {props.createdDate}</li>
+            <button onClick={editComment}>Edit</button>
+            <button onClick={deleteComment}>Delete</button>
         </div >
     }
     const commentList = []
@@ -67,6 +121,7 @@ function DetailPokemon(props) {
         commentList.push(
             <Comment
                 key={comment.comment_id}
+                comment_id={comment.comment_id}
                 content={comment.content}
                 createdDate={comment.created_date}
             />
@@ -78,16 +133,17 @@ function DetailPokemon(props) {
         return (
             <div className="detailPokemon row">
                 <div className="col-6">
+                    <h2>{props.nickname}'s info</h2>
                     <img src={props.pokemon.image} alt="pokemon image" />
-                    <div>nickname: {props.nickname}</div>
+                    <div>nickname: {props.nickname}
+                        <button onClick={handleEdit}>Edit</button></div>
                     <div>id: {props.pokemon.pokemon_id}</div>
                     <div>name: {props.pokemon.name}</div>
                     <div>Captured Date:{props.captureDate}</div>
                     More details...
-                    <button onClick={handleEdit}>Edit</button>
-                </div> <div className="col-6">
-                    <h1>here is comment</h1>
-                    I want to add comment or edit comment here
+                </div>
+                <div className="col-6">
+                    <h2>Comments</h2>
                     {commentList}
                     <form onSubmit={addComment}>
                         <label htmlFor="commentForm">Please add comment:</label>
@@ -111,7 +167,6 @@ function DetailPokemon(props) {
     } else {
         return (
             <div>
-                <h1>Detail Pokemon</h1>
                 <div>
                     <Pokemon pokemon={pokemon} nickname={nickname} captureDate={capturedDate} />
                     {isUpdateing && <UpdateForm />}
