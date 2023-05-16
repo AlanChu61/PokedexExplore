@@ -15,21 +15,22 @@ Link: Replace this with a link to your data model
 
 ### MVP
 
-- CRUD Pokemon in the database (Seed databse -> Fecth API)
-    - Pokemon can be captured by the user(C)
-    - Pokemon can be viewed by the user(R)
-    - Pokemon can be edited/deleted by the user(U/D)
+- CRUD Pokemon in the database (Seed databse -> Fecth API) 
+    - (v)Pokemon can be captured by the user(C)  
+    - (v)Pokemon can be viewed by the user(R)
+    - (v)Pokemon can be edited/deleted by the user(U/D)
 - Use can make comments on Pokemon
-    - Comment can be created by the user(C)
-    - Comment can be viewed by the user(R)
-    - Comment can be edited/deleted by the user(U/D)
+    - (v)Comment can be created by the user(C)
+    - (v)Comment can be viewed by the user(R)
+    - (v)Comment can be edited/deleted by the user(U/D)
     - If there are 3 comments, pokemon will be happy to level up. (U)
-- User can sign up, log in, log out
+- (v)User can sign up, log in, log out
 - User can create profile
 
 ### 2.0
 
-- Capture Pokemon on Google Map API
+- (v) Capture Pokemon on Google Map API
+- Pokemon can be battled between users (Locate players on Google Map API)
 - Capture Pokemon by throwing Pokeball
 - Train Pokemon to level up
 - Pokemon store to buy items
@@ -37,7 +38,6 @@ Link: Replace this with a link to your data model
 ### Nice-to-haves
 
 - Pokemon can be traded between users
-- Pokemon can be battled between users
 - Pokemon can be evolved
 
 

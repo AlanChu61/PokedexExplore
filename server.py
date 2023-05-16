@@ -45,8 +45,10 @@ def fetch_pokemon_json():
 @app.route('/capture_pokemon', methods=['POST'])
 def capture_pokemon():
     kind_id = request.json.get('kind_id')
-    print("kind_id", kind_id)
-    pokemon = crud.create_pokemon(nickname='test', kind_id=kind_id)
+    level = request.json.get('level')
+    nickname = request.json.get('nickname')
+    pokemon = crud.create_pokemon(
+        nickname=nickname, level=level, kind_id=kind_id)
 
     # get player_id from session(login info)
     player_id = session['player_id']
@@ -76,10 +78,10 @@ def view_pokemons_json():
         pokemon_dict = {}
         pokemon_dict['pokemon_id'] = pokemon.pokemon_id
         pokemon_dict['nickname'] = pokemon.nickname
+        pokemon_dict['level'] = pokemon.level
         kind_id = pokemon.kind_id
         # get pokemon info
         pokemon_info = crud.get_fetch_pokemon_by_id(kind_id)
-        print(type(pokemon_info))
         pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
         pokemons.append(pokemon_dict)
     return jsonify({'pokemons': pokemons})
@@ -247,8 +249,9 @@ def convert_pokemon_obj2dict(pokemon):
     pokemon_dict = {}
     pokemon_dict['pokemon_id'] = pokemon.pokemon_id
     pokemon_dict['name'] = pokemon.name
-    # pokemon_dict['height'] = pokemon.height
-    # pokemon_dict['weight'] = pokemon.weight
+    pokemon_dict['level'] = pokemon.level
+    pokemon_dict['height'] = pokemon.height
+    pokemon_dict['weight'] = pokemon.weight
     pokemon_dict['icon'] = pokemon.sprites['front_default']
     pokemon_dict['image'] = pokemon.sprites['other'].get(
         'official-artwork').get('front_default')

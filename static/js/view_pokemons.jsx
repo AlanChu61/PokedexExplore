@@ -29,16 +29,16 @@ function ViewPokemons() {
 
 
     function Pokemon(props) {
-        return <div className="pokemon">
+        return <div className="pokemon col-6 card">
             <div hidden>pokemon_id:{props.pokemon_id}</div>
             <a href={`/detail_pokemon/${props.pokemon_id}`}>
                 <img src={props.image} alt="pokemon image" />
             </a>
-            <div>id: {props.id}</div>
-            <div>name: {props.name}</div>
-            <div>nickname: {props.nickname}</div>
+            <div>Id: {props.id}</div>
+            <div>Name: {props.name}</div>
+            <div>Nickname: {props.nickname}</div>
+            <div>Level: {props.level}</div>
             <button onClick={handleDelete}>Release</button>
-
         </div >
     }
     const pokemonList = []
@@ -50,8 +50,9 @@ function ViewPokemons() {
                 name={pokemon.kind_info.name}
                 pokemon_id={pokemon.pokemon_id}
                 nickname={pokemon.nickname}
-                // height={pokemon.height}
-                // weight={pokemon.weight}
+                level={pokemon.level}
+                height={pokemon.kind_info.height}
+                weight={pokemon.kind_info.weight}
                 image={pokemon.kind_info.image}
             />,
         )
@@ -60,7 +61,7 @@ function ViewPokemons() {
 
     return (
         <div>
-            <div className="pokemonContainer">
+            <div className="pokemonContainer row">
                 {pokemonList}
             </div>
         </div>

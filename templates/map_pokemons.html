@@ -5,8 +5,8 @@
 
 {% block content %}
 <div id="map" style="width: 100%; height: 400px;"></div>
-
-<div id="ball" onclick="throwBall(event)">ball</div>
+<div id="calCommuteTime" style="width: 100%; height: 400px;">
+Here shows commute time:</div>
 {% endblock %}
 
 {% block js %}
@@ -15,32 +15,5 @@
   async
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3bhSLm75WR88UEUqhWYT6MdDl3unhwDU&callback=initMap">
 </script>
-<!-- <script>
-  function throwBall(event) {
-    var ball = document.getElementById("ball");
-  
-    // 获取点击位置的坐标
-    var clickX = event.clientX;
-    var clickY = event.clientY;
-  
-    // 获取球的当前位置
-    var ballX = ball.offsetLeft;
-    var ballY = ball.offsetTop;
-  
-    // 计算需要移动的水平和垂直距离
-    var distanceX = clickX - ballX;
-    var distanceY = clickY - ballY;
-  
-    // 定义曲线轨迹的控制点
-    var controlX = ballX + distanceX / 2;
-    var controlY = ballY - distanceY;
-  
-    // 应用贝塞尔曲线的动画效果
-    ball.style.transitionTimingFunction = "cubic-bezier(0.68, -0.55, 0.265, 1.55)";
-    ball.style.transform = `translate(${distanceX}px, ${-distanceY}px)`;
-  }
-  
-
-</script> -->
 {% endblock %}
 

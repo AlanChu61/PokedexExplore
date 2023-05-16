@@ -1,12 +1,11 @@
 function DetailPokemon(props) {
-
-    // fecth data from API
+    const pokemon_id = props.pokemon_id
     const [pokemon, setPokemon] = React.useState({});
-    const [pokemon_id, setPokemonId] = React.useState(props.pokemon_id);
     const [nickname, setNickname] = React.useState("");
     const [comments, setComments] = React.useState([]);
     const [capturedDate, setCapturedDate] = React.useState("");
     const [isUpdateing, setIsUpdateing] = React.useState(false);
+    // fecth data from API
     React.useEffect(() => {
         fetch(`/detail_pokemon_json/${props.pokemon_id}`)
             .then((response) => response.json())
@@ -135,10 +134,10 @@ function DetailPokemon(props) {
                 <div className="col-6">
                     <h2>{props.nickname}'s info</h2>
                     <img src={props.pokemon.image} alt="pokemon image" />
-                    <div>nickname: {props.nickname}
+                    <div>Nickname: {props.nickname}
                         <button onClick={handleEdit}>Edit</button></div>
-                    <div>id: {props.pokemon.pokemon_id}</div>
-                    <div>name: {props.pokemon.name}</div>
+                    <div>Id: {props.pokemon.pokemon_id}</div>
+                    <div>Name: {props.pokemon.name}</div>
                     <div>Captured Date:{props.captureDate}</div>
                     More details...
                 </div>

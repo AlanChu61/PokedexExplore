@@ -26,6 +26,7 @@ class Fetch_Pokemon(db.Model):
     stats = db.Column(db.JSON)
     types = db.Column(db.JSON)
     weight = db.Column(db.Integer)
+    level = db.Column(db.Integer, nullable=False, default=5)
 
     def __repr__(self):
         """Show info about pokemon."""
@@ -70,6 +71,7 @@ class Pokemon(db.Model):
     pokemon_id = db.Column(
         db.Integer, autoincrement=True, primary_key=True)
     nickname = db.Column(db.String(25))
+    level = db.Column(db.Integer, nullable=False, default=5)
     captured_date = db.Column(
         db.DateTime, nullable=False, default=datetime.utcnow)
     kind_id = db.Column(db.Integer, db.ForeignKey(

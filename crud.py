@@ -41,8 +41,8 @@ def get_player_by_id(player_id):
 # C
 
 
-def create_pokemon(nickname, kind_id):
-    pokemon = Pokemon(nickname=nickname, kind_id=kind_id)
+def create_pokemon(nickname, level, kind_id):
+    pokemon = Pokemon(nickname=nickname, level=level, kind_id=kind_id)
     return pokemon
 
 # R
