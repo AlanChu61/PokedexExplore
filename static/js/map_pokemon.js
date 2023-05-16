@@ -19,6 +19,7 @@ function capturePokemon(evt) {
         });
 }
 
+
 function initMap() {
     const sfBayCoords = {
         lat: 37.601773,

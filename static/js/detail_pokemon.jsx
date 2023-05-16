@@ -39,10 +39,27 @@ function DetailPokemon(props) {
                 setNickname(new_nickname);
             });
     }
+    function addComment(evt) {
+        evt.preventDefault();
+        const content = evt.target.childNodes[1].value
+        fetch(`/create_comment/${pokemon_id}`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            }, body: JSON.stringify({
+                content: content,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setComments((prevComments) => [...prevComments, data.comment]);
+            });
+    }
+
+
     function Comment(props) {
         return <div className="comment">
-            <div>Comment: {props.content}</div>
-            <div>Comment: {props.createdDate}</div>
+            <div>Comment: {props.content} on {props.createdDate}</div>
         </div >
     }
     const commentList = []
@@ -72,6 +89,11 @@ function DetailPokemon(props) {
                     <h1>here is comment</h1>
                     I want to add comment or edit comment here
                     {commentList}
+                    <form onSubmit={addComment}>
+                        <label htmlFor="commentForm">Please add comment:</label>
+                        <input type="text" id="commentForm" name="content" />
+                        <button type="submit">Add</button>
+                    </form>
                 </div></div>
         );
     }

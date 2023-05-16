@@ -65,8 +65,8 @@ for i in range(1, 3):
         random_pokemon = choice(pokemons_in_db)
         nickname = f"Lovely Pokemon {i}"
         content = f"{nickname} is my favorite pokemon!"
-        capture_date = datetime.datetime.now()
-        print("capture_date:", capture_date)
+        captured_date = datetime.datetime.now()
+        print("captured_date:", captured_date)
         pokemon = crud.create_pokemon(
             nickname,  random_pokemon.pokemon_id)
         comment = crud.create_comment(player, pokemon, content)

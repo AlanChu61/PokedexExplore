@@ -103,10 +103,10 @@ def detail_pokemon_json(pokemon_id):
     pokemon_dict['pokemon_id'] = pokemon.pokemon_id
     pokemon_dict['nickname'] = pokemon.nickname
     pokemon_dict['captured_date'] = pokemon.captured_date
-    comment_dict = []
+    comment_list = []
     for comment in comments:
-        comment_dict.append(convert_comment_obj2dict(comment))
-    pokemon_dict['comments'] = comment_dict
+        comment_list.append(convert_comment_obj2dict(comment))
+    pokemon_dict['comments'] = comment_list
     kind_id = pokemon.kind_id
     # get pokemon info
     pokemon_info = crud.get_fetch_pokemon_by_id(kind_id)
@@ -140,7 +140,22 @@ def delete_pokemon(pokemon_id):
         return {
             "success": False,
             "status": f"Your deleted failed!"}
+# Comment
 
+
+@app.route('/create_comment/<int:pokemon_id>', methods=['POST'])
+def create_comment(pokemon_id):
+    """Create a comment."""
+    content = request.json.get('content')
+    player = crud.get_player_by_id(session['player_id'])
+    pokemon = crud.get_pokemon_by_pokemon_id(pokemon_id)
+    comment = crud.create_comment(player, pokemon, content)
+    db.session.add(comment)
+    db.session.commit()
+    return {
+        "success": True,
+        "status": f"Your comment successfully!",
+        "comment": convert_comment_obj2dict(comment)}
 # sign up
 
 
@@ -212,11 +227,12 @@ def convert_pokemon_obj2dict(pokemon):
     return pokemon_dict
 
 
-def convert_comment_obj2dict(comments):
+def convert_comment_obj2dict(comment):
+    # convert comment(obj) to comment(dict)
     comment_dict = {}
-    comment_dict['comment_id'] = comments.comment_id
-    comment_dict['content'] = comments.content
-    comment_dict['created_date'] = comments.created_date
+    comment_dict['comment_id'] = comment.comment_id
+    comment_dict['content'] = comment.content
+    comment_dict['created_date'] = comment.created_date
     return comment_dict
 
 
