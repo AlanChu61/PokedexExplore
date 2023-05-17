@@ -14,6 +14,16 @@ def homepage():
 
     return render_template('homepage.html')
 
+@app.route('/get_started')
+def get_started():
+    """Show get_started."""
+    pokemons=[]
+    for i in range(1,8,3):
+        pokemon = crud.get_fetch_pokemon_by_id(i)
+        pokemon_dict = convert_pokemon_obj2dict(pokemon)
+        pokemons.append(pokemon_dict)
+        print(pokemon_dict['name'])
+    return jsonify({'pokemons': pokemons})
 
 @app.route('/fetch_pokemons')
 def fetch_pokemons():
@@ -253,7 +263,6 @@ def convert_pokemon_obj2dict(pokemon):
     pokemon_dict['name'] = pokemon.name
     pokemon_dict['level'] = pokemon.level
     pokemon_dict['icon'] = pokemon.sprites['front_default']
-
     pokemon_dict['stats'] = {
         'hp': pokemon.stats[0]['base_stat']+2*pokemon.level,
         'attack': pokemon.stats[1]['base_stat']+0.5*pokemon.level,
