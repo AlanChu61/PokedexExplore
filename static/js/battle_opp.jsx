@@ -1,18 +1,6 @@
-function Opponent() {
-    const [opponentPokemons, setOpponentPokemons] = React.useState([]);
-    React.useEffect(() => {
-        fetch('/get_opponent_pokemon')
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data.opponent_pokemons)
-                setOpponentPokemons(data.opponent_pokemons)
-            })
-    }, []);
+function Opponent(props) {
+    const [opponentPokemons, setOpponentPokemons] = React.useState(props.opponentPokemons);
+
     function OpponentPokemon(props) {
         return <div className="pokemon col-3">
             <div>Nickname: {props.nickname}</div>
@@ -42,8 +30,3 @@ function Opponent() {
         </div>
     )
 }
-
-ReactDOM.render(
-    <Opponent />,
-    document.getElementById('opponent')
-)

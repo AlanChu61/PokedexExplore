@@ -1,18 +1,19 @@
-function Player() {
-    const [playerPokemons, setPlayerPokemons] = React.useState([]);
-    React.useEffect(() => {
-        fetch('/get_player_pokemon')
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data.player_pokemons)
-                setPlayerPokemons(data.player_pokemons)
-            })
-    }, []);
+function Player(props) {
+    const [playerPokemons, setPlayerPokemons] = React.useState(props.playerPokemons);
+    const setAttacker = props.setAttacker;
+
+    function assignAttacker(evt) {
+        const nickname = evt.target.parentElement.childNodes[0].innerHTML.split(":")[1].trim()
+        for (let pokemon of playerPokemons) {
+            if (pokemon.nickname == nickname) {
+                console.log(evt.target.parentElement)
+                evt.target.parentElement.style.backgroundColor = "green"
+                setAttacker(pokemon)
+            }
+        }
+    }
+
+
     function PlayerPokemon(props) {
         return <div className="pokemon col-3">
             <div>Nickname: {props.nickname}</div>
@@ -21,6 +22,7 @@ function Player() {
             <div>HP: {props.stats.hp}</div>
             <div>Attack: {props.stats.attack}</div>
             <div>Defense: {props.stats.defense}</div>
+            <button onClick={(evt) => assignAttacker(evt)}>Attacker</button>
         </div>
     }
 
@@ -42,8 +44,3 @@ function Player() {
         </div>
     )
 }
-
-ReactDOM.render(
-    <Player />,
-    document.getElementById('player')
-)

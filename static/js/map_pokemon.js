@@ -4,9 +4,16 @@ const sfBayCoords = {
     lng: -122.20287,
 };
 
+// (1) init Map
+// (2) fetch pokemon data
+// (3) add user, pokemon markers to map
+// (4) add event listeners to pokemon markers
+// (5) communte time
+
+
 function capturePokemon(evt) {
-    const name = evt.target.parentElement.children[1].innerHTML.split(":")[1];
-    const nickname = prompt("Please enter a nickname for your pokemon", name);
+    const name = evt.target.parentElement.children[1].innerHTML.split(":")[1].trim();
+    const nickname = prompt("Please enter a nickname for your pokemon?", name);
     const level = evt.target.parentElement.children[2].innerHTML.split(":")[1]
     const [lat, lng] = evt.target.parentElement.children[2].innerHTML.split(":");
     const kind_id = evt.target.parentElement.children[0].innerHTML.split(":")[1]

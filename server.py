@@ -295,6 +295,14 @@ def convert_comment_obj2dict(comment):
 
 
 # battle
+@app.route('/player_list', methods=['GET'])
+def player_list():
+    """Show player list page."""
+    return render_template('player_list.html', title='Player List')
+@app.route('/player_list_json', methods=['GET'])
+def player_list_json():
+    players = crud.get_other_players(session['player_id'])
+    
 @app.route('/battle', methods=['GET'])
 def battle():
     """Show battle page."""
