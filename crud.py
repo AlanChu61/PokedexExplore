@@ -1,5 +1,5 @@
 from model import db, Fetch_Pokemon, Player, PlayerPokemon, Pokemon, Comment
-
+from random import sample
 # fetch_pokemons
 
 
@@ -41,8 +41,9 @@ def get_player_by_id(player_id):
 # C
 
 
-def create_pokemon(nickname, level, kind_id):
-    pokemon = Pokemon(nickname=nickname, level=level, kind_id=kind_id)
+def create_pokemon(nickname, level, stats, kind_id):
+    pokemon = Pokemon(nickname=nickname, level=level,
+                      stats=stats, kind_id=kind_id)
     return pokemon
 
 # R
@@ -112,3 +113,9 @@ def delete_comment_by_comment_id(comment_id):
 
 def player_login(email, password):
     return Player.query.filter(Player.email == email, Player.password == password).first()
+
+
+# battle
+def get_random_opponent(player_id):
+    opponents = Player.query.filter(Player.player_id != player_id).all()
+    return sample(opponents, 1)[0]

@@ -3,7 +3,6 @@ from model import connect_to_db, db, Fetch_Pokemon, Player
 import crud
 from jinja2 import StrictUndefined
 from random import sample
-import json
 app = Flask(__name__)
 app.secret_key = "ThisIsASecretKey"
 app.jinja_env.undefined = StrictUndefined
@@ -35,21 +34,24 @@ def fetch_pokemon_json():
     random_pokemons = sample(pokemons, 5)  # array
     pokemons = []
     for pokemon in random_pokemons:
-        # print("pokemon:", pokemon)
         pokemon_dict = convert_pokemon_obj2dict(pokemon)
         pokemons.append(pokemon_dict)
-    # print("pokemons", pokemons)
     return jsonify({'pokemons': pokemons})
 
 
 @app.route('/capture_pokemon', methods=['POST'])
 def capture_pokemon():
     kind_id = request.json.get('kind_id')
-    level = request.json.get('level')
+    level = int(request.json.get('level'))
     nickname = request.json.get('nickname')
+    fetch_pokemon = crud.get_fetch_pokemon_by_id(kind_id)
+    stats = {
+        'hp': int(fetch_pokemon.stats[0]['base_stat'])+2*level,
+        'attack': int(fetch_pokemon.stats[1]['base_stat'])+0.5*level,
+        'defense': int(fetch_pokemon.stats[2]['base_stat'])+0.5*level,
+    }
     pokemon = crud.create_pokemon(
-        nickname=nickname, level=level, kind_id=kind_id)
-
+        nickname=nickname, level=level, stats=stats, kind_id=kind_id)
     # get player_id from session(login info)
     player_id = session['player_id']
     player = crud.get_player_by_id(player_id)
@@ -79,9 +81,9 @@ def view_pokemons_json():
         pokemon_dict['pokemon_id'] = pokemon.pokemon_id
         pokemon_dict['nickname'] = pokemon.nickname
         pokemon_dict['level'] = pokemon.level
-        kind_id = pokemon.kind_id
+        pokemon_dict['stats'] = pokemon.stats
         # get pokemon info
-        pokemon_info = crud.get_fetch_pokemon_by_id(kind_id)
+        pokemon_info = crud.get_fetch_pokemon_by_id(pokemon.kind_id)
         pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
         pokemons.append(pokemon_dict)
     return jsonify({'pokemons': pokemons})
@@ -105,14 +107,14 @@ def detail_pokemon_json(pokemon_id):
     pokemon_dict['pokemon_id'] = pokemon.pokemon_id
     pokemon_dict['nickname'] = pokemon.nickname
     pokemon_dict['captured_date'] = pokemon.captured_date
+    # get pokemon info
+    pokemon_info = crud.get_fetch_pokemon_by_id(pokemon.kind_id)
+    pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
+    # get comments
     comment_list = []
     for comment in comments:
         comment_list.append(convert_comment_obj2dict(comment))
     pokemon_dict['comments'] = comment_list
-    kind_id = pokemon.kind_id
-    # get pokemon info
-    pokemon_info = crud.get_fetch_pokemon_by_id(kind_id)
-    pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
     return jsonify({'pokemon': pokemon_dict})
 
 
@@ -250,11 +252,27 @@ def convert_pokemon_obj2dict(pokemon):
     pokemon_dict['pokemon_id'] = pokemon.pokemon_id
     pokemon_dict['name'] = pokemon.name
     pokemon_dict['level'] = pokemon.level
-    pokemon_dict['height'] = pokemon.height
-    pokemon_dict['weight'] = pokemon.weight
     pokemon_dict['icon'] = pokemon.sprites['front_default']
+
+    pokemon_dict['stats'] = {
+        'hp': pokemon.stats[0]['base_stat']+2*pokemon.level,
+        'attack': pokemon.stats[1]['base_stat']+0.5*pokemon.level,
+        'defense': pokemon.stats[2]['base_stat']+0.5*pokemon.level,
+    }
     pokemon_dict['image'] = pokemon.sprites['other'].get(
         'official-artwork').get('front_default')
+    return pokemon_dict
+
+
+def convert_pokemon_battle_obj2dict(pokemon):
+    pokemon_dict = {}
+    fetch_pokemon = crud.get_fetch_pokemon_by_id(pokemon.kind_id)
+    pokemon_dict['pokemon_id'] = pokemon.pokemon_id
+    pokemon_dict['nickname'] = pokemon.nickname
+    pokemon_dict['level'] = pokemon.level
+    pokemon_dict['stats'] = pokemon.stats
+    pokemon_dict['back_default'] = fetch_pokemon.sprites['back_default']
+    pokemon_dict['front_default'] = fetch_pokemon.sprites['front_default']
     return pokemon_dict
 
 
@@ -265,6 +283,36 @@ def convert_comment_obj2dict(comment):
     comment_dict['content'] = comment.content
     comment_dict['created_date'] = comment.created_date
     return comment_dict
+
+
+# battle
+@app.route('/battle', methods=['GET'])
+def battle():
+    """Show battle page."""
+    return render_template('battle.html', title='Battle')
+
+
+@app.route('/get_opponent_pokemon', methods=['GET'])
+def get_opponent_pokemon():
+    # Get a random opponent pokemon
+    opponent = crud.get_random_opponent(session['player_id'])
+    opponent_pokemons = sample(opponent.pokemons, 2)
+    print("---opp_pokemons---", opponent_pokemons)
+    opponent_pokemons_list = []
+    for pokemon in opponent_pokemons:
+        opponent_pokemons_list.append(convert_pokemon_battle_obj2dict(pokemon))
+    return jsonify({"opponent_pokemons": opponent_pokemons_list})
+
+
+@app.route('/get_player_pokemon', methods=['GET'])
+def get_player_pokemon():
+    # Get player's pokemon
+    player = crud.get_player_by_id(session['player_id'])
+    player_pokemons = sample(player.pokemons, 2)
+    player_pokemons_list = []
+    for pokemon in player_pokemons:
+        player_pokemons_list.append(convert_pokemon_battle_obj2dict(pokemon))
+    return jsonify({"player_pokemons": player_pokemons_list})
 
 
 if __name__ == '__main__':

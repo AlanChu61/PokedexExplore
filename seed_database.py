@@ -67,8 +67,14 @@ for i in range(1, 3):
         content = f"{nickname} is my favorite pokemon!"
         captured_date = datetime.datetime.now()
         print("captured_date:", captured_date)
+        level = randint(1, 100)
+        stats = {
+            "hp": randint(1, 100),
+            "attack": randint(1, 100),
+            "defense": randint(1, 100),
+        }
         pokemon = crud.create_pokemon(
-            nickname,  random_pokemon.pokemon_id)
+            nickname,  level, stats, random_pokemon.pokemon_id)
         comment = crud.create_comment(player, pokemon, content)
         player.pokemons.append(pokemon)
     model.db.session.add(player)

@@ -72,6 +72,7 @@ class Pokemon(db.Model):
         db.Integer, autoincrement=True, primary_key=True)
     nickname = db.Column(db.String(25))
     level = db.Column(db.Integer, nullable=False, default=5)
+    stats = db.Column(db.JSON)
     captured_date = db.Column(
         db.DateTime, nullable=False, default=datetime.utcnow)
     kind_id = db.Column(db.Integer, db.ForeignKey(
