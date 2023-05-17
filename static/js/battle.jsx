@@ -1,6 +1,5 @@
 
 function attack(attacker, defender) {
-    // attack is a put request to /attack
     // who(obj) attack, whom is attacked, 
     console.log(attacker)
     let damage = Math.floor((2 * attacker.level / 25 + 10) * (attacker.stats.attack / defender.stats.defense) + 2);
