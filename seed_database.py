@@ -63,10 +63,9 @@ for i in range(1, 3):
     # Create Pokemon 6 times for each player
     for i in range(0, 6):
         random_pokemon = choice(pokemons_in_db)
-        nickname = f"Lovely Pokemon {i}"
+        nickname = random_pokemon.name
         content = f"{nickname} is my favorite pokemon!"
         captured_date = datetime.datetime.now()
-        print("captured_date:", captured_date)
         level = randint(1, 100)
         stats = {
             "hp": randint(1, 100),

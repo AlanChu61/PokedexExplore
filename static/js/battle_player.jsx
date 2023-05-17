@@ -6,7 +6,6 @@ function Player(props) {
         const nickname = evt.target.parentElement.childNodes[0].innerHTML.split(":")[1].trim()
         for (let pokemon of playerPokemons) {
             if (pokemon.nickname == nickname) {
-                console.log(evt.target.parentElement)
                 evt.target.parentElement.style.backgroundColor = "green"
                 setAttacker(pokemon)
             }
