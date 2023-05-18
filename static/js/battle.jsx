@@ -121,9 +121,12 @@ function Battle() {
                         player={player} />
 
                 </div>
-                <div className="col-12">
-                    Battle History:
-                    {logs_list}
+                <div className="row">
+                    <div className="col-12">
+                        Battle History:
+                        {logs_list}
+                    </div>
+
                 </div>
             </div>
         )

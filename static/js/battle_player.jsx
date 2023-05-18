@@ -97,7 +97,9 @@ function Player(props) {
     }
     return (
         <div className="row">
-            <img src={playerInfo.img} />
+            <div className="col-3">
+                <img src={playerInfo.img} width="100px" />
+            </div>
             {playerPokemonList}
             {playerActive && <button onClick={() => playerAttack(attacker, defender)}>Attack</button>}
         </div>

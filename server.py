@@ -221,12 +221,11 @@ def signup():
             return redirect('/signup')
         else:
             """new account"""
-            new_player = crud.create_player(email, password, username)
+            new_player = crud.create_player(email, password, username,img=None)
             db.session.add(new_player)
             db.session.commit()
             flash('Sign up successfully!')
             session['player_id'] = new_player.player_id
-            session['email'] = email
             session['username'] = username
             return redirect('/view_pokemons')
 
@@ -314,7 +313,10 @@ def player_list():
 
 @app.route('/player_list_json', methods=['GET'])
 def player_list_json():
-    players = crud.get_other_players(session['player_id'])
+    if 'player_id' not in session:
+        players = crud.get_all_players()
+    else:
+        players = crud.get_other_players(session['player_id'])
     player_list=[]
     for player in players:
         player_dict =conver_player_obj2dict(player)

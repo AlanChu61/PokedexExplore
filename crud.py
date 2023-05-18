@@ -25,7 +25,7 @@ def create_player(email, password, username,img):
     return player
 
 
-def get_players():
+def get_all_players():
     return Player.query.all()
 
 

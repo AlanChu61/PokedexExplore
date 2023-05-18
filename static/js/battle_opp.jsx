@@ -71,7 +71,7 @@ function Opponent(props) {
         }
     }
     function OpponentPokemon(props) {
-        return <div className="pokemon">
+        return <div className="col-3">
             <div>Nickname: {props.nickname}</div>
             <div>Level: {props.level}</div>
             <div>Front Sprite: <img src={props.front_default} /></div>
@@ -117,11 +117,9 @@ function Opponent(props) {
     return (
         <div className="row">
             {opponentPokemonList}
-            <div>
-                <img src={opponentInfo.img} width="25px" />
-
+            <div className="col-3">
+                <img src={opponentInfo.img} width="100px" />
             </div>
-
         </div>
     )
 }
