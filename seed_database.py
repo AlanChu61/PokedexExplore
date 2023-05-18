@@ -53,12 +53,29 @@ model.db.session.commit()
 
 # 5 Create Player
 
-for i in range(1, 3):
-    email = f"test{i}"
-    password = f"test{i}"
-    username = f"Player{i}"
-    print(f'Creating Player{i}')
-    player = crud.create_player(email, password, username)
+user_list =[
+        "Alan",
+        "Bella",
+        "Cathy",
+        "David",
+        "Ella",
+        "Frank",
+    ]
+user_photo=[
+    "./static/img/Player1.png",
+    "./static/img/Player2.png",
+    "./static/img/Player3.png",
+    "./static/img/Player4.png",
+    "./static/img/Player5.png",
+    "./static/img/Player6.png",
+]
+for i in range(0, len(user_list)):
+    email = f"test{i+1}"
+    password = f"test{i+1}"
+    username = f"{user_list[i]}"
+    img = f"{user_photo[i]}"
+    print(f"Creating Player: {username}")
+    player = crud.create_player(email, password, username,img)
 
     # Create Pokemon 6 times for each player
     for i in range(0, 6):
@@ -66,11 +83,11 @@ for i in range(1, 3):
         nickname = random_pokemon.name
         content = f"{nickname} is my favorite pokemon!"
         captured_date = datetime.datetime.now()
-        level = randint(1, 100)
+        level = randint(5, 100)
         stats = {
-            "hp": randint(1, 100),
-            "attack": randint(1, 100),
-            "defense": randint(1, 100),
+            "hp": randint(5, 100),
+            "attack": randint(5, 50),
+            "defense": randint(5, 50),
         }
         pokemon = crud.create_pokemon(
             nickname,  level, stats, random_pokemon.pokemon_id)

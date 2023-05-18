@@ -20,8 +20,8 @@ def get_fetch_pokemon():
 # players
 
 
-def create_player(email, password, username):
-    player = Player(email=email, password=password, username=username)
+def create_player(email, password, username,img):
+    player = Player(email=email, password=password, username=username,img=img)
     return player
 
 
@@ -35,6 +35,9 @@ def get_player_by_email(email):
 
 def get_player_by_id(player_id):
     return Player.query.get(player_id)
+
+def get_other_players(player_id):
+    return Player.query.filter(Player.player_id != player_id).all()
 
 # Pokemons
 

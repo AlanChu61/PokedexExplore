@@ -25,6 +25,8 @@ def get_started():
         print(pokemon_dict['name'])
     return jsonify({'pokemons': pokemons})
 
+
+
 @app.route('/fetch_pokemons')
 def fetch_pokemons():
     """Show all pokemons."""
@@ -280,6 +282,8 @@ def convert_pokemon_battle_obj2dict(pokemon):
     pokemon_dict['nickname'] = pokemon.nickname
     pokemon_dict['level'] = pokemon.level
     pokemon_dict['stats'] = pokemon.stats
+    pokemon_dict['img']= fetch_pokemon.sprites['other'].get(
+        'official-artwork').get('front_default')
     pokemon_dict['back_default'] = fetch_pokemon.sprites['back_default']
     pokemon_dict['front_default'] = fetch_pokemon.sprites['front_default']
     return pokemon_dict
@@ -293,15 +297,34 @@ def convert_comment_obj2dict(comment):
     comment_dict['created_date'] = comment.created_date
     return comment_dict
 
+def conver_player_obj2dict(player):
+    # convert player(obj) to player(dict)
+    player_dict = {}
+    player_dict['player_id'] = player.player_id
+    player_dict['username'] = player.username
+    player_dict['email'] = player.email
+    player_dict['img']= player.img
+    return player_dict
 
 # battle
 @app.route('/player_list', methods=['GET'])
 def player_list():
     """Show player list page."""
     return render_template('player_list.html', title='Player List')
+
 @app.route('/player_list_json', methods=['GET'])
 def player_list_json():
     players = crud.get_other_players(session['player_id'])
+    player_list=[]
+    for player in players:
+        player_dict =conver_player_obj2dict(player)
+        player_dict['pokemons']= []
+        for player_pokemon in player.pokemons:
+            player_dict['pokemons'].append(convert_pokemon_battle_obj2dict(player_pokemon))
+        player_list.append(player_dict)
+    return jsonify({"players": player_list})
+
+
 @app.route('/battle', methods=['GET'])
 def battle():
     """Show battle page."""
