@@ -328,19 +328,21 @@ def player_list_json():
 @app.route('/battle', methods=['GET'])
 def battle():
     """Show battle page."""
-    return render_template('battle.html', title='Battle')
+    opponent_id = request.args.get('player_id')
+    return render_template('battle.html', title='Battle',opponent_id=opponent_id)
 
 
 @app.route('/get_opponent_pokemon', methods=['GET'])
 def get_opponent_pokemon():
-    # Get a random opponent pokemon
-    opponent = crud.get_random_opponent(session['player_id'])
+    # Get opponent id from url
+    opponent_id = request.args.get('opponent_id') 
+    opponent = crud.get_player_by_id(opponent_id)
     opponent_pokemons = sample(opponent.pokemons, 2)
-    # print("---opp_pokemons---", opponent_pokemons)
+    opponent_dict = conver_player_obj2dict(opponent)
     opponent_pokemons_list = []
     for pokemon in opponent_pokemons:
         opponent_pokemons_list.append(convert_pokemon_battle_obj2dict(pokemon))
-    return jsonify({"opponent_username":opponent.username,"opponent_pokemons": opponent_pokemons_list})
+    return jsonify({"opponent":opponent_dict,"opponent_pokemons": opponent_pokemons_list})
 
 
 @app.route('/get_player_pokemon', methods=['GET'])
@@ -348,10 +350,11 @@ def get_player_pokemon():
     # Get player's pokemon
     player = crud.get_player_by_id(session['player_id'])
     player_pokemons = sample(player.pokemons, 2)
+    player_dict = conver_player_obj2dict(player)
     player_pokemons_list = []
     for pokemon in player_pokemons:
         player_pokemons_list.append(convert_pokemon_battle_obj2dict(pokemon))
-    return jsonify({"player_username":player.username,"player_pokemons": player_pokemons_list})
+    return jsonify({"player":player_dict,"player_pokemons": player_pokemons_list})
 
 
 if __name__ == '__main__':

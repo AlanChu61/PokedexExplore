@@ -1,5 +1,6 @@
 function Opponent(props) {
     // inital opponentPokemons setup
+    const opponentInfo = props.opponent;
     const opponentPokemons = props.opponentPokemons;
 
     // for assign a defender (by user)
@@ -70,7 +71,7 @@ function Opponent(props) {
         }
     }
     function OpponentPokemon(props) {
-        return <div className="pokemon col-3">
+        return <div className="pokemon">
             <div>Nickname: {props.nickname}</div>
             <div>Level: {props.level}</div>
             <div>Front Sprite: <img src={props.front_default} /></div>
@@ -116,6 +117,11 @@ function Opponent(props) {
     return (
         <div className="row">
             {opponentPokemonList}
+            <div>
+                <img src={opponentInfo.img} width="25px" />
+
+            </div>
+
         </div>
     )
 }

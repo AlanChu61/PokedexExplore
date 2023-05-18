@@ -1,5 +1,6 @@
 function Player(props) {
     // inital playerPokemons setup
+    const playerInfo = props.player;
     const playerPokemons = props.playerPokemons;
     // for assign a attacker (by user)
     const setAttacker = props.setAttacker;
@@ -96,6 +97,7 @@ function Player(props) {
     }
     return (
         <div className="row">
+            <img src={playerInfo.img} />
             {playerPokemonList}
             {playerActive && <button onClick={() => playerAttack(attacker, defender)}>Attack</button>}
         </div>

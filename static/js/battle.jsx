@@ -15,13 +15,15 @@ function Battle() {
     // fetch battle info for player pokemon and opponent pokemon
     const [playerPokemons, setPlayerPokemons] = React.useState(null)
     const [opponentPokemons, setOpponentPokemons] = React.useState(null)
-    const [playerUsername, setPlayerUsername] = React.useState("");
-    const [opponentUsername, setOpponentUsername] = React.useState("");
+    const [player, setPlayer] = React.useState(null);
+    const [opponent, setOpponent] = React.useState(null);
     const [playerActive, setPlayerActive] = React.useState(true)
     const [opponentActive, setOpponentActive] = React.useState(false)
     const [attacker, setAttacker] = React.useState({})
     const [defender, setDefender] = React.useState({})
     const [logs, setLogs] = React.useState(["Battle Start!"])
+
+    const opponentId = document.getElementById('opponent_id').innerHTML
 
 
     React.useEffect(() => {
@@ -33,10 +35,10 @@ function Battle() {
                 return response.json();
             })
             .then((data) => {
-                setPlayerUsername(data.player_username)
+                setPlayer(data.player)
                 setPlayerPokemons(data.player_pokemons)
             })
-        fetch('/get_opponent_pokemon')
+        fetch(`/get_opponent_pokemon?opponent_id=${opponentId}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -44,7 +46,7 @@ function Battle() {
                 return response.json();
             })
             .then((data) => {
-                setOpponentUsername(data.opponent_username)
+                setOpponent(data.opponent)
                 setOpponentPokemons(data.opponent_pokemons)
             })
     }, []);
@@ -78,7 +80,7 @@ function Battle() {
         return (<div className="row">
             <div className="col-12">
                 <h1>You lose!</h1>
-                <span>You were defeated {opponentUsername}</span>
+                <span>You were defeated {opponent.username}</span>
             </div>
         </div>);
     }
@@ -86,14 +88,14 @@ function Battle() {
         return (<div className="row">
             <div className="col-12">
                 <h1>You win!</h1>
-                <span>You defeated {opponentUsername}</span>
+                <span>You defeated {opponent.username}</span>
             </div>
         </div>);
     }
     else {
         return (
             <div className="row">
-                {playerUsername && <span>{playerUsername}</span>} vs. {opponentUsername && <span>{opponentUsername}</span>}
+                {player && <span>{player.username}</span>} vs. {opponent && <span>{opponent.username}</span>}
 
                 <div className="col-12">
                     <Opponent opponentPokemons={opponentPokemons}
@@ -104,7 +106,8 @@ function Battle() {
                         logs={logs} setLogs={setLogs}
                         opponentActive={opponentActive}
                         setOpponentActive={setOpponentActive}
-                        setPlayerActive={setPlayerActive} />
+                        setPlayerActive={setPlayerActive}
+                        opponent={opponent} />
                 </div>
                 <div className="col-12">
                     <Player playerPokemons={playerPokemons}
@@ -114,7 +117,8 @@ function Battle() {
                         logs={logs} setLogs={setLogs}
                         playerActive={playerActive}
                         setPlayerActive={setPlayerActive}
-                        setOpponentActive={setOpponentActive} />
+                        setOpponentActive={setOpponentActive}
+                        player={player} />
 
                 </div>
                 <div className="col-12">

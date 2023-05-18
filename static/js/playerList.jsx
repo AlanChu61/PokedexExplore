@@ -11,9 +11,8 @@ function PlayerList() {
 
     function PlayerInfo(props) {
         const pokemon_list = []
-        console.log(props.player.pokemons)
         for (let pokemon of props.player.pokemons) {
-            pokemon_list.push(<div className="col-3">
+            pokemon_list.push(<div className="col-3" key={pokemon.pokemon_id}>
                 <img src={pokemon.img} width="100px" height="100px" />
                 <p>{pokemon.nickname}</p>
                 <p>LV:{pokemon.level}</p>
@@ -24,7 +23,11 @@ function PlayerList() {
                 <img src={props.player.img} width="50px" height="100px" />
                 <p>{props.player.username}
                 </p>
-                <button>Let's battle</button>
+                <form action="/battle" method="GET">
+                    <input type="hidden" name="player_id" value={props.player.player_id} />
+                    <button type="submit">Let's battle</button>
+                </form>
+
             </div>
             <div className="col-9">
                 PokemonList:
@@ -39,8 +42,7 @@ function PlayerList() {
 
     const player_list = []
     for (let player of players) {
-        player_list.push(<PlayerInfo player={player}
-            key={player.player_id} />)
+        player_list.push(<PlayerInfo player={player} key={player.player_id} />)
     }
 
     return (
