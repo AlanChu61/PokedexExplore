@@ -15,6 +15,10 @@ function Battle() {
     // fetch battle info for player pokemon and opponent pokemon
     const [playerPokemons, setPlayerPokemons] = React.useState(null)
     const [opponentPokemons, setOpponentPokemons] = React.useState(null)
+    const [playerUsername, setPlayerUsername] = React.useState("");
+    const [opponentUsername, setOpponentUsername] = React.useState("");
+    const [playerActive, setPlayerActive] = React.useState(true)
+    const [opponentActive, setOpponentActive] = React.useState(false)
     const [attacker, setAttacker] = React.useState({})
     const [defender, setDefender] = React.useState({})
     const [logs, setLogs] = React.useState(["Battle Start!"])
@@ -29,6 +33,7 @@ function Battle() {
                 return response.json();
             })
             .then((data) => {
+                setPlayerUsername(data.player_username)
                 setPlayerPokemons(data.player_pokemons)
             })
         fetch('/get_opponent_pokemon')
@@ -39,9 +44,12 @@ function Battle() {
                 return response.json();
             })
             .then((data) => {
+                setOpponentUsername(data.opponent_username)
                 setOpponentPokemons(data.opponent_pokemons)
             })
     }, []);
+
+
 
     function Log(prop) {
         return (
@@ -54,24 +62,51 @@ function Battle() {
     for (let log of logs) {
         logs_list.push(<Log log={log} />)
     }
+
+    const addLog = React.useCallback(
+        new_log => {
+            setLogs(prevLogs => [...prevLogs, new_log]);
+        },
+        [setLogs]
+    );
+
+
     if (playerPokemons === null || opponentPokemons === null) {
         return (<div>"Loading"</div>);
     }
     else if (playerPokemons.length == 0) {
+        alert("You lose!")
         return (<div>"You lose!"</div>);
     }
     else if (opponentPokemons.length == 0) {
+        alert("You win!")
         return (<div>"You win!"</div>);
     }
     else {
         return (
             <div className="row">
-                <button>Battle</button>
+                {playerUsername && <span>{playerUsername}</span>} vs. {opponentUsername && <span>{opponentUsername}</span>}
+
                 <div className="col-12">
-                    <Opponent opponentPokemons={opponentPokemons} setAttacker={setAttacker} setDefender={setDefender} />
+                    <Opponent opponentPokemons={opponentPokemons}
+                        setAttacker={setAttacker} setDefender={setDefender}
+                        attack={attack}
+                        attacker={attacker} defender={defender}
+                        setPlayerPokemons={setPlayerPokemons}
+                        logs={logs} setLogs={setLogs}
+                        opponentActive={opponentActive}
+                        setOpponentActive={setOpponentActive}
+                        setPlayerActive={setPlayerActive} />
                 </div>
                 <div className="col-12">
-                    <Player playerPokemons={playerPokemons} setAttacker={setAttacker} attack={attack} attacker={attacker} defender={defender} setOpponentPokemons={setOpponentPokemons} logs={logs} setLogs={setLogs} />
+                    <Player playerPokemons={playerPokemons}
+                        setAttacker={setAttacker} setDefender={setDefender}
+                        attack={attack}
+                        attacker={attacker} defender={defender} setOpponentPokemons={setOpponentPokemons}
+                        logs={logs} setLogs={setLogs}
+                        playerActive={playerActive}
+                        setPlayerActive={setPlayerActive}
+                        setOpponentActive={setOpponentActive} />
 
                 </div>
                 <div className="col-12">

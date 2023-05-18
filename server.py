@@ -313,11 +313,11 @@ def get_opponent_pokemon():
     # Get a random opponent pokemon
     opponent = crud.get_random_opponent(session['player_id'])
     opponent_pokemons = sample(opponent.pokemons, 2)
-    print("---opp_pokemons---", opponent_pokemons)
+    # print("---opp_pokemons---", opponent_pokemons)
     opponent_pokemons_list = []
     for pokemon in opponent_pokemons:
         opponent_pokemons_list.append(convert_pokemon_battle_obj2dict(pokemon))
-    return jsonify({"opponent_pokemons": opponent_pokemons_list})
+    return jsonify({"opponent_username":opponent.username,"opponent_pokemons": opponent_pokemons_list})
 
 
 @app.route('/get_player_pokemon', methods=['GET'])
@@ -328,7 +328,7 @@ def get_player_pokemon():
     player_pokemons_list = []
     for pokemon in player_pokemons:
         player_pokemons_list.append(convert_pokemon_battle_obj2dict(pokemon))
-    return jsonify({"player_pokemons": player_pokemons_list})
+    return jsonify({"player_username":player.username,"player_pokemons": player_pokemons_list})
 
 
 if __name__ == '__main__':
