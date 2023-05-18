@@ -75,12 +75,20 @@ function Battle() {
         return (<div>"Loading"</div>);
     }
     else if (playerPokemons.length == 0) {
-        alert("You lose!")
-        return (<div>"You lose!"</div>);
+        return (<div className="row">
+            <div className="col-12">
+                <h1>You lose!</h1>
+                <span>You were defeated {opponentUsername}</span>
+            </div>
+        </div>);
     }
     else if (opponentPokemons.length == 0) {
-        alert("You win!")
-        return (<div>"You win!"</div>);
+        return (<div className="row">
+            <div className="col-12">
+                <h1>You win!</h1>
+                <span>You defeated {opponentUsername}</span>
+            </div>
+        </div>);
     }
     else {
         return (
