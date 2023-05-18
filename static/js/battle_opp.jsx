@@ -1,6 +1,7 @@
 function Opponent(props) {
-    const [opponentPokemons, setOpponentPokemons] = React.useState(props.opponentPokemons);
+    const opponentPokemons = props.opponentPokemons;
     const setDefender = props.setDefender;
+
     function assignDefender(evt) {
         const nickname = evt.target.parentElement.childNodes[0].innerHTML.split(":")[1].trim()
         for (let pokemon of opponentPokemons) {
@@ -23,6 +24,7 @@ function Opponent(props) {
     }
 
     const opponentPokemonList = []
+    console.log(opponentPokemonList)
     for (const pokemon of opponentPokemons) {
         opponentPokemonList.push(
             <OpponentPokemon
@@ -34,6 +36,7 @@ function Opponent(props) {
             />,
         )
     }
+    console.log(opponentPokemonList)
     return (
         <div className="row">
             {opponentPokemonList}
