@@ -31,7 +31,10 @@ function Homepage() {
     const [startedPokemon, setStartedPokemon] = React.useState([]);
     const [isSelected, setIsSelected] = React.useState(false);
     if (!document.getElementById("username")) {
-        return (<a href="/login">Please login for better expericne</a>)
+        return (<React.Fragment >
+            <div>some words here to attract audience to signup</div>
+            <a href="/login">Please login for better expericne</a>
+        </React.Fragment >)
     }
     const username = document.getElementById("username").innerHTML.trim();
     const text = [

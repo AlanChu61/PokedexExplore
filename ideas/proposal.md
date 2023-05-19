@@ -25,12 +25,12 @@ Link: Replace this with a link to your data model
     - (v)Comment can be edited/deleted by the user(U/D)
     - If there are 3 comments, pokemon will be happy to level up. (U)
 - (v)User can sign up, log in, log out
-- User can create profile
 
 ### 2.0
 
 - (v) Capture Pokemon on Google Map API
-- Pokemon can be battled between users (Locate players on Google Map API)
+- (v) Pokemon can be battled between users 
+    -(Locate players on Google Map API)
 - Capture Pokemon by throwing Pokeball
 - Train Pokemon to level up
 - Pokemon store to buy items
