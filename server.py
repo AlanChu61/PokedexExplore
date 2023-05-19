@@ -218,7 +218,7 @@ def signup():
         if crud.get_player_by_email(email):
             """account exists"""
             flash('Email already exists. Please try again.')
-            return redirect('/')
+            return redirect('/signup')
         else:
             """new account"""
             new_player = crud.create_player(email, password, username,img=None)
@@ -228,7 +228,7 @@ def signup():
             session['player_id'] = new_player.player_id
             session['username'] = username
             session['email'] = email
-            return redirect('/get_started')
+            return redirect('/')
 
 
 @app.route('/login', methods=['GET', 'POST'])
