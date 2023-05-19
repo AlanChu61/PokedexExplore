@@ -218,7 +218,7 @@ def signup():
         if crud.get_player_by_email(email):
             """account exists"""
             flash('Email already exists. Please try again.')
-            return redirect('/signup')
+            return redirect('/')
         else:
             """new account"""
             new_player = crud.create_player(email, password, username,img=None)

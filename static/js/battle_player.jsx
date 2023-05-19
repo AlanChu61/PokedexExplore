@@ -75,7 +75,7 @@ function Player(props) {
         return <div className="pokemon col-3">
             <div>Nickname: {props.nickname}</div>
             <div>Level: {props.level}</div>
-            <div>Front Sprite: <img src={props.back_default} /></div>
+            <div>Front Sprite: <img src={props.front_default} /></div>
             <div>HP: {props.stats.hp}</div>
             <div>Attack: {props.stats.attack}</div>
             <div>Defense: {props.stats.defense}</div>
@@ -90,7 +90,7 @@ function Player(props) {
                 key={pokemon.pokemon_id}
                 nickname={pokemon.nickname}
                 level={pokemon.level}
-                back_default={pokemon.back_default}
+                front_default={pokemon.front_default}
                 stats={pokemon.stats}
             />,
         )
