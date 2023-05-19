@@ -227,7 +227,8 @@ def signup():
             flash('Sign up successfully!')
             session['player_id'] = new_player.player_id
             session['username'] = username
-            return redirect('/view_pokemons')
+            session['email'] = email
+            return redirect('/get_started')
 
 
 @app.route('/login', methods=['GET', 'POST'])

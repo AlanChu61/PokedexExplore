@@ -30,6 +30,10 @@ function Homepage() {
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const [startedPokemon, setStartedPokemon] = React.useState([]);
     const [isSelected, setIsSelected] = React.useState(false);
+    if (!document.getElementById("username")) {
+        return (<a href="/login">Please login for better expericne</a>)
+    }
+    const username = document.getElementById("username").innerHTML.trim();
     const text = [
         "Hello there! Welcome to the world of Pokémon!",
         "My name is Oak! People call me the Pokémon Prof!",
@@ -39,9 +43,11 @@ function Homepage() {
         "Now, there are 3 Pokémon here. Haha! They are inside the Poké Balls.",
         "When I was young, I was a serious Pokémon trainer!",
         "In my old age, I have only 3 left, but you can have one! Choose!",
-        "Be patient! PlayerName, you can have one too!",
-        "Now, {player_name}, which Pokémon do you want?",
+        `Be patient! ${username}, you can have one too!`,
+        `Now ${username} which Pokémon do you want?`,
     ];
+
+
     const post_text = [
         "You Just got your first Pokémon!",
         "You can now start your journey to become a Pokémon Master!",
@@ -70,8 +76,7 @@ function Homepage() {
         setCurrentIndex((prevIndex) => prevIndex + 1);
     }
 
-
-    function selectedPokemon(evt) {
+    function selectPokemon(evt) {
         setIsSelected(true);
         setCurrentIndex(0);
         //Capture selected pokemon
@@ -95,7 +100,7 @@ function Homepage() {
                         <div>HP: {props.stats.hp}</div>
                         <div>Attack: {props.stats.attack}</div>
                         <div>Defense: {props.stats.defense}</div>
-                        <button onClick={selectedPokemon}>I want you!</button>
+                        <button onClick={selectPokemon}>I want you!</button>
                     </div>
                 ) : (
                     <img className="img-fluid mx-auto d-block" src="static/img/pokeBall.png" width="50px" height="50px" />
@@ -105,7 +110,6 @@ function Homepage() {
     }
     const pokeBalls = []
     for (let pokemon of startedPokemon) {
-        console.log(pokemon)
         pokeBalls.push(
             <PokeBall key={pokemon.pokemon_id}
                 pokemon_id={pokemon.pokemon_id}
@@ -114,7 +118,7 @@ function Homepage() {
                 level={pokemon.level}
                 stats={pokemon.stats} />)
     }
-    console.log(currentIndex)
+
     return (
         <React.Fragment >
             <div className="col-12">
@@ -145,7 +149,7 @@ function Homepage() {
             </div>
             {(isSelected && (currentIndex === post_text.length - 1)) ? (
 
-                <div>Start your Journey</div>
+                <a href="/map_pokemons">Start your Journey</a>
             ) : (
                 <div>Click to continue</div>
 
