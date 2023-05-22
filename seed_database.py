@@ -83,7 +83,7 @@ for i in range(0, len(user_list)):
         nickname = random_pokemon.name
         content = f"{nickname} is my favorite pokemon!"
         captured_date = datetime.datetime.now()
-        level = randint(5, 100)
+        level = randint(5, 50)
         stats = {
             "hp": randint(5, 100),
             "attack": randint(5, 50),

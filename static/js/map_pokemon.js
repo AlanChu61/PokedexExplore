@@ -1,15 +1,9 @@
 'use strict';
+let map;
 const sfBayCoords = {
     lat: 37.601773,
     lng: -122.20287,
 };
-
-// (1) init Map
-// (2) fetch pokemon data
-// (3) add user, pokemon markers to map
-// (4) add event listeners to pokemon markers
-// (5) communte time
-
 
 function capturePokemon(evt) {
     const name = evt.target.parentElement.children[1].innerHTML.split(":")[1].trim();
@@ -68,10 +62,8 @@ function calCommuteTime(evt) {
             commuteDetail.innerHTML = `<p>Commute Time: ${commuteTime}by ${request.travelMode}</p> `;
             commuteDiv.appendChild(commuteDetail);
             console.log(response)
-
             directionsRenderer.setMap(map);
-            directionsRenderer.setDirections(response);
-
+            directionsRenderer.setDirections(response); ㄇㄩ
         }
 
     });
@@ -81,17 +73,24 @@ function calCommuteTime(evt) {
 function initMap() {
     const userLocation = sfBayCoords;
 
-    const map = new google.maps.Map(document.querySelector('#map'), {
+    map = new google.maps.Map(document.querySelector('#map'), {
         center: userLocation,
         scrollwheel: false,
         zoom: 10,
         zoomControl: true,
         panControl: false,
         streetViewControl: false,
-        // styles: MAPSTYLES, // mapStyles is defined in mapstyles.js
         mapTypeId: google.maps.MapTypeId.TERRAIN
     });
-
+    const addUserMarkerBtn = document.getElementById('addUserMakerBtn');
+    addUserMarkerBtn.addEventListener('click', addUserMarker);
+    const addPokemonMarkersBtn = document.getElementById('addPokemonMakerBtn');
+    addPokemonMarkersBtn.addEventListener('click', addPokemonMarkers);
+    const addPlayerMarkersBtn = document.getElementById('addPlayerMakerBtn');
+    addPlayerMarkersBtn.addEventListener('click', addPlayerMarkers);
+}
+function addUserMarker() {
+    const userLocation = sfBayCoords;  // Replace with your desired user location
     const userMarker = new google.maps.Marker({
         position: userLocation,
         title: 'You are here',
@@ -106,10 +105,10 @@ function initMap() {
             content: 'You are here',
         });
         userInfoWindow.open(map, userMarker);
-
     });
-    const pokemonInfo = new google.maps.InfoWindow();
+}
 
+function addPokemonMarkers() {
     fetch('/fetch_pokemon_json')
         .then((response) => {
             if (!response.ok) {
@@ -120,12 +119,11 @@ function initMap() {
         .then((data) => {
             const pokemons = data.pokemons;
             pokemons.forEach((pokemon) => {
-                const sizeParameter = (Math.random() - 0.5) * 0.5
                 const pokeLocation = {
-                    lat: (userLocation.lat + sizeParameter).toFixed(2) * 1,
-                    lng: (userLocation.lng + sizeParameter).toFixed(2) * 1,
+                    lat: (map.center.lat() + (Math.random() - 0.5) * 0.5).toFixed(2) * 1,
+                    lng: (map.center.lng() + (Math.random() - 0.5) * 0.5).toFixed(2) * 1,
                 }
-                pokemon.level += Math.floor(Math.random() * 10);
+                pokemon.level += Math.floor(Math.random() * 60);
                 const pokemonInfoContent = `
                 <div class="pokemon-info">
                 <p>Kind ID: ${pokemon.pokemon_id}</p>
@@ -148,8 +146,65 @@ function initMap() {
                     },
                 });
                 pokemonMarker.addListener('click', () => {
+                    const pokemonInfo = new google.maps.InfoWindow();
                     pokemonInfo.setContent(pokemonInfoContent);
                     pokemonInfo.open(map, pokemonMarker);
+                });
+            });
+        })
+        .catch((error) => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
+function addPlayerMarkers() {
+    fetch('/player_list_json')
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data)
+            const players = data.players;
+
+            players.forEach((player) => {
+                const playerLocation = {
+                    lat: (map.center.lat() + (Math.random() - 0.5) * 0.5).toFixed(2) * 1,
+                    lng: (map.center.lng() + (Math.random() - 0.5) * 0.5).toFixed(2) * 1,
+                }
+                const playerInfoContent = `
+            <div class="player-info">
+            <p>Name: ${player.username}</p>
+            <p>Location: lat:${playerLocation.lat}, lng:${playerLocation.lng}</p>
+            <form action="/battle" method="GET">
+                    <input type="hidden" name="player_id" value=${player.player_id} />
+                    <button type="submit">Let's battle</button>
+                </form>
+            </div>`;
+                const icon = player.img
+                    ? { url: player.img, scaledSize: new google.maps.Size(50, 50) }
+                    : {
+                        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                        fillColor: 'red',
+                        fillOpacity: 1,
+                        strokeColor: 'white',
+                        strokeWeight: 2,
+                        scale: 5,
+                    };
+                const playerMarker = new google.maps.Marker({
+                    position: {
+                        lat: playerLocation.lat,
+                        lng: playerLocation.lng,
+                    },
+                    title: player.username,
+                    map: map,
+                    icon: icon,
+                });
+                playerMarker.addListener('click', () => {
+                    const playerInfo = new google.maps.InfoWindow();
+                    playerInfo.setContent(playerInfoContent);
+                    playerInfo.open(map, playerMarker);
                 });
             });
         })
