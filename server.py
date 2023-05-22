@@ -86,7 +86,7 @@ def view_pokemons_json():
     player_id = session['player_id']
     player = crud.get_player_by_id(player_id)
     # get pokemons with player_id
-    player_pokemons = crud.get_pokemons_by_user_id(player.player_id)
+    player_pokemons = player.pokemons
     pokemons = []
     for pokemon in player_pokemons:
         pokemon_dict = {}
@@ -119,6 +119,9 @@ def detail_pokemon_json(pokemon_id):
     pokemon_dict['pokemon_id'] = pokemon.pokemon_id
     pokemon_dict['nickname'] = pokemon.nickname
     pokemon_dict['captured_date'] = pokemon.captured_date
+    pokemon_dict['level'] = pokemon.level
+    pokemon_dict['stats'] = pokemon.stats
+    
     # get pokemon info
     pokemon_info = crud.get_fetch_pokemon_by_id(pokemon.kind_id)
     pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
@@ -214,20 +217,24 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
         username = request.form.get('username')
-
+        if request.form.get('img'):
+            img = request.form.get('img')
+        else:
+            img = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/150.svg"
         if crud.get_player_by_email(email):
             """account exists"""
             flash('Email already exists. Please try again.')
             return redirect('/signup')
         else:
             """new account"""
-            new_player = crud.create_player(email, password, username,img=None)
+            new_player = crud.create_player(email, password, username,img)
             db.session.add(new_player)
             db.session.commit()
             flash('Sign up successfully!')
             session['player_id'] = new_player.player_id
             session['username'] = username
             session['email'] = email
+            session['img'] = img
             return redirect('/')
 
 
@@ -245,6 +252,7 @@ def login():
             session['player_id'] = logined_player.player_id
             session['email'] = email
             session['username'] = logined_player.username
+            session['img'] = logined_player.img
             flash('Login successfully!')
             return redirect('/view_pokemons')
         else:

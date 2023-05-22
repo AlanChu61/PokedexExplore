@@ -28,6 +28,8 @@ function Player(props) {
     const logs = props.logs;
     const setLogs = props.setLogs;
 
+    const [selectedAttacker, setSelectedAttacker] = React.useState(null);
+
     const addLog = React.useCallback(
         new_log => {
             setLogs(prevLogs => [...prevLogs, new_log]);
@@ -35,50 +37,58 @@ function Player(props) {
         [setLogs]
     );
 
+    // assgin an attacker by clicking the button
+    function assignAttacker(evt) {
+        const nickname = (evt.target.parentElement.childNodes[1].innerHTML.toLowerCase())
+        for (let pokemon of playerPokemons) {
+            if (pokemon.nickname == nickname) {
+                setAttacker(pokemon)
+                setSelectedAttacker(nickname)
+                break
+            }
+        }
+    }
+
     function playerAttack(attacker, defender) {
-        addLog(`----Player's turn----`)
-        addLog(`Player's ${attacker.nickname} attacks ${defender.nickname}!`)
+        addLog(`---- ${playerInfo.username}'s turn ----`)
+        addLog(`${playerInfo.username}'s ${attacker.nickname.toUpperCase()} attacks ${defender.nickname.toUpperCase()}!`)
+
         const [new_defender, damage] = attack(attacker, defender)
-        addLog(`${attacker.nickname} made ${damage} damage to ${defender.nickname}!`)
+        addLog(`${attacker.nickname.toUpperCase()} made ${damage} damage to ${defender.nickname.toUpperCase()}!`)
         if (new_defender.stats.hp <= 0) {
-            addLog(`${defender.nickname} fainted!`)
+            addLog(`${defender.nickname.toUpperCase()} fainted!!!`)
             setOpponentPokemons(prevPokemons =>
                 prevPokemons.filter(pokemon => pokemon !== defender)
             );
 
         }
         // switch turn
-        setPlayerActive(false)
-        setOpponentActive(true)
+        // setAttacker(null);
+        setPlayerActive(false);
+        setSelectedAttacker(null);
+        setOpponentActive(true);
         assignDefender();
     }
 
-    function assignAttacker(evt) {
-        const nickname = evt.target.parentElement.childNodes[0].innerHTML.split(":")[1].trim()
-        for (let pokemon of playerPokemons) {
-            if (pokemon.nickname == nickname) {
-                evt.target.parentElement.style.backgroundColor = "green"
-                setAttacker(pokemon)
-            }
-        }
-    }
 
     function assignDefender() {
         // randomly assign a defender
         const randomIndex = Math.floor(Math.random() * playerPokemons.length)
         setDefender(playerPokemons[randomIndex])
-        console.log(`${playerPokemons[randomIndex].nickname} is assigned as defender!`)
+        console.log(`${playerPokemons[randomIndex].nickname.toUpperCase()} is assigned as defender!`)
     }
 
 
     function PlayerPokemon(props) {
-        return <div className="pokemon col-3">
-            <div>Nickname: {props.nickname}</div>
-            <div>Level: {props.level}</div>
-            <div>Front Sprite: <img src={props.front_default} /></div>
+        const isSelectedAttacker = selectedAttacker === props.nickname;
+
+        return <div className={`pokemon col-4 card ${isSelectedAttacker ? 'border-success border-4' : ''}`} key={props.nickname}>
+            <div><img src={props.front_default} /></div>
+            <div>{props.nickname.toUpperCase()}</div>
+            <div>LV: {props.level}</div>
             <div>HP: {props.stats.hp}</div>
-            <div>Attack: {props.stats.attack}</div>
-            <div>Defense: {props.stats.defense}</div>
+            <div>ATK: {props.stats.attack}</div>
+            <div>DEF: {props.stats.defense}</div>
             <button onClick={(evt) => assignAttacker(evt)}>Attacker</button>
         </div>
     }
@@ -99,9 +109,13 @@ function Player(props) {
         <div className="row">
             <div className="col-3">
                 <img src={playerInfo.img} width="100px" />
+                <div>{playerInfo.username}</div>
             </div>
             {playerPokemonList}
-            {playerActive && <button onClick={() => playerAttack(attacker, defender)}>Attack</button>}
-        </div>
+            {playerActive && attacker && defender && (
+                <button onClick={() => playerAttack(attacker, defender)}>Attack</button>
+            )}
+
+        </div >
     )
 }

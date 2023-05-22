@@ -29,6 +29,10 @@ function Opponent(props) {
     const logs = props.logs;
     const setLogs = props.setLogs;
 
+
+    const [selectedDefender, setSelectedDefnder] = React.useState(null);
+
+
     const addLog = React.useCallback(
         new_log => {
             setLogs(prevLogs => [...prevLogs, new_log]);
@@ -36,6 +40,16 @@ function Opponent(props) {
         [setLogs]
     );
 
+    // assgin a defender by clicking the button for player
+    function assignDefender(evt) {
+        const nickname = (evt.target.parentElement.childNodes[1].innerHTML.toLowerCase())
+        for (let pokemon of opponentPokemons) {
+            if (pokemon.nickname == nickname) {
+                setDefender(pokemon)
+                setSelectedDefnder(nickname)
+            }
+        }
+    }
 
     function oppAttack(attacker, defender) {
         addLog(`Opp's ${attacker.nickname} attacks ${defender.nickname}!`)
@@ -56,28 +70,19 @@ function Opponent(props) {
     function assignAttacker() {
         // randomly assign attacker
         const randomIndex = Math.floor(Math.random() * opponentPokemons.length)
-        setAttacker(opponentPokemons[randomIndex], () => {
-            console.log(`#59attacker is set! ${opponentPokemons[randomIndex].nickname}`);
-        });
+        setAttacker(opponentPokemons[randomIndex])
     }
 
-    function assignDefender(evt) {
-        const nickname = evt.target.parentElement.childNodes[0].innerHTML.split(":")[1].trim()
-        for (let pokemon of opponentPokemons) {
-            if (pokemon.nickname == nickname) {
-                evt.target.parentElement.style.backgroundColor = "red"
-                setDefender(pokemon)
-            }
-        }
-    }
+
     function OpponentPokemon(props) {
-        return <div className="col-3">
-            <div>Nickname: {props.nickname}</div>
-            <div>Level: {props.level}</div>
-            <div>Front Sprite: <img src={props.front_default} /></div>
+        const isSelectedDefender = selectedDefender == props.nickname;
+        return <div className={`pokemon col-4 card ${isSelectedDefender ? 'border-danger border-4' : ''}`} key={props.nickname}>
+            <div><img src={props.front_default} /></div>
+            <div>{props.nickname.toUpperCase()}</div>
+            <div>LV: {props.level}</div>
             <div>HP: {props.stats.hp}</div>
-            <div>Attack: {props.stats.attack}</div>
-            <div>Defense: {props.stats.defense}</div>
+            <div>ATK: {props.stats.attack}</div>
+            <div>DEF: {props.stats.defense}</div>
             <button onClick={(evt) => assignDefender(evt)}>Defender</button>
         </div>
     }
@@ -95,6 +100,7 @@ function Opponent(props) {
         )
     }
     React.useEffect(() => {
+        setSelectedDefnder(null)
         if (opponentActive) {
             assignAttacker();
         }
@@ -106,7 +112,7 @@ function Opponent(props) {
             addLog(`----Opponent's turn----`)
             // set attacker
             assignAttacker()
-            console.log(`104attacker is set! ${attacker.nickname}`)
+            console.log(`attacker is set! ${attacker.nickname}`)
             // set defender
             console.log(`defender is set! ${defender.nickname}`)
             // attack
@@ -118,6 +124,7 @@ function Opponent(props) {
         <div className="row">
             {opponentPokemonList}
             <div className="col-3">
+                <div>Opponent:{opponentInfo.username}</div>
                 <img src={opponentInfo.img} width="100px" />
             </div>
         </div>

@@ -12,7 +12,7 @@ function PlayerList() {
     function PlayerInfo(props) {
         const pokemon_list = []
         for (let pokemon of props.player.pokemons) {
-            pokemon_list.push(<div className="col-3" key={pokemon.pokemon_id}>
+            pokemon_list.push(<div className="col-4" key={pokemon.pokemon_id}>
                 <img src={pokemon.img} width="100px" height="100px" />
                 <p>{pokemon.nickname}</p>
                 <p>LV:{pokemon.level}</p>

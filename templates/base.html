@@ -32,6 +32,7 @@
             <li class="nav-item"><a class="nav-link"href="/logout">Logout</a></li>
             <button id="username" onmouseover="showUserInfo()" onmouseout="hideUserInfo()">{{session['username']}}</button>
             <div id="userInfo" style="display: none;">
+              <img id="userImg" src="{{session['img']}}" height="20px" width="20px"/>
               ID: {{session['player_id']}}<br>
               Useranme: {{session['username']}}<br>
               Email: {{session['email']}}

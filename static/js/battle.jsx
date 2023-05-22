@@ -1,6 +1,5 @@
-
+// hepler function to handle attack
 function attack(attacker, defender) {
-    // who(obj) attack, whom is attacked, 
     let damage = Math.floor((2 * attacker.level / 25 + 10) * (attacker.stats.attack / defender.stats.defense) + 2);
     if (defender.stats.hp > damage) {
         defender.stats.hp -= damage;
@@ -9,7 +8,6 @@ function attack(attacker, defender) {
     }
     return [defender, damage];
 }
-
 
 function Battle() {
     // fetch battle info for player pokemon and opponent pokemon
@@ -25,7 +23,7 @@ function Battle() {
 
     const opponentId = document.getElementById('opponent_id').innerHTML
 
-
+    // fecth data for plaer(user) and pokemons  
     React.useEffect(() => {
         fetch('/get_player_pokemon')
             .then((response) => {
@@ -38,6 +36,8 @@ function Battle() {
                 setPlayer(data.player)
                 setPlayerPokemons(data.player_pokemons)
             })
+
+        // fecth data for opponent and pokemons
         fetch(`/get_opponent_pokemon?opponent_id=${opponentId}`)
             .then((response) => {
                 if (!response.ok) {
@@ -51,8 +51,6 @@ function Battle() {
             })
     }, []);
 
-
-
     function Log(prop) {
         return (
             <div>
@@ -60,10 +58,7 @@ function Battle() {
             </div>
         )
     }
-    const logs_list = []
-    for (let log of logs) {
-        logs_list.push(<Log log={log} />)
-    }
+    const logs_list = logs.map((log, index) => <Log key={index} log={log} />);
 
     const addLog = React.useCallback(
         new_log => {
@@ -95,7 +90,9 @@ function Battle() {
     else {
         return (
             <div className="row">
-                {player && <span>{player.username}</span>} vs. {opponent && <span>{opponent.username}</span>}
+                <h1>
+                    {player && <span>{player.username}</span>} vs. {opponent && <span>{opponent.username}</span>}
+                </h1>
 
                 <div className="col-12">
                     <Opponent opponentPokemons={opponentPokemons}

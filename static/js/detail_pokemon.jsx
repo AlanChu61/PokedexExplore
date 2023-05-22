@@ -2,6 +2,8 @@ function DetailPokemon(props) {
     const pokemon_id = props.pokemon_id
     const [pokemon, setPokemon] = React.useState({});
     const [nickname, setNickname] = React.useState("");
+    const [level, setLevel] = React.useState(0);
+    const [stats, setStats] = React.useState({});
     const [comments, setComments] = React.useState([]);
     const [capturedDate, setCapturedDate] = React.useState("");
     const [isUpdateing, setIsUpdateing] = React.useState(false);
@@ -12,6 +14,8 @@ function DetailPokemon(props) {
             .then((data) => {
                 setPokemon(data.pokemon.kind_info);
                 setNickname(data.pokemon.nickname);
+                setLevel(data.pokemon.level)
+                setStats(data.pokemon.stats);
                 setCapturedDate(data.pokemon.captured_date);
                 setComments(data.pokemon.comments);
             });
@@ -109,8 +113,11 @@ function DetailPokemon(props) {
     function Comment(props) {
         return <div className="comment">
             <div hidden> {props.comment_id}</div>
-            <li> {props.content}</li>
-            <li> {props.createdDate}</li>
+            <code>{props.content}</code>
+            <em>
+                @{new Date(props.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </em>
+
             <button onClick={editComment}>Edit</button>
             <button onClick={deleteComment}>Delete</button>
         </div >
@@ -134,12 +141,27 @@ function DetailPokemon(props) {
                 <div className="col-6">
                     <h2>{props.nickname}'s info</h2>
                     <img src={props.pokemon.image} alt="pokemon image" />
-                    <div>Nickname: {props.nickname}
+                    <div>Nickname: {props.nickname.toUpperCase()}
+                        <div>#{props.pokemon.pokemon_id} {props.pokemon.name}</div>
                         <button onClick={handleEdit}>Edit</button></div>
-                    <div>Id: {props.pokemon.pokemon_id}</div>
-                    <div>Name: {props.pokemon.name}</div>
-                    <div>Captured Date:{props.captureDate}</div>
-                    More details...
+                    <div>Level: {props.level}</div>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Stats</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.entries(props.stats).map(([stat, value]) => (
+                                <tr key={stat}>
+                                    <td>{stat}</td>
+                                    <td>{value}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div>Captured Date: {new Date(props.captureDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+
                 </div>
                 <div className="col-6">
                     <h2>Comments</h2>
@@ -167,13 +189,17 @@ function DetailPokemon(props) {
         return (
             <div>
                 <div>
-                    <Pokemon pokemon={pokemon} nickname={nickname} captureDate={capturedDate} />
+                    <Pokemon pokemon={pokemon} nickname={nickname}
+                        level={level}
+                        stats={stats}
+                        captureDate={capturedDate} />
+
                     {isUpdateing && <UpdateForm />}
                 </div>
 
-                <button>
-                    <a href="/view_pokemons">See others</a>
-                </button>
+
+                <a href="/view_pokemons">See fellow</a>
+
             </div>
         );
     }

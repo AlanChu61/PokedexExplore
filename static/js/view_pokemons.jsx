@@ -29,7 +29,7 @@ function ViewPokemons() {
 
 
     function Pokemon(props) {
-        return <div className="pokemon col-6 card">
+        return <div className="pokemon col-4 card">
             <div hidden>pokemon_id:{props.pokemon_id}</div>
             <a href={`/detail_pokemon/${props.pokemon_id}`}>
                 <img src={props.image} alt="pokemon image" />
