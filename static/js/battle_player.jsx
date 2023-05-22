@@ -14,9 +14,16 @@ function Player(props) {
     const playerActive = props.playerActive; // default is true
     const setPlayerActive = props.setPlayerActive;
 
+    const selectedAttacker = props.selectedAttacker;
+    const setSelectedAttacker = props.setSelectedAttacker;
+    const selectedDefender = props.selectedDefender;
+    const setSelectedDefender = props.setSelectedDefender;
+
     // attacker and defender for battle
     const attacker = props.attacker;
     const defender = props.defender;
+
+
 
     // attack method 
     const attack = props.attack;
@@ -28,7 +35,7 @@ function Player(props) {
     const logs = props.logs;
     const setLogs = props.setLogs;
 
-    const [selectedAttacker, setSelectedAttacker] = React.useState(null);
+
 
     const addLog = React.useCallback(
         new_log => {
@@ -66,6 +73,7 @@ function Player(props) {
         // setAttacker(null);
         setPlayerActive(false);
         setSelectedAttacker(null);
+        setSelectedDefender(null);
         setOpponentActive(true);
         assignDefender();
     }
@@ -112,7 +120,7 @@ function Player(props) {
                 <div>{playerInfo.username}</div>
             </div>
             {playerPokemonList}
-            {playerActive && attacker && defender && (
+            {playerActive && selectedAttacker && selectedDefender && (
                 <button onClick={() => playerAttack(attacker, defender)}>Attack</button>
             )}
 

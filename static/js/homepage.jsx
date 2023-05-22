@@ -30,11 +30,39 @@ function Homepage() {
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const [startedPokemon, setStartedPokemon] = React.useState([]);
     const [isSelected, setIsSelected] = React.useState(false);
+    const introText = [
+        "Hello there! Welcome to the world of Pokémon!",
+        "Hi, this is Pokedex Explore APP!",
+        "Here you can capture Pokemons on Google Maps",
+        "And you can also battle with other trainers",
+        "And you can also leave some comments on your lovely Pokemons",
+        "And you can also give them a nickname",
+        "And you can also see your Pokemons' stats",
+        "Please login for better expericne",
+    ]
+
+    const handleNextText = () => {
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+    }
+
     if (!document.getElementById("username")) {
-        return (<React.Fragment >
-            <div>some words here to attract audience to signup</div>
-            <a href="/login">Please login for better expericne</a>
-        </React.Fragment >)
+        return <React.Fragment>
+            <div className="col-12">
+                <img className="img-fluid mx-auto d-block" src="/static/img/oak.png" />
+            </div>
+            <div className="row border bg-dark">
+                <div className="text-white text-center col-12">
+                    {introText[currentIndex]}
+                </div>
+                <div className="col-2 d-flex justify-content-end">
+                    {currentIndex < introText.length - 1 && (
+                        <button onClick={handleNextText} disabled={currentIndex === introText.length - 1}>&#8681;</button>
+                    )}
+                </div>
+            </div>
+            <a href="/login">Login</a>
+        </React.Fragment>
+
     }
     const username = document.getElementById("username").innerHTML.trim();
     const text = [
@@ -75,9 +103,7 @@ function Homepage() {
             })
     }, []);
 
-    const handleNextText = () => {
-        setCurrentIndex((prevIndex) => prevIndex + 1);
-    }
+
 
     function selectPokemon(evt) {
         setIsSelected(true);
@@ -129,7 +155,7 @@ function Homepage() {
             </div>
             <div className="row">
                 {!isSelected ? (
-                    <div className="border bg-dark">
+                    <div className="row border bg-dark">
                         <div className="text-white col-10">
                             {text[currentIndex]}
                         </div>
@@ -139,7 +165,7 @@ function Homepage() {
                             )}
                         </div>
                     </div>
-                ) : <div className="border bg-dark">
+                ) : <div className="row border bg-dark">
                     <div className="text-white col-10">
                         {post_text[currentIndex]}
                     </div>

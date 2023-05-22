@@ -19,6 +19,11 @@ function Opponent(props) {
     let attacker = props.attacker;
     let defender = props.defender;
 
+    const selectedAttacker = props.selectedAttacker;
+    const setSelectedAttacker = props.setSelectedAttacker;
+    const selectedDefender = props.selectedDefender;
+    const setSelectedDefender = props.setSelectedDefender;
+
     // attack method 
     const attack = props.attack;
 
@@ -30,7 +35,6 @@ function Opponent(props) {
     const setLogs = props.setLogs;
 
 
-    const [selectedDefender, setSelectedDefnder] = React.useState(null);
 
 
     const addLog = React.useCallback(
@@ -46,7 +50,7 @@ function Opponent(props) {
         for (let pokemon of opponentPokemons) {
             if (pokemon.nickname == nickname) {
                 setDefender(pokemon)
-                setSelectedDefnder(nickname)
+                setSelectedDefender(nickname)
             }
         }
     }
@@ -100,7 +104,7 @@ function Opponent(props) {
         )
     }
     React.useEffect(() => {
-        setSelectedDefnder(null)
+        setSelectedDefender(null)
         if (opponentActive) {
             assignAttacker();
         }

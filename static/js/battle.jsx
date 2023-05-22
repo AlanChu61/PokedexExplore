@@ -19,6 +19,8 @@ function Battle() {
     const [opponentActive, setOpponentActive] = React.useState(false)
     const [attacker, setAttacker] = React.useState({})
     const [defender, setDefender] = React.useState({})
+    const [selectedAttacker, setSelectedAttacker] = React.useState(null)
+    const [selectedDefender, setSelectedDefender] = React.useState(null)
     const [logs, setLogs] = React.useState(["Battle Start!"])
 
     const opponentId = document.getElementById('opponent_id').innerHTML
@@ -71,21 +73,11 @@ function Battle() {
     if (playerPokemons === null || opponentPokemons === null) {
         return (<div>"Loading"</div>);
     }
-    else if (playerPokemons.length == 0) {
-        return (<div className="row">
-            <div className="col-12">
-                <h1>You lose!</h1>
-                <span>You were defeated {opponent.username}</span>
-            </div>
-        </div>);
+    else if (playerPokemons.length === 0) {
+        return (<div>You have no pokemon to battle!</div>)
     }
-    else if (opponentPokemons.length == 0) {
-        return (<div className="row">
-            <div className="col-12">
-                <h1>You win!</h1>
-                <span>You defeated {opponent.username}</span>
-            </div>
-        </div>);
+    else if (opponentPokemons.length === 0) {
+        return (<div>Opponent has no pokemon to battle!</div>)
     }
     else {
         return (
@@ -104,6 +96,10 @@ function Battle() {
                         opponentActive={opponentActive}
                         setOpponentActive={setOpponentActive}
                         setPlayerActive={setPlayerActive}
+                        selectedAttacker={selectedAttacker}
+                        selectedDefender={selectedDefender}
+                        setSelectedAttacker={setSelectedAttacker}
+                        setSelectedDefender={setSelectedDefender}
                         opponent={opponent} />
                 </div>
                 <div className="col-12">
@@ -115,15 +111,17 @@ function Battle() {
                         playerActive={playerActive}
                         setPlayerActive={setPlayerActive}
                         setOpponentActive={setOpponentActive}
+                        selectedAttacker={selectedAttacker}
+                        selectedDefender={selectedDefender}
+                        setSelectedAttacker={setSelectedAttacker}
+                        setSelectedDefender={setSelectedDefender}
                         player={player} />
-
                 </div>
                 <div className="row">
                     <div className="col-12">
                         Battle History:
                         {logs_list}
                     </div>
-
                 </div>
             </div>
         )
