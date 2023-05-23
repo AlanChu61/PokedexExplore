@@ -144,6 +144,7 @@ function Opponent(props) {
             <div className="col-3">
                 <div>Opponent:{opponentInfo.username}</div>
                 <img src={opponentInfo.img} width="100px" />
+                <div>Win:{opponentInfo.winning_rate.win} Lose:{opponentInfo.winning_rate.lose}</div>
             </div>
         </div>
     )

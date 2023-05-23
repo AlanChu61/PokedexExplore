@@ -181,7 +181,6 @@ def create_comment(pokemon_id):
 def update_comment(comment_id):
     """Update a comment."""
     new_content = request.json.get('content')
-    print(new_content)
     if crud.update_comment_by_comment_id(comment_id, new_content):
         return {
             "success": True,
@@ -253,6 +252,7 @@ def login():
             session['email'] = email
             session['username'] = logined_player.username
             session['img'] = logined_player.img
+            # session['winning_rate'] = logined_player.winning_rate
             flash('Login successfully!')
             return redirect('/view_pokemons')
         else:
@@ -312,6 +312,7 @@ def conver_player_obj2dict(player):
     player_dict['username'] = player.username
     player_dict['email'] = player.email
     player_dict['img']= player.img
+    player_dict['winning_rate']= player.winning_rate
     return player_dict
 
 # battle
@@ -367,6 +368,23 @@ def get_player_pokemon():
         player_pokemons_list.append(convert_pokemon_battle_obj2dict(pokemon))
     return jsonify({"player":player_dict,"player_pokemons": player_pokemons_list})
 
+@app.route('/handle_win', methods=['PUT'])   
+def increase_win_lose():
+    player_id = request.json.get('player_id')
+    opponent_id = request.json.get('opponent_id')
+    crud.increase_win_lose(player_id,opponent_id)
+    player = crud.get_player_by_id(player_id)
+    #print(player.winning_rate)
+    opponent = crud.get_player_by_id(opponent_id)
+
+    return jsonify({"message":"success","player":conver_player_obj2dict(player),"opponent":conver_player_obj2dict(opponent)})
+
+@app.route('/handle_lose',methods=['PUT'])
+def increase_lost_win():
+    player_id = request.json.get('player_id')
+    opponent_id = request.json.get('opponent_id')
+    crud.increase_win_lose(opponent_id,player_id,)
+    return jsonify({"message":"success"})
 
 if __name__ == '__main__':
     connect_to_db(app)

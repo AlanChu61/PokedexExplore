@@ -43,6 +43,7 @@ class Player (db.Model):
     password = db.Column(db.String(25), nullable=False)
     username = db.Column(db.String(25), nullable=False, unique=True)
     img = db.Column(db.String(255), nullable=True)
+    winning_rate = db.Column(db.JSON, nullable=True, default ={"win":0,"lose":0})
     pokemons = db.relationship(
         "Pokemon", secondary="player_pokemons", back_populates="player")
     comments = db.relationship("Comment", back_populates="player")

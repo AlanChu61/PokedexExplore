@@ -122,3 +122,25 @@ def player_login(email, password):
 def get_random_opponent(player_id):
     opponents = Player.query.filter(Player.player_id != player_id).all()
     return sample(opponents, 1)[0]
+
+# def increase_win_lose(player_id, opponent_id):
+#     player = Player.query.get(player_id)
+#     player.winning_rate['win'] += 1
+#     opponent = Player.query.get(opponent_id)
+#     opponent.winning_rate['lose'] += 1
+#     db.session.commit()
+#     player = Player.query.get(player_id)
+#     return True
+
+def increase_win_lose(player_id, opponent_id):
+    player = Player.query.get(player_id)
+    current_winning_rate = player.winning_rate.copy() 
+    current_winning_rate['win'] += 1
+    player.winning_rate = current_winning_rate  
+    opponent = Player.query.get(opponent_id)
+    current_winning_rate = opponent.winning_rate.copy() 
+    current_winning_rate['lose'] -= 1
+    opponent.winning_rate = current_winning_rate 
+    db.session.commit()
+    return True
+

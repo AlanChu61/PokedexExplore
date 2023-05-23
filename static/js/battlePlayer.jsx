@@ -68,7 +68,6 @@ function Player(props) {
 
         }
         // switch turn
-        // setAttacker(null);
         setPlayerActive(false);
         setSelectedAttacker(null);
         setSelectedDefender(null);
@@ -84,8 +83,6 @@ function Player(props) {
         setTimeout(() => {
             setSelectedDefender(playerPokemons[randomIndex].nickname)
         }, 3000)
-
-        console.log(`${playerPokemons[randomIndex].nickname.toUpperCase()} is assigned as defender!`)
     }
 
 
@@ -123,6 +120,7 @@ function Player(props) {
             <div className="col-3">
                 <img src={playerInfo.img} width="100px" />
                 <div>{playerInfo.username}</div>
+                <div>Win:{playerInfo.winning_rate.win} Lose:{playerInfo.winning_rate.lose}</div>
             </div>
             {playerPokemonList}
             {playerActive && selectedAttacker && selectedDefender && (

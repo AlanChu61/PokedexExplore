@@ -35,6 +35,7 @@ function Battle() {
                 return response.json();
             })
             .then((data) => {
+                console.log(data.player.winning_rate)
                 setPlayer(data.player)
                 setPlayerPokemons(data.player_pokemons)
             })
@@ -73,11 +74,11 @@ function Battle() {
     if (playerPokemons === null || opponentPokemons === null) {
         return (<div>"Loading"</div>);
     }
-    else if (playerPokemons.length === 0) {
-        return (<div>You have no pokemon to battle!</div>)
-    }
-    else if (opponentPokemons.length === 0) {
-        return (<div>Opponent has no pokemon to battle!</div>)
+    else if (playerPokemons.length == 0 || opponentPokemons.length == 0) {
+        return (<BattleOver
+            player={player} opponent={opponent}
+            setPlayer={setPlayer} setOpponent={setOpponent}
+            playerPokemons={playerPokemons} opponentPokemons={opponentPokemons} />)
     }
     else {
         return (
