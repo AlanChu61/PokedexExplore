@@ -128,8 +128,8 @@ def get_random_opponent(player_id):
 #     player.winning_rate['win'] += 1
 #     opponent = Player.query.get(opponent_id)
 #     opponent.winning_rate['lose'] += 1
+#     db.session.add_all([player, opponent])
 #     db.session.commit()
-#     player = Player.query.get(player_id)
 #     return True
 
 def increase_win_lose(player_id, opponent_id):
@@ -139,7 +139,7 @@ def increase_win_lose(player_id, opponent_id):
     player.winning_rate = current_winning_rate  
     opponent = Player.query.get(opponent_id)
     current_winning_rate = opponent.winning_rate.copy() 
-    current_winning_rate['lose'] -= 1
+    current_winning_rate['lose'] += 1
     opponent.winning_rate = current_winning_rate 
     db.session.commit()
     return True

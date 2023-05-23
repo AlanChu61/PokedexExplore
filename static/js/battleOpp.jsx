@@ -96,7 +96,7 @@ function Opponent(props) {
             <div>HP: {props.stats.hp}</div>
             <div>ATK: {props.stats.attack}</div>
             <div>DEF: {props.stats.defense}</div>
-            <button onClick={(evt) => assignDefender(evt)}>Defender</button>
+            {!opponentActive && (<button onClick={(evt) => assignDefender(evt)}>Defender</button>)}
         </div>
     }
 
