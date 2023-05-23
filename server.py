@@ -12,7 +12,7 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """Show homepage."""
 
-    return render_template('homepage.html')
+    return render_template('homepage.html', title="HomePage")
 
 @app.route('/get_started')
 def get_started():
@@ -36,7 +36,7 @@ def fetch_pokemons():
 
 @app.route('/map_pokemons')
 def get_map_pokemons():
-    return render_template('map_pokemons.html')
+    return render_template('map_pokemons.html', title="MapPokemons")
 
 
 @app.route('/fetch_pokemon_json')
@@ -76,7 +76,7 @@ def capture_pokemon():
 
 @app.route('/view_pokemons')
 def view_pokemons():
-    return render_template('view_pokemons.html')
+    return render_template('view_pokemons.html', title="ViewPokemons")
 
 
 @app.route('/view_pokemons_json')
@@ -107,7 +107,7 @@ def view_pokemons_json():
 def detail_pokemon(pokemon_id):
     """Show detail of a pokemon."""
     nickname = crud.get_nickname_by_pokemon_id(pokemon_id)
-    title = nickname+"'s Detail"
+    title = nickname.capitalize()+"'s Info"
     return render_template('detail_pokemon.html', title=title, pokemon_id=pokemon_id)
 
 
@@ -210,7 +210,7 @@ def delete_comment(comment_id):
 def signup():
     """Show signup form."""
     if request.method == 'GET':
-        return render_template('signup.html')
+        return render_template('signup.html', title='Sign Up')
 
     """Create a new user."""
     if request.method == 'POST':
@@ -242,7 +242,7 @@ def signup():
 def login():
     """Show login form."""
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('login.html',title='Login')
     else:
         """Log in a user."""
         email = request.form.get('email')

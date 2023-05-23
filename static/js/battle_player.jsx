@@ -14,6 +14,7 @@ function Player(props) {
     const playerActive = props.playerActive; // default is true
     const setPlayerActive = props.setPlayerActive;
 
+    // handle selected attacker and defender for css style
     const selectedAttacker = props.selectedAttacker;
     const setSelectedAttacker = props.setSelectedAttacker;
     const selectedDefender = props.selectedDefender;
@@ -23,10 +24,9 @@ function Player(props) {
     const attacker = props.attacker;
     const defender = props.defender;
 
-
-
     // attack method 
     const attack = props.attack;
+
 
     // Opponent's turn
     const setOpponentActive = props.setOpponentActive;
@@ -34,8 +34,6 @@ function Player(props) {
     // recod battle log
     const logs = props.logs;
     const setLogs = props.setLogs;
-
-
 
     const addLog = React.useCallback(
         new_log => {
@@ -83,14 +81,21 @@ function Player(props) {
         // randomly assign a defender
         const randomIndex = Math.floor(Math.random() * playerPokemons.length)
         setDefender(playerPokemons[randomIndex])
+        setTimeout(() => {
+            setSelectedDefender(playerPokemons[randomIndex].nickname)
+        }, 3000)
+
         console.log(`${playerPokemons[randomIndex].nickname.toUpperCase()} is assigned as defender!`)
     }
 
 
     function PlayerPokemon(props) {
         const isSelectedAttacker = selectedAttacker === props.nickname;
-
-        return <div className={`pokemon col-4 card ${isSelectedAttacker ? 'border-success border-4' : ''}`} key={props.nickname}>
+        const isSelectedDefender = selectedDefender === props.nickname;
+        return <div className={`pokemon col-4 card 
+        ${isSelectedAttacker ? 'border-success border-4' : ''}
+        ${isSelectedDefender ? 'border-danger border-4' : ''}
+        `} key={props.nickname}>
             <div><img src={props.front_default} /></div>
             <div>{props.nickname.toUpperCase()}</div>
             <div>LV: {props.level}</div>

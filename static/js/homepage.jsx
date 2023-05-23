@@ -60,7 +60,7 @@ function Homepage() {
                     )}
                 </div>
             </div>
-            <a href="/login">Login</a>
+            <div className="text-center">Please <a href="/login">Login</a> for better experience!</div>
         </React.Fragment>
 
     }

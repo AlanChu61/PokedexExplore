@@ -64,23 +64,32 @@ function Opponent(props) {
             setPlayerPokemons(prevPokemons =>
                 prevPokemons.filter(pokemon => pokemon !== defender)
             );
-
         }
         // switch turn
+        setSelectedAttacker(null);
+        setSelectedDefender(null);
         setOpponentActive(false)
         setPlayerActive(true)
+
     }
 
     function assignAttacker() {
         // randomly assign attacker
         const randomIndex = Math.floor(Math.random() * opponentPokemons.length)
         setAttacker(opponentPokemons[randomIndex])
+        setTimeout(() => {
+            setSelectedAttacker(opponentPokemons[randomIndex].nickname), 1000
+        })
     }
 
 
     function OpponentPokemon(props) {
         const isSelectedDefender = selectedDefender == props.nickname;
-        return <div className={`pokemon col-4 card ${isSelectedDefender ? 'border-danger border-4' : ''}`} key={props.nickname}>
+        const isSelectedAttacker = selectedAttacker == props.nickname;
+        return <div className={`pokemon col-4 card 
+        ${isSelectedDefender ? 'border-danger border-4' : ''}
+        ${isSelectedAttacker ? 'border-success border-4' : ''}
+        `} key={props.nickname}>
             <div><img src={props.front_default} /></div>
             <div>{props.nickname.toUpperCase()}</div>
             <div>LV: {props.level}</div>
@@ -113,15 +122,20 @@ function Opponent(props) {
     React.useEffect(() => {
         if (opponentActive) {
             // battle setup
-            addLog(`----Opponent's turn----`)
-            // set attacker
-            assignAttacker()
-            console.log(`attacker is set! ${attacker.nickname}`)
-            // set defender
-            console.log(`defender is set! ${defender.nickname}`)
-            // attack
-            oppAttack(attacker, defender)
-            console.log('battle done!')
+            setTimeout(() => {
+                addLog(`---- ${opponentInfo.username}'s turn ----`);
+                // set attacker
+                setTimeout(() => {
+                    assignAttacker();
+                    // set defender
+                    setTimeout(() => {
+                        // attack
+                        setTimeout(() => {
+                            oppAttack(attacker, defender);
+                        }, 1000);
+                    }, 2000);
+                }, 1000);
+            }, 1000);
         }
     }, [attacker]);
     return (
