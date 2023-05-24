@@ -78,6 +78,7 @@ function BattleOver(props) {
 
         function handleAddComment(evt) {
             evt.preventDefault();
+            evt.currentTarget.disabled = true
             const content = prompt("Enter Some comment", `${props.nickname} is so awseome!`)
             if (content == "") {
                 alert("Please enter comment")

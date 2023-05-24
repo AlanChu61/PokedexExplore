@@ -129,4 +129,4 @@ function Battle() {
     }
 }
 
-ReactDOM.render(<Battle />, document.getElementById('root'))
+ReactDOM.render(<Battle />, document.getElementById('battle'))

@@ -1,0 +1,36 @@
+*{
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-family: 'Cute Font', cursive;
+}
+html{
+    width:100vw;
+    height: 100vh;
+}
+#homepage::before {
+    content: "";
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-size: cover;
+    background-image: url("../img/lab.png");
+    opacity: 0.25;
+    z-index: -1; 
+}
+.centered-element {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+}
+#battle::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-image: url("../img/battle_field.png");
+    opacity: 0.25;
+    z-index: -1; 
+}

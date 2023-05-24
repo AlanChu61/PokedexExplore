@@ -1,9 +1,10 @@
 'use strict';
 let map;
 let userMarker;
-const sfBayCoords = {
-    lat: 37.601773,
-    lng: -122.20287,
+let overview_path;
+const sunnyvaleCoords = {
+    lat: 37.3816,
+    lng: -122.0374,
 };
 function moveUserMarker(deltaLat, deltaLng) {
     const currentPosition = userMarker.getPosition();
@@ -12,6 +13,23 @@ function moveUserMarker(deltaLat, deltaLng) {
         currentPosition.lng() + deltaLng
     );
     userMarker.setPosition(newPosition);
+}
+
+function bringMeThere(lat, lng) {
+    const currentPosition = userMarker.getPosition();
+    let cnt = 0;
+    for (let path of overview_path) {
+        cnt += 1;
+        if (cnt % 10 != 0) {
+            continue;
+        }
+        console.log(userMarker.getPosition().lat(), userMarker.getPosition().lng())
+        lat = path.lat();
+        lng = path.lng();
+        let newPosition = new google.maps.LatLng(lat, lng);
+        userMarker.setPosition(newPosition);
+        console.log(userMarker.getPosition().lat(), userMarker.getPosition().lng())
+    }
 }
 
 function capturePokemon(evt) {
@@ -67,7 +85,12 @@ function calCommuteTime(evt) {
     let directionsRenderer = new google.maps.DirectionsRenderer();
 
     directionsService.route(request, function (response, status) {
+        // output the overview_path of the response
+        // [{'lat': 37.3816, 'lng': -122.0374},...]
+        overview_path = response.routes[0].overview_path;
         if (status === 'OK') {
+            directionsRenderer.setMap(map);
+            directionsRenderer.setDirections(response);
             const commuteTime = response.routes[0].legs[0].duration.text;
             const startAddress = response.routes[0].legs[0].start_address;
             const endAddress = response.routes[0].legs[0].end_address;
@@ -81,11 +104,8 @@ function calCommuteTime(evt) {
                 <p>Start Address: ${startAddress}</p>
                 <p>End Address: ${endAddress}</p>
             `;
-
             commuteDiv.appendChild(commuteDetail);
 
-            directionsRenderer.setMap(map);
-            directionsRenderer.setDirections(response);
         }
     });
 }
@@ -93,12 +113,12 @@ function calCommuteTime(evt) {
 
 
 function initMap() {
-    const userLocation = sfBayCoords;
+    const userLocation = sunnyvaleCoords;
 
     map = new google.maps.Map(document.querySelector('#map'), {
         center: userLocation,
         scrollwheel: false,
-        zoom: 12,
+        zoom: 10,
         zoomControl: true,
         panControl: false,
         streetViewControl: false,
@@ -122,7 +142,7 @@ function initMap() {
 }
 
 function addUserMarker() {
-    const userLocation = sfBayCoords;  // Replace with your desired user location
+    const userLocation = sunnyvaleCoords;  // Replace with your desired user location
     userMarker = new google.maps.Marker({
         position: userLocation,
         title: 'You are here',
@@ -169,6 +189,7 @@ function addPokemonMarkers() {
                 <p>Location: lat:${pokeLocation.lat.toFixed(2)}, lng:${pokeLocation.lng.toFixed(2)}</p>
                 ${buttonContent}
                 <button onclick="calCommuteTime(event)">Cal Commute Time</button>
+                <button onclick="bringMeThere(event)">bringMeThere</button>
                 </div>`;
                 const pokemonMarker = new google.maps.Marker({
                     position: {

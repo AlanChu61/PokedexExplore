@@ -7,21 +7,25 @@
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" crossorigin></script>
+    <!-- Google Font "Cute Font" -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <!-- Your custom styles -->
+    <link rel="stylesheet" href="/static/css/style.css">
     
-   
-    <title>{{title}}| PokeDex Explore</title> 
+  
+    <title>{{title}} | PokeDex Explore</title> 
 </head>
 <body>
-  <div class="container">
     
-    <nav>
+    <nav class="bg-warning  ">
       <ul class="nav nav-tabs">
         
             <li class="nav-item"><a class="nav-link" href="/">Homepage</a></li> 
-            <li class="nav-item"><a class="nav-link" href="/player_list">Players</a></li>
+            <li class="nav-item ms-auto"><a class="nav-link" href="/player_list">Players</a></li>
             
             {% if 'username' in session %}
             <li class="nav-item"><a  class="nav-link"href="/map_pokemons">Map</a></li>
@@ -29,16 +33,14 @@
             <li class="nav-item"><a class="nav-link"href="/view_pokemons">View Pokemon</a></li>
             <!-- <li class="nav-item"><a class="nav-link"href="/battle">Battle</a></li> -->
             <li class="nav-item"><a class="nav-link"href="/logout">Logout</a></li>
-            <button id="username" onmouseover="showUserInfo()" onmouseout="hideUserInfo()">{{session['username']}}</button>
+            <button class="btn btn-primary rounded-circle" id="username" onclick="toggleUserInfo()">{{session['username']}}</button>
             <div id="userInfo" style="display: none;">
               <img id="userImg" src="{{session['img']}}" height="20px" width="20px"/>
               ID: {{session['player_id']}}<br>
               Useranme: {{session['username']}}<br>
               Email: {{session['email']}}
             </div>
- 
             {% else %}
-
             <li class="nav-item"><a class="nav-link"href="/login">Login</a></li>          
             <li class="nav-item"><a class="nav-link"href="/signup">Signup</a></li>  
             {% endif %}
@@ -49,20 +51,24 @@
       {{ msg }}
     </p>
   {% endfor %}
+
+  
 {% block content %}
 {% endblock %}
 
-</div>
+<footer class="page-footer text-center text-white bg-warning">
+  Copyright&copy; <span id="currentYear"></span> Alan Hwader Chu. All rights reserved.
+</footer>
 {% block js %}
-
 {% endblock %}
 <script>
-  function showUserInfo() {
-    document.getElementById("userInfo").style.display = "block";
-  }
-  
-  function hideUserInfo() {
-    document.getElementById("userInfo").style.display = "none";
+  document.addEventListener("DOMContentLoaded", function() {
+    let currentYear = new Date().getFullYear();
+    document.getElementById("currentYear").textContent = currentYear;
+  });
+  function toggleUserInfo() {
+    const userInfo = document.getElementById("userInfo");
+    userInfo.style.display = userInfo.style.display === "none" ? "block" : "none";
   }
 </script>
 </body>

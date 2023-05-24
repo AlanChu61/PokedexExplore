@@ -38,7 +38,7 @@ function Homepage() {
         "And you can also leave some comments on your lovely Pokemons",
         "And you can also give them a nickname",
         "And you can also see your Pokemons' stats",
-        "Please login for better expericne",
+        "Please login for better expericne!",
     ]
 
     const handleNextText = () => {
@@ -51,12 +51,12 @@ function Homepage() {
                 <img className="img-fluid mx-auto d-block" src="/static/img/oak.png" />
             </div>
             <div className="row border bg-dark">
-                <div className="text-white text-center col-12">
+                <div className="text-white text-left col-10">
                     {introText[currentIndex]}
                 </div>
                 <div className="col-2 d-flex justify-content-end">
                     {currentIndex < introText.length - 1 && (
-                        <button onClick={handleNextText} disabled={currentIndex === introText.length - 1}>&#8681;</button>
+                        <button className="btn btn-primary btn-sm" onClick={handleNextText} disabled={currentIndex === introText.length - 1}>&#8681;</button>
                     )}
                 </div>
             </div>
@@ -150,7 +150,7 @@ function Homepage() {
 
     return (
         <React.Fragment >
-            <div className="col-12">
+            <div className="col-12 lab">
                 <img className="img-fluid mx-auto d-block" src="/static/img/oak.png" />
             </div>
             <div className="row">
