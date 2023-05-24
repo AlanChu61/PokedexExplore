@@ -8,10 +8,10 @@ Please go to proposal.md for more details!
     - signup(login) -> homepage(get started) -> map -> view pokemons -> detail(change nickname/make comments) -> battle 
 - Optimize the battle page (although it works, it can be better)
     - Here are some feature I noticed that not working that well 
-    1. click attacker and css not working immeditelty
-    2. once attacker and defender decided, then attack button shows up
-    3. once battle is down, think about what page or info should be shown (no idea now...)
-    4. when Opp/com is attacking, maybe add some css to show that... better for the user to follow
+    1. (fixed) click attacker and css not working immeditelty 
+    2. (fixed) once attacker and defender decided, then attack button shows up 
+    3. (added) once battle is down, think about what page or info should be shown (no idea now...) 
+    4. (added) when Opp/com is attacking, maybe add some css to show that... better for the user to follow
 - Capture pokemon with curve throw (like Pokemon Go does)
     - maybe need some js to follow the location of DOM?(not sure yet)
 - Player should defeat the pokemon before capture it(not sure yet)

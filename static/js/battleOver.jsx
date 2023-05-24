@@ -15,7 +15,10 @@ function BattleOver(props) {
     }, [playerInfo, opponentInfo]);
 
 
-    function handleIncreaseWin() {
+    function handleIncreaseWin(evt) {
+        evt.preventDefault();
+        evt.currentTarget.disabled = true
+
         fetch('/handle_win', {
             method: 'PUT',
             body: JSON.stringify({
@@ -33,20 +36,47 @@ function BattleOver(props) {
                 return response.json();
             })
             .then((data) => {
-                console.log(data.player)
                 setPlayerInfo(data.player);
                 setOpponentInfo(data.opponent);
+                setWinner("")
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     }
 
-
+    function handleIncreaseLose() {
+        evt.preventDefault();
+        evt.currentTarget.disabled = true
+        fetch('/handle_lose', {
+            method: 'PUT',
+            body: JSON.stringify({
+                player_id: playerInfo.player_id,
+                opponent_id: opponentInfo.player_id
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setPlayerInfo(data.player);
+                setOpponentInfo(data.opponent);
+                setWinner("")
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
     function PlayerPokemon(props) {
+
         function handleAddComment(evt) {
-            console.log(props)
             evt.preventDefault();
             const content = prompt("Enter Some comment", `${props.nickname} is so awseome!`)
             if (content == "") {
@@ -67,16 +97,25 @@ function BattleOver(props) {
                 });
         }
 
-        return <div className={`pokemon col-4 card `} key={props.nickname}>
+        return <div className={`pokemon col-6 card`} key={props.nickname}>
             <div>
                 <a href={`detail_pokemon/${props.pokemon_id}`}>
                     <img src={props.front_default} />
                 </a>
             </div>
-
             <div>{props.nickname.toUpperCase()}</div>
             <div>LV: {props.level}</div>
-            <button onClick={handleAddComment}>Leave some comments</button>
+            <button className="btn btn-info" onClick={handleAddComment}>Leave some comments</button>
+        </div >
+    }
+
+    function OpponentPokemon(props) {
+        return <div className={`pokemon col-6 card`} key={props.nickname}>
+            <div>
+                <img src={props.front_default} />
+            </div>
+            <div>{props.nickname.toUpperCase()}</div>
+            <div>LV: {props.level}</div>
         </div >
     }
 
@@ -92,19 +131,58 @@ function BattleOver(props) {
             />,
         )
     }
+    const opponentPokemonList = []
+    for (const pokemon of opponentPokemons) {
+        opponentPokemonList.push(
+            <OpponentPokemon
+                key={pokemon.pokemon_id}
+                pokemon_id={pokemon.pokemon_id}
+                nickname={pokemon.nickname}
+                level={pokemon.level}
+                front_default={pokemon.front_default}
+            />,
+        )
+    }
 
 
 
     return (
         <React.Fragment>
             <div className="row">
+                <div className="col-9">
+                    <div className="row">
+                        {opponentPokemonList}
+                    </div>
+                </div>
+                <div className="col-3">
+                    <img src={opponentInfo.img} width="100px" />
+                    <div>{opponentInfo.username}</div>
+                    <div>Win:{opponentInfo.winning_rate.win}
+                    </div>
+                    <div>Lose:{opponentInfo.winning_rate.lose}
+                    </div>
+                </div>
+
+            </div >
+
+
+            <div className="row">< div className="col-12" >
+                {winner == playerInfo ? <h1 className="text-center">You Win!</h1> : <h1 className="text-center">You Lose!</h1>
+                }
+            </div >
+            </div>
+            <div className="row">
                 <div className="col-3">
                     <img src={playerInfo.img} width="100px" />
                     <div>{playerInfo.username}</div>
                     <div>Win:{playerInfo.winning_rate.win}
-                        {winner == playerInfo && <button onClick={handleIncreaseWin}>+1</button>}</div>
+                        {winner == playerInfo &&
+                            <button className="btn btn-success" onClick={handleIncreaseWin}> +1 </button>}</div>
                     <div>Lose:{playerInfo.winning_rate.lose}
-                        {winner != playerInfo && <button onClick={handleIncreaseWin}>+1</button>}</div>
+                        {winner == opponentInfo && (
+                            <button className="btn btn-danger" onClick={handleIncreaseLose}> +1 </button>)
+                        }</div>
+
                 </div>
                 <div className="col-9">
                     <div className="row">
@@ -112,13 +190,7 @@ function BattleOver(props) {
                     </div>
                 </div>
             </div >
-
-            <div className="row">< div className="col-12" >
-                {winner == playerInfo ? <h1 className="text-center">You Win!</h1> : <h1 className="text-center">You Lose!</h1>
-                }
-            </div >
-            </div>
-            <a href="/battle">Back to Battle</a>
-        </React.Fragment>)
+            <a className="text-center" href="/player_list">Battle with others</a>
+        </React.Fragment >)
 
 }

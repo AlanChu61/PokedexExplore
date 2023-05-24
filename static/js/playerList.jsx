@@ -23,7 +23,7 @@ function PlayerList() {
                 <img src={props.player.img} width="50px" height="100px" />
                 <p>{props.player.username}
                 </p>
-                <p>Win:{props.player.winning_rate.Win} Lose:{props.player.winning_rate.Lose}</p>
+                <p>Win:{props.player.winning_rate.win} Lose:{props.player.winning_rate.lose}</p>
                 <form action="/battle" method="GET">
                     <input type="hidden" name="player_id" value={props.player.player_id} />
                     <button type="submit">Let's battle</button>

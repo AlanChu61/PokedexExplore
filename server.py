@@ -369,15 +369,24 @@ def get_player_pokemon():
     return jsonify({"player":player_dict,"player_pokemons": player_pokemons_list})
 
 @app.route('/handle_win', methods=['PUT'])   
-def increase_win_lose():
+def handle_win():
     player_id = request.json.get('player_id')
     opponent_id = request.json.get('opponent_id')
     crud.increase_win_lose(player_id,opponent_id)
     player = crud.get_player_by_id(player_id)
-    #print(player.winning_rate)
     opponent = crud.get_player_by_id(opponent_id)
-
     return jsonify({"message":"success","player":conver_player_obj2dict(player),"opponent":conver_player_obj2dict(opponent)})
+
+@app.route('/handle_lose', methods=['PUT'])   
+def handle_lose():
+    player_id = request.json.get('player_id')
+    opponent_id = request.json.get('opponent_id')
+    crud.increase_win_lose(opponent_id,player_id)
+    player = crud.get_player_by_id(player_id)
+    opponent = crud.get_player_by_id(opponent_id)
+    return jsonify({"message":"success","player":conver_player_obj2dict(player),"opponent":conver_player_obj2dict(opponent)})
+
+
 
 @app.route('/handle_lose',methods=['PUT'])
 def increase_lost_win():
