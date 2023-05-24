@@ -16,20 +16,24 @@ function moveUserMarker(deltaLat, deltaLng) {
 }
 
 function bringMeThere(lat, lng) {
-    const currentPosition = userMarker.getPosition();
-    let cnt = 0;
-    for (let path of overview_path) {
-        cnt += 1;
-        if (cnt % 10 != 0) {
-            continue;
+    let index = 0;
+    function loop() {
+        if (index >= overview_path.length) {
+            return;  // break the loop
         }
-        console.log(userMarker.getPosition().lat(), userMarker.getPosition().lng())
-        lat = path.lat();
-        lng = path.lng();
-        let newPosition = new google.maps.LatLng(lat, lng);
-        userMarker.setPosition(newPosition);
-        console.log(userMarker.getPosition().lat(), userMarker.getPosition().lng())
+        setTimeout(() => {
+            // console.log(userMarker.getPosition().lat(), userMarker.getPosition().lng());
+            lat = overview_path[index].lat();
+            lng = overview_path[index].lng();
+            let newPosition = new google.maps.LatLng(lat, lng);
+            userMarker.setPosition(newPosition);
+            // console.log(userMarker.getPosition().lat(), userMarker.getPosition().lng());
+            index++;
+            loop();  // 
+        }, 200); // 
+
     }
+    loop();  // start the loop
 }
 
 function capturePokemon(evt) {
@@ -183,10 +187,10 @@ function addPokemonMarkers() {
 
                 const pokemonInfoContent = `
                 <div class="pokemon-info">
-                <p>Kind ID: ${pokemon.pokemon_id}</p>
-                <p>Name: ${pokemon.name}</p>
-                <p>LV: ${pokemon.level}</p>
-                <p>Location: lat:${pokeLocation.lat.toFixed(2)}, lng:${pokeLocation.lng.toFixed(2)}</p>
+                <div>Kind ID: ${pokemon.pokemon_id}</div>
+                <div>Name: ${pokemon.name}</div>
+                <div>LV: ${pokemon.level}</div>
+                <div>Location: lat:${pokeLocation.lat.toFixed(2)}, lng:${pokeLocation.lng.toFixed(2)}</div>
                 ${buttonContent}
                 <button onclick="calCommuteTime(event)">Cal Commute Time</button>
                 <button onclick="bringMeThere(event)">bringMeThere</button>
@@ -235,8 +239,8 @@ function addPlayerMarkers() {
                 }
                 const playerInfoContent = `
             <div class="player-info">
-            <p>Name: ${player.username}</p>
-            <p>Location: lat:${playerLocation.lat}, lng:${playerLocation.lng}</p>
+            <div>Name: ${player.username}</div>
+            <div>Location: lat:${playerLocation.lat}, lng:${playerLocation.lng}</div>
             <form action="/battle" method="GET">
                     <input type="hidden" name="player_id" value=${player.player_id} />
                     <button type="submit">Let's battle</button>
