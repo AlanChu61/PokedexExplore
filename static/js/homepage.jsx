@@ -122,19 +122,25 @@ function Homepage() {
                 onMouseLeave={() => setIsHovered(false)}
             >
                 {isHovered ? (
-                    <div>
-                        <img src={props.image} width="100px" height="100px" />
-                        <div>#{props.pokemon_id} {props.name}</div>
-                        <div>Level: {props.level}</div>
-                        <div>HP: {props.stats.hp}</div>
-                        <div>Attack: {props.stats.attack}</div>
-                        <div>Defense: {props.stats.defense}</div>
+                    <div className="row showHover">
+                        <div className="col-5">
+                            <img src={props.image} height="100rem" width="auto" />
+                            <div>#{props.pokemon_id} {props.name}</div>
+                        </div>
+                        <div className="col-7">
+                            <div>LV: {props.level}</div>
+                            <div>HP: {props.stats.hp}</div>
+                            <div>Attack: {props.stats.attack}</div>
+                            <div>Defense: {props.stats.defense}</div>
+
+                        </div>
                         <button onClick={selectPokemon}>I want you!</button>
                     </div>
                 ) : (
-                    <img className="img-fluid mx-auto d-block" src="static/img/pokeBall.png" width="50px" height="50px" />
-                )}
-            </div>
+                    <img className="img-fluid mx-auto d-block" src="static/img/pokeBall.png" width="75rem" height="auto" />
+                )
+                }
+            </div >
         );
     }
     const pokeBalls = []
@@ -153,7 +159,10 @@ function Homepage() {
             <div className="col-12 lab">
                 <img className="img-fluid mx-auto d-block" src="/static/img/oak.png" />
             </div>
-            <div className="row">
+            {currentIndex === text.length - 1 && !isSelected && (
+                <div className="row">{pokeBalls}</div>
+            )}
+            <div className="row pt-5 mx-5">
                 {!isSelected ? (
                     <div className="row border bg-dark">
                         <div className="text-white col-10">
@@ -180,12 +189,10 @@ function Homepage() {
 
                 <a href="/map_pokemons">Start your Journey</a>
             ) : (
-                <div>Click to continue</div>
+                <div className="text-center">Click to continue</div>
 
             )}
-            {currentIndex === text.length - 1 && !isSelected && (
-                <div className="row">{pokeBalls}</div>
-            )}
+
         </React.Fragment >
     );
 }

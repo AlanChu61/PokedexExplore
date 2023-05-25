@@ -2,6 +2,7 @@
 let map;
 let userMarker;
 let overview_path;
+let directionsRenderer;
 const sunnyvaleCoords = {
     lat: 37.3816,
     lng: -122.0374,
@@ -15,8 +16,9 @@ function moveUserMarker(deltaLat, deltaLng) {
     userMarker.setPosition(newPosition);
 }
 
-function bringMeThere(lat, lng) {
+function bringMeThere() {
     let index = 0;
+    let lat, lng;
     function loop() {
         if (index >= overview_path.length) {
             return;  // break the loop
@@ -27,10 +29,28 @@ function bringMeThere(lat, lng) {
             lng = overview_path[index].lng();
             let newPosition = new google.maps.LatLng(lat, lng);
             userMarker.setPosition(newPosition);
-            // console.log(userMarker.getPosition().lat(), userMarker.getPosition().lng());
             index++;
             loop();  // 
-        }, 200); // 
+        }, 50); // 
+
+        // check if distance is close to capture
+
+        let pokeLocation = overview_path.slice(-1)[0];
+        let distance = ((pokeLocation.lat() - userMarker.getPosition().lat()) ** 2 + (pokeLocation.lng() - userMarker.getPosition().lng()) ** 2) ** 0.5;
+
+        const captureBtn = document.getElementById('capturability');
+        const captureBtnParent = captureBtn.parentElement;
+        if (distance > 0.02) {
+            captureBtn.innerHTML = "Too far";
+            captureBtn.style.color = "red";
+        }
+        else {
+            captureBtnParent.removeChild(captureBtn);
+            const newCaptureBtn = document.createElement('button');
+            newCaptureBtn.innerHTML = "Capture";
+            newCaptureBtn.setAttribute("onclick", "capturePokemon(event)");
+            captureBtnParent.insertAdjacentElement("beforeend", newCaptureBtn);
+        }
 
     }
     loop();  // start the loop
@@ -86,8 +106,12 @@ function calCommuteTime(evt) {
     };
 
     let directionsService = new google.maps.DirectionsService();
-    let directionsRenderer = new google.maps.DirectionsRenderer();
+    if (directionsRenderer) {
+        directionsRenderer.setMap(null);
+        directionsRenderer.setDirections(null);
+    }
 
+    directionsRenderer = new google.maps.DirectionsRenderer();
     directionsService.route(request, function (response, status) {
         // output the overview_path of the response
         // [{'lat': 37.3816, 'lng': -122.0374},...]
@@ -100,13 +124,13 @@ function calCommuteTime(evt) {
             const endAddress = response.routes[0].legs[0].end_address;
 
             const commuteDiv = document.getElementById('calCommuteTime');
-            commuteDiv.innerHTML = "<div>Here shows run time info:</div>";
+            commuteDiv.innerHTML = "";
 
             const commuteDetail = document.createElement('div');
             commuteDetail.innerHTML = `
-                <p>Commute Time: ${commuteTime} by ${request.travelMode}</p>
-                <p>Start Address: ${startAddress}</p>
-                <p>End Address: ${endAddress}</p>
+                <div>Commute Time: ${commuteTime} by ${request.travelMode}</div>
+                <div>Start Address: ${startAddress}</div>
+                <div>End Address: ${endAddress}</div>
             `;
             commuteDiv.appendChild(commuteDetail);
 
@@ -134,6 +158,7 @@ function initMap() {
     addPokemonMarkersBtn.addEventListener('click', addPokemonMarkers);
     const addPlayerMarkersBtn = document.getElementById('addPlayerMakerBtn');
     addPlayerMarkersBtn.addEventListener('click', addPlayerMarkers);
+
     const upBtn = document.getElementById('upBtn');
     const downBtn = document.getElementById('downBtn');
     const leftBtn = document.getElementById('leftBtn');
@@ -181,9 +206,6 @@ function addPokemonMarkers() {
                     lng: (map.center.lng() + (Math.random() - 0.5) * 0.5) * 1,
                 }
                 pokemon.level += Math.floor(Math.random() * 60);
-                const distance = ((pokeLocation.lat - userMarker.getPosition().lat()) ** 2 + (pokeLocation.lng - userMarker.getPosition().lng()) ** 2) ** 0.5;
-
-                const buttonContent = distance <= 0.2 ? "<button onclick='capturePokemon(event)'>Capture</button>" : "Too far";
 
                 const pokemonInfoContent = `
                 <div class="pokemon-info">
@@ -191,9 +213,9 @@ function addPokemonMarkers() {
                 <div>Name: ${pokemon.name}</div>
                 <div>LV: ${pokemon.level}</div>
                 <div>Location: lat:${pokeLocation.lat.toFixed(2)}, lng:${pokeLocation.lng.toFixed(2)}</div>
-                ${buttonContent}
                 <button onclick="calCommuteTime(event)">Cal Commute Time</button>
-                <button onclick="bringMeThere(event)">bringMeThere</button>
+                <button onclick="bringMeThere(event)">Go</button>
+                <div id="capturability"></div>
                 </div>`;
                 const pokemonMarker = new google.maps.Marker({
                     position: {
@@ -256,7 +278,7 @@ function addPlayerMarkers() {
                     map: map,
                     icon: {
                         url: player.img,
-                        scaledSize: new google.maps.Size(50, 50),
+                        scaledSize: new google.maps.Size(25, 50),
                     }
                 });
                 playerMarker.addListener('click', () => {

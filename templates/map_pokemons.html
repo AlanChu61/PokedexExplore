@@ -3,24 +3,49 @@
 {% endblock %}
 
 {% block content %}
-<div id="map" style="width: 100%; height: 400px;">
+<div id="map" style="width: 100%; height: 70%;">
 </div>
 
-<div id="arrowBtnContainer">
-  <button id="upBtn">&#8593;</button>
-  <button id="downBtn">&#8595;</button>
-  <button id="leftBtn">&#8592;</button>
-  <button id="rightBtn">&#8594;</button>
+
+<div class="controller">
+  <div class="col-4 px-2 py-2">
+    <div>Username: 
+      {% if "username" in session %}
+      {{ session['username'] }}!
+    {% else %} NOT LOGIN
+    {% endif %}
+  </div>
+    <button type="button"class="btn btn-primary btn-sm" id="addUserMakerBtn">Show My Loaction</button>
+    <button type="button"class="btn btn-primary btn-sm" id="addPokemonMakerBtn">Add Pokemons</button>
+    <button type="button"class="btn btn-primary btn-sm" id="addPlayerMakerBtn">Add Players</button>
+  </div>
+
+  <div class="col-6">  
+    Here shows commute time:
+    <div class="text-light bg-dark" id="calCommuteTime">
+      <br/>
+      <br/>
+      <br/>
+    </div>
+  </div>    
+
+<div class="remote-control col-2">
+  <div class="d-flex justify-content-center">
+    <button class="controlBtn" id="upBtn">&#8593;</button>
+  </div>
+  <div class="d-flex justify-content-center">
+    <button class="controlBtn" id="leftBtn">&#8592;</button>
+    <button class="controlBtn" id="rightBtn">&#8594;</button>
+  </div>
+    <div class="d-flex justify-content-center">
+      <button class="controlBtn" id="downBtn">&#8595;</button>
+  </div>
 </div>
-<button id="addUserMakerBtn">Add User Marker</button>
-<button id="addPokemonMakerBtn">Add Pokemon Markers</button>
-<button id="addPlayerMakerBtn">Add Players Markers</button>
-<div id="calCommuteTime" style="width: 100%; height: 400px;">
-Here shows commute time:</div>
+</div>
 {% endblock %}
 
 {% block js %}
-<script src="/static/js/map_pokemon.js"></script>
+<script src="/static/js/mapPokemon.js"></script>
 <script
   async
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3bhSLm75WR88UEUqhWYT6MdDl3unhwDU&callback=initMap">

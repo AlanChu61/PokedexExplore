@@ -1,17 +1,18 @@
 *{
     box-sizing: border-box;
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-family: 'Cute Font', cursive;
 }
-html{
-    width:100vw;
+html,body{
     height: 100vh;
 }
 #homepage::before {
     content: "";
     position: absolute;
-    width: 80%;
-    height: 80%;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-image: url("../img/lab.png");
     opacity: 0.25;
@@ -27,10 +28,47 @@ html{
 #battle::before {
     content: "";
     position: absolute;
-    width: 100%;
+    top:0;
+    left:0;
     height: 100%;
+    width: 100%;
     background-size: cover;
     background-image: url("../img/battle_field.png");
     opacity: 0.25;
     z-index: -1; 
 }
+
+.controller{
+    width: 100%;
+    display:flex;
+    background-color: #eee;
+    border-radius: 10px;
+}
+.container-fluid{
+    padding-bottom: 1.5rem;
+}
+.remote-control {
+    height:10%;
+    background-color: #eee;
+    border-radius: 10px;
+}
+  
+  .controlBtn {
+    
+    background-color: #ccc;
+    border-radius: 50%;
+    margin: 5px;
+  }
+ footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 1.5rem;           
+  }
+
+  .showHover{
+    position: absolute;
+    line-height: normal;
+    
+  }
+

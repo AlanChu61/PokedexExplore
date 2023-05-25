@@ -20,8 +20,7 @@
     <title>{{title}} | PokeDex Explore</title> 
 </head>
 <body>
-    
-    <nav class="bg-warning  ">
+    <nav class="bg-warning">
       <ul class="nav nav-tabs">
         
             <li class="nav-item"><a class="nav-link" href="/">Homepage</a></li> 
@@ -36,8 +35,7 @@
             <button class="btn btn-primary rounded-circle" id="username" onclick="toggleUserInfo()">{{session['username']}}</button>
             <div id="userInfo" style="display: none;">
               <img id="userImg" src="{{session['img']}}" height="20px" width="20px"/>
-              ID: {{session['player_id']}}<br>
-              Useranme: {{session['username']}}<br>
+              ID: {{session['player_id']}} Useranme: {{session['username']}}<br>
               Email: {{session['email']}}
             </div>
             {% else %}
@@ -52,11 +50,13 @@
     </p>
   {% endfor %}
 
-  
+
 {% block content %}
 {% endblock %}
 
-<footer class="page-footer text-center text-white bg-warning">
+
+
+<footer class="text-center text-white bg-warning">
   Copyright&copy; <span id="currentYear"></span> Alan Hwader Chu. All rights reserved.
 </footer>
 {% block js %}
