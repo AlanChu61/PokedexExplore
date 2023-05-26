@@ -1,7 +1,7 @@
 *{
-    box-sizing: border-box;
     font-size: 1.25rem;
     font-family: 'Cute Font', cursive;
+    box-sizing: border-box;
 }
 html,body{
     height: 100vh;
@@ -28,24 +28,27 @@ html,body{
 #battle::before {
     content: "";
     position: absolute;
-    top:0;
-    left:0;
-    height: 100%;
+    top: 0;
+    left: 0;
+    height: 110%;
     width: 100%;
-    background-size: cover;
+    background-size: 100% 100%;
     background-image: url("../img/battle_field.png");
     opacity: 0.25;
     z-index: -1; 
-}
+  }  
 
 .controller{
     width: 100%;
     display:flex;
     background-color: #eee;
     border-radius: 10px;
+    padding-bottom: 1.5rem;
 }
 .container-fluid{
+    max-width: 100%;
     padding-bottom: 1.5rem;
+    
 }
 .remote-control {
     height:10%;
@@ -54,7 +57,6 @@ html,body{
 }
   
   .controlBtn {
-    
     background-color: #ccc;
     border-radius: 50%;
     margin: 5px;
@@ -72,3 +74,9 @@ html,body{
     
   }
 
+  #userInfo{
+    right:0;
+    top:5rem;
+    position: absolute;
+    line-height: normal;
+  }

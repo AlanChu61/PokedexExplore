@@ -21,7 +21,7 @@ function Battle() {
     const [defender, setDefender] = React.useState({})
     const [selectedAttacker, setSelectedAttacker] = React.useState(null)
     const [selectedDefender, setSelectedDefender] = React.useState(null)
-    const [logs, setLogs] = React.useState(["Battle Start!"])
+    const [logs, setLogs] = React.useState(["Battle History!"])
 
     const opponentId = document.getElementById('opponent_id').innerHTML
 
@@ -35,7 +35,6 @@ function Battle() {
                 return response.json();
             })
             .then((data) => {
-                console.log(data.player.winning_rate)
                 setPlayer(data.player)
                 setPlayerPokemons(data.player_pokemons)
             })
@@ -81,50 +80,50 @@ function Battle() {
             playerPokemons={playerPokemons} opponentPokemons={opponentPokemons} />)
     }
     else {
+        console.log(player, opponent)
         return (
-            <div className="row">
+
+            < div className="row" >
                 <h1>
                     {player && <span>{player.username}</span>} vs. {opponent && <span>{opponent.username}</span>}
                 </h1>
-
-                <div className="col-12">
-                    <Opponent opponentPokemons={opponentPokemons}
-                        setAttacker={setAttacker} setDefender={setDefender}
-                        attack={attack}
-                        attacker={attacker} defender={defender}
-                        setPlayerPokemons={setPlayerPokemons}
-                        logs={logs} setLogs={setLogs}
-                        opponentActive={opponentActive}
-                        setOpponentActive={setOpponentActive}
-                        setPlayerActive={setPlayerActive}
-                        selectedAttacker={selectedAttacker}
-                        selectedDefender={selectedDefender}
-                        setSelectedAttacker={setSelectedAttacker}
-                        setSelectedDefender={setSelectedDefender}
-                        opponent={opponent} />
-                </div>
-                <div className="col-12">
-                    <Player playerPokemons={playerPokemons}
-                        setAttacker={setAttacker} setDefender={setDefender}
-                        attack={attack}
-                        attacker={attacker} defender={defender} setOpponentPokemons={setOpponentPokemons}
-                        logs={logs} setLogs={setLogs}
-                        playerActive={playerActive}
-                        setPlayerActive={setPlayerActive}
-                        setOpponentActive={setOpponentActive}
-                        selectedAttacker={selectedAttacker}
-                        selectedDefender={selectedDefender}
-                        setSelectedAttacker={setSelectedAttacker}
-                        setSelectedDefender={setSelectedDefender}
-                        player={player} />
-                </div>
-                <div className="row">
+                <div className="col-10">
                     <div className="col-12">
-                        Battle History:
-                        {logs_list}
+                        <Opponent opponentPokemons={opponentPokemons}
+                            setAttacker={setAttacker} setDefender={setDefender}
+                            attack={attack}
+                            attacker={attacker} defender={defender}
+                            setPlayerPokemons={setPlayerPokemons}
+                            logs={logs} setLogs={setLogs}
+                            opponentActive={opponentActive}
+                            setOpponentActive={setOpponentActive}
+                            setPlayerActive={setPlayerActive}
+                            selectedAttacker={selectedAttacker}
+                            selectedDefender={selectedDefender}
+                            setSelectedAttacker={setSelectedAttacker}
+                            setSelectedDefender={setSelectedDefender}
+                            opponent={opponent} />
+                    </div>
+                    <div className="col-12">
+                        <Player playerPokemons={playerPokemons}
+                            setAttacker={setAttacker} setDefender={setDefender}
+                            attack={attack}
+                            attacker={attacker} defender={defender} setOpponentPokemons={setOpponentPokemons}
+                            logs={logs} setLogs={setLogs}
+                            playerActive={playerActive}
+                            setPlayerActive={setPlayerActive}
+                            setOpponentActive={setOpponentActive}
+                            selectedAttacker={selectedAttacker}
+                            selectedDefender={selectedDefender}
+                            setSelectedAttacker={setSelectedAttacker}
+                            setSelectedDefender={setSelectedDefender}
+                            player={player} />
                     </div>
                 </div>
-            </div>
+                <div className="col-2 bg-dark text-white pr-2">
+                    {logs_list}
+                </div>
+            </div >
         )
     }
 }

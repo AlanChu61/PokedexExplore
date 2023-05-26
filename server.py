@@ -1,9 +1,22 @@
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
+from flask_cors import CORS, cross_origin
 from model import connect_to_db, db, Fetch_Pokemon, Player
-import crud
 from jinja2 import StrictUndefined
 from random import sample
+from dotenv import load_dotenv
+import crud
+import os
+
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
+from cloudinary import config as cloudinary_config
+
+
 app = Flask(__name__)
+load_dotenv()
+CORS(app)
+
+
 app.secret_key = "ThisIsASecretKey"
 app.jinja_env.undefined = StrictUndefined
 
@@ -216,8 +229,9 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
         username = request.form.get('username')
-        if request.form.get('img'):
-            img = request.form.get('img')
+        print(request.form)
+        if request.form.get('imageUrl'):
+            img = request.form.get('imageUrl')
         else:
             img = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/150.svg"
         if crud.get_player_by_email(email):
@@ -262,9 +276,28 @@ def login():
 
 @app.route('/logout', methods=['GET'])
 def logout():
-    """Show login form."""
     session.clear()
     return redirect('/')
+
+@app.route("/upload", methods=['POST'])
+def upload_image():
+  app.logger.info('in upload route')
+  cloudinary_config(cloud_name = os.getenv('CLOUD_NAME'), api_key=os.getenv('API_KEY'), 
+                    api_secret=os.getenv('API_SECRET'))
+  upload_result = None
+  if request.method == 'POST':
+    image_to_upload = request.files['image']
+    app.logger.info('%s file_to_upload', image_to_upload)
+    if image_to_upload:
+      upload_result = upload(image_to_upload)
+      app.logger.info(upload_result)
+      return jsonify(upload_result)
+
+
+@app.route('/profile', methods=['GET'])
+def profile():
+    """Show login form."""
+    return render_template('profile.html',title='Profile')
 
 
 def convert_pokemon_obj2dict(pokemon):

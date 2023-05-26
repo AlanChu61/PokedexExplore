@@ -12,9 +12,9 @@ function PlayerList() {
     }, []);
 
     function PlayerInfo(props) {
-        const pokemon_list = []
+        const pokemonList = []
         for (let pokemon of props.player.pokemons) {
-            pokemon_list.push(<div className="col-4" key={pokemon.pokemon_id}>
+            pokemonList.push(<div className="col-4" key={pokemon.pokemon_id}>
                 <img src={pokemon.img} style={{ maxWidth: "50%", height: "auto", maxHeight: "100px" }} />
                 <div>{pokemon.nickname}</div>
                 <div>LV:{pokemon.level}</div>
@@ -22,7 +22,7 @@ function PlayerList() {
         }
         return <div className="row border rounded">
             <div className="col-3 d-flex align-items-center justify-content-center">
-                <div class="text-center">
+                <div className="text-center">
                     <img className="img-fluid" src={props.player.img} style={{ maxHeight: "100px", width: "auto" }} />
                     <div>Username: {props.player.username}</div>
                     <div>Winning Rate: {props.player.winning_rate.win}/{props.player.winning_rate.lose}</div>
@@ -36,7 +36,7 @@ function PlayerList() {
             <div className="col-9 text-center">
                 Pokemons
                 <div className="row">
-                    {pokemon_list}
+                    {pokemonList}
                 </div>
             </div>
         </div >
@@ -44,14 +44,14 @@ function PlayerList() {
     }
 
 
-    const player_list = []
+    const playeList = []
     for (let player of players) {
-        player_list.push(<PlayerInfo player={player} key={player.player_id} />)
+        playeList.push(<PlayerInfo player={player} key={player.player_id} />)
     }
 
     return (
         <div>
-            <div>{player_list}</div>
+            <div>{playeList}</div>
         </div>
     );
 }

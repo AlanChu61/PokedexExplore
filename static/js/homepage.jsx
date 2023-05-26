@@ -1,9 +1,10 @@
 function capturePokemon(evt) {
-    const name = evt.target.parentElement.children[1].innerHTML.split(" ")[1].trim()
+    evt.preventDefault();
+    const name = evt.target.parentElement.childNodes[0].childNodes[1].innerHTML.split(" ")[1].trim()
     const nickname = prompt("Please enter a nickname for your pokemon?", name);
-    const level = evt.target.parentElement.children[2].innerHTML.split(":")[1].trim()
+    const level = evt.target.parentElement.childNodes[1].childNodes[0].innerHTML.split(":")[1].trim()
     const [lat, lng] = [35, 6762, 139.6503]
-    const kind_id = evt.target.parentElement.children[1].innerHTML.split(" ")[0].replace("#", "").trim()
+    const kind_id = evt.target.parentElement.childNodes[0].childNodes[1].innerHTML.split(" ")[0].replace("#", "").trim()
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -187,7 +188,8 @@ function Homepage() {
             </div>
             {(isSelected && (currentIndex === post_text.length - 1)) ? (
 
-                <a href="/map_pokemons">Start your Journey</a>
+                <a href="/map_pokemons">
+                    <div className="text-center">Start your Journey</div></a>
             ) : (
                 <div className="text-center">Click to continue</div>
 

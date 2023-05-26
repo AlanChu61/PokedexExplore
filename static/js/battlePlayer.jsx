@@ -105,6 +105,8 @@ function Player(props) {
 
     const playerPokemonList = []
     for (const pokemon of playerPokemons) {
+        console.log(pokemon.nickname)
+        console.log(pokemon.nickname.toUpperCase())
         playerPokemonList.push(
             <PlayerPokemon
                 key={pokemon.pokemon_id}
@@ -115,6 +117,7 @@ function Player(props) {
             />,
         )
     }
+
     return (
         <div className="row">
             <div className="col-3">

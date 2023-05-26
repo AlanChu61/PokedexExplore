@@ -6,19 +6,22 @@ function BattleOver(props) {
     const playerPokemons = props.playerPokemons
     const opponentPokemons = props.opponentPokemons
     const [winner, setWinner] = React.useState("")
+    const [isWinBtnClicked, setIsWinBtnClicked] = React.useState(false)
+    const [isLoseBtnClicked, setIsLoseBtnClicked] = React.useState(false)
+
     React.useEffect(() => {
-        if (opponentPokemons.length === 0) {
+        if (opponentPokemons.length == 0) {
             setWinner(playerInfo);
+
         } else {
             setWinner(opponentInfo);
         }
-    }, [playerInfo, opponentInfo]);
+    }, [playerInfo, opponentInfo, winner]);
 
 
     function handleIncreaseWin(evt) {
         evt.preventDefault();
-        evt.currentTarget.disabled = true
-
+        setIsWinBtnClicked(true)
         fetch('/handle_win', {
             method: 'PUT',
             body: JSON.stringify({
@@ -38,16 +41,16 @@ function BattleOver(props) {
             .then((data) => {
                 setPlayerInfo(data.player);
                 setOpponentInfo(data.opponent);
-                setWinner("")
+
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     }
 
-    function handleIncreaseLose() {
+    function handleIncreaseLose(evt) {
         evt.preventDefault();
-        evt.currentTarget.disabled = true
+        setIsLoseBtnClicked(true)
         fetch('/handle_lose', {
             method: 'PUT',
             body: JSON.stringify({
@@ -67,7 +70,6 @@ function BattleOver(props) {
             .then((data) => {
                 setPlayerInfo(data.player);
                 setOpponentInfo(data.opponent);
-                setWinner("")
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -78,7 +80,6 @@ function BattleOver(props) {
 
         function handleAddComment(evt) {
             evt.preventDefault();
-            evt.currentTarget.disabled = true
             const content = prompt("Enter Some comment", `${props.nickname} is so awseome!`)
             if (content == "") {
                 alert("Please enter comment")
@@ -178,10 +179,10 @@ function BattleOver(props) {
                     <div>{playerInfo.username}</div>
                     <div>Win:{playerInfo.winning_rate.win}
                         {winner == playerInfo &&
-                            <button className="btn btn-success" onClick={handleIncreaseWin}> +1 </button>}</div>
+                            <button className="btn btn-success" hidden={isWinBtnClicked} onClick={handleIncreaseWin}> +1 </button>}</div>
                     <div>Lose:{playerInfo.winning_rate.lose}
                         {winner == opponentInfo && (
-                            <button className="btn btn-danger" onClick={handleIncreaseLose}> +1 </button>)
+                            <button className="btn btn-danger" hidden={isLoseBtnClicked} onClick={handleIncreaseLose}> +1 </button>)
                         }</div>
 
                 </div>
@@ -191,7 +192,11 @@ function BattleOver(props) {
                     </div>
                 </div>
             </div >
-            <a className="text-center" href="/player_list">Battle with others</a>
+            <a className="text-center" href="/player_list">
+                <div className="text-center">
+                    Battle with others
+                </div>
+            </a>
         </React.Fragment >)
 
 }

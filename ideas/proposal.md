@@ -31,9 +31,9 @@ Link: Replace this with a link to your data model
 - (v) Capture Pokemon on Google Map API
 - (v) Pokemon can be battled between users 
     -(Locate players on Google Map API)
-- Capture Pokemon by throwing Pokeball
-- Train Pokemon to level up
-- Pokemon store to buy items
+- (x) Capture Pokemon by throwing Pokeball
+- (x) Train Pokemon to level up
+- (x) Pokemon store to buy items
 
 ### Nice-to-haves
 

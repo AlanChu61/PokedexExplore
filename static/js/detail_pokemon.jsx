@@ -7,6 +7,7 @@ function DetailPokemon(props) {
     const [comments, setComments] = React.useState([]);
     const [capturedDate, setCapturedDate] = React.useState("");
     const [isUpdateing, setIsUpdateing] = React.useState(false);
+
     // fecth data from API
     React.useEffect(() => {
         fetch(`/detail_pokemon_json/${props.pokemon_id}`)
@@ -25,8 +26,8 @@ function DetailPokemon(props) {
         evt.preventDefault();
         setIsUpdateing(true);
     }
-    function handleUpdate(evt) {
 
+    function handleUpdate(evt) {
         const new_nickname = evt.target.firstChild.value;
         evt.preventDefault();
         fetch(`/update_pokemon/${pokemon_id}`, {
@@ -117,9 +118,8 @@ function DetailPokemon(props) {
             <em>
                 @{new Date(props.createdDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </em>
-
-            <button onClick={editComment}>Edit</button>
-            <button onClick={deleteComment}>Delete</button>
+            <button type="button" class="btn btn-secondary btn-sm" onClick={editComment}>EDIT</button>
+            <button type="button" class="btn btn-secondary btn-sm" onClick={deleteComment}>DELETE</button>
         </div >
     }
     const commentList = []
@@ -137,18 +137,19 @@ function DetailPokemon(props) {
 
     function Pokemon(props) {
         return (
-            <div className="detailPokemon row">
+            <div className="row">
                 <div className="col-6">
-                    <h2>{props.nickname}'s info</h2>
+                    <h2>{props.nickname}'s INFORMATION</h2>
                     <img src={props.pokemon.image} alt="pokemon image" />
                     <div>Nickname: {props.nickname.toUpperCase()}
-                        <div>#{props.pokemon.pokemon_id} {props.pokemon.name}</div>
-                        <button onClick={handleEdit}>Edit</button></div>
-                    <div>Level: {props.level}</div>
+                        <div>#{props.pokemon.pokemon_id} {props.pokemon.name}
+                            <button onClick={handleEdit}>Edit</button></div>
+                    </div>
+                    <div>LV: {props.level}</div>
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>Stats</th>
+                                <th colspan="2">Stats</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -160,6 +161,7 @@ function DetailPokemon(props) {
                             ))}
                         </tbody>
                     </table>
+
                     <div>Captured Date: {new Date(props.captureDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
 
                 </div>
@@ -167,9 +169,11 @@ function DetailPokemon(props) {
                     <h2>Comments</h2>
                     {commentList}
                     <form onSubmit={addComment}>
-                        <label htmlFor="commentForm">Please add comment:</label>
-                        <input type="text" id="commentForm" name="content" />
-                        <button type="submit">Add</button>
+                        <div class="form-group">
+                            <label htmlFor="commentForm">Please add new comment:</label>
+                            <input type="text" className="form-control" id="commentForm" name="content" />
+                            <button type="submit" className="btn btn-primary">Add</button>
+                        </div>
                     </form>
                 </div></div>
         );
@@ -193,7 +197,6 @@ function DetailPokemon(props) {
                         level={level}
                         stats={stats}
                         captureDate={capturedDate} />
-
                     {isUpdateing && <UpdateForm />}
                 </div>
 

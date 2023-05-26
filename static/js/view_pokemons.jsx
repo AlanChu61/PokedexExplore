@@ -35,7 +35,6 @@ function ViewPokemons() {
                 <img src={props.image} alt="pokemon image" />
             </a>
             <div>Id: {props.id}</div>
-            <div>Name: {props.name}</div>
             <div>Nickname: {props.nickname}</div>
             <div>Level: {props.level}</div>
             <button onClick={handleDelete}>Release</button>

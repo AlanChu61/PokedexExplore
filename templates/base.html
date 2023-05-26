@@ -7,6 +7,9 @@
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" crossorigin></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Google Font "Cute Font" -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,8 +38,10 @@
             <button class="btn btn-primary rounded-circle" id="username" onclick="toggleUserInfo()">{{session['username']}}</button>
             <div id="userInfo" style="display: none;">
               <img id="userImg" src="{{session['img']}}" height="20px" width="20px"/>
-              ID: {{session['player_id']}} Useranme: {{session['username']}}<br>
-              Email: {{session['email']}}
+              <div>ID: {{session['player_id']}}</div>
+              <div>Useranme: {{session['username']}}</div>
+                <div>Email: {{session['email']}}</div>
+                <div></div><a href="/profile">Edit Profile</a></div>
             </div>
             {% else %}
             <li class="nav-item"><a class="nav-link"href="/login">Login</a></li>          
