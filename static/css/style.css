@@ -80,3 +80,28 @@ html,body{
     position: absolute;
     line-height: normal;
   }
+
+  .flash-message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  .success {
+    background-color: #4CAF50; /* green */
+  }
+  
+  .error {
+    background-color: #f44336; /* red */
+  }
+  
+  .info {
+    background-color: #2196F3; /* blue */
+  }
+  
+  .warning {
+    background-color: #ff9800; /* orange */
+  }
+  

@@ -36,7 +36,7 @@ function ViewPokemons() {
             </a>
             <div>Id: {props.id}</div>
             <div>Nickname: {props.nickname}</div>
-            <div>Level: {props.level}</div>
+            <div>LV: {props.level}</div>
             <button onClick={handleDelete}>Release</button>
         </div >
     }

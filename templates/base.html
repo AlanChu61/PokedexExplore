@@ -49,11 +49,16 @@
             {% endif %}
         </ul>
     </nav>
-    {% for msg in get_flashed_messages() %}
-    <p class="flash-msg">
-      {{ msg }}
-    </p>
-  {% endfor %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message {{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
 
 
 {% block content %}
