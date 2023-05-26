@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+import os
 db = SQLAlchemy()
 
 class Fetch_Pokemon(db.Model):
@@ -109,10 +110,9 @@ class Comment(db.Model):
 
 def connect_to_db(flask_app, db_uri="postgresql:///pokemons", echo=True):
     
-    flask_app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'postgresql://AlanChu61:v2_44V22_FTa8SzfZLJD7eLXMkhicjKu@db.bit.io/AlanChu61/PokeDex_Explore')
     
-    # flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+    db_uri = os.environ.get("DATABASE_URL")
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
