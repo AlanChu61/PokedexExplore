@@ -20,8 +20,8 @@ def get_fetch_pokemon():
 # players
 
 
-def create_player(email, password, username,img):
-    player = Player(email=email, password=password, username=username,img=img)
+def create_player(email, password, username,img,winning_rate):
+    player = Player(email=email, password=password, username=username,img=img,winning_rate=winning_rate)
     return player
 
 

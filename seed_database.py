@@ -75,7 +75,11 @@ for i in range(0, len(user_list)):
     username = f"{user_list[i]}"
     img = f"{user_photo[i]}"
     print(f"Creating Player: {username}")
-    player = crud.create_player(email, password, username,img)
+    winning_rate ={
+        "win": randint(0, 10),
+        "lose": randint(0, 10),
+    }
+    player = crud.create_player(email, password, username,img,winning_rate)
 
     # Create Pokemon 6 times for each player
     for i in range(0, 6):
