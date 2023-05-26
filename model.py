@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 import os
-db = SQLAlchemy()
+db = SQLAlchemy(app, engine_options={"pool_recycle": 55})
 
 class Fetch_Pokemon(db.Model):
     """A pokemon(from fetch API)."""
