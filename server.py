@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_cors import CORS, cross_origin
-from model import connect_to_db, db, Fetch_Pokemon, Player
+from model import connect_to_db, db
 from jinja2 import StrictUndefined
 from random import sample
 from dotenv import load_dotenv
@@ -8,7 +8,6 @@ import crud
 import os
 
 from cloudinary.uploader import upload
-from cloudinary.utils import cloudinary_url
 from cloudinary import config as cloudinary_config
 
 
@@ -445,6 +444,8 @@ def increase_lost_win():
     opponent_id = request.json.get('opponent_id')
     crud.increase_win_lose(opponent_id,player_id,)
     return jsonify({"message":"success"})
+
+
 
 if __name__ == '__main__':
     connect_to_db(app)
