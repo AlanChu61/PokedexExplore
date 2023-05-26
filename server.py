@@ -229,21 +229,20 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
         username = request.form.get('username')
-        print(request.form)
         if request.form.get('imageUrl'):
             img = request.form.get('imageUrl')
         else:
             img = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/150.svg"
         if crud.get_player_by_email(email):
             """account exists"""
-            flash('Email already exists. Please try again.')
+            flash("Email already exists. Please try again!","error")
             return redirect('/signup')
         else:
             """new account"""
             new_player = crud.create_player(email, password, username,img)
             db.session.add(new_player)
             db.session.commit()
-            flash('Sign up successfully!')
+            flash("Sign up successfully!","success")
             session['player_id'] = new_player.player_id
             session['username'] = username
             session['email'] = email
@@ -267,7 +266,7 @@ def login():
             session['username'] = logined_player.username
             session['img'] = logined_player.img
             # session['winning_rate'] = logined_player.winning_rate
-            flash('Login successfully!')
+            flash("Login successfully!","success")
             return redirect('/view_pokemons')
         else:
             flash('Email or password is incorrect. Please try again.')
@@ -298,6 +297,22 @@ def upload_image():
 def profile():
     """Show login form."""
     return render_template('profile.html',title='Profile')
+
+@app.route('/update_profile', methods=['PUT'])
+def update_profile():
+    player_id = session['player_id']
+    username = request.json.get('username')
+    uploadUrl = request.json.get('uploadUrl')
+    crud.update_player_by_player_id(player_id,username,uploadUrl)
+    # Updated profile    
+    new_username = crud.get_player_by_id(player_id).username
+    new_img = crud.get_player_by_id(player_id).img
+    session['username'] = new_username
+    session['img'] = new_img
+    flash("Update successfully!","success")
+    return jsonify({"username":new_username,"uploadUrl":new_img})
+
+
 
 
 def convert_pokemon_obj2dict(pokemon):
@@ -374,6 +389,9 @@ def player_list_json():
 def battle():
     """Show battle page."""
     opponent_id = request.args.get('player_id')
+    opponent_username = crud.get_player_by_id(opponent_id).username
+    player_username = session['username']
+    flash(f"{player_username} vs. {opponent_username}","info")
     return render_template('battle.html', title='Battle',opponent_id=opponent_id)
 
 

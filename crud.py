@@ -39,6 +39,15 @@ def get_player_by_id(player_id):
 def get_other_players(player_id):
     return Player.query.filter(Player.player_id != player_id).all()
 
+def update_player_by_player_id(player_id,username,img):
+    player = Player.query.get(player_id)
+    player.username = username
+    player.img = img
+    db.session.add(player)
+    db.session.commit()
+    return True
+
+
 # Pokemons
 
 # C
