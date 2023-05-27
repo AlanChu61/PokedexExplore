@@ -108,10 +108,11 @@ class Comment(db.Model):
 
         return f'<Comment {self.player} made {self.pokemon} about {self.content}>'
 
-def connect_to_db(flask_app, db_uri=None, echo=True):
-    if db_uri is None:
-        db_uri = os.environ.get("DATABASE_URL")
-        
+def connect_to_db(flask_app, db_uri="postgresql:///pokemons", echo=True):
+    
+#     flask_app.config['SQLALCHEMY_DATABASE_URI'] = (
+#     'postgresql://AlanChu61:v2_44V22_FTa8SzfZLJD7eLXMkhicjKu@db.bit.io/AlanChu61/PokeDex_Explore'
+# )
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
