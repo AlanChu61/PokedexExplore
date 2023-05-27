@@ -63,12 +63,12 @@ user_list =[
         "Frank",
     ]
 user_photo=[
-    "/static/img/Player1.png",
-    "/static/img/Player2.png",
-    "/static/img/Player3.png",
-    "/static/img/Player4.png",
-    "/static/img/Player5.png",
-    "/static/img/Player6.png",
+    "/static/img/player1.png",
+    "/static/img/player2.png",
+    "/static/img/player3.png",
+    "/static/img/player4.png",
+    "/static/img/player5.png",
+    "/static/img/player6.png",
 ]
 for i in range(0, len(user_list)):
     email = f"test{i+1}"
