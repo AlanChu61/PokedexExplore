@@ -3,8 +3,6 @@ function Profile() {
     const email = userInfo.children[3].innerHTML.split(":")[1].trim();
     const [username, setUsername] = React.useState(userInfo.children[2].innerHTML.split(":")[1].trim());
     const [uploadUrl, setUploadUrl] = React.useState(userInfo.children[0].getAttribute("src"));
-    console.log("src", userInfo.children[0].getAttribute("src"))
-    console.log(uploadUrl)
     const [fileSelected, setFileSelected] = React.useState(false);
 
     const handleFileChange = (event) => {
@@ -47,6 +45,8 @@ function Profile() {
             const data = await response.json();
             setUsername(data.username);
             setUploadUrl(data.uploadUrl);
+            setFileSelected(false);
+            window.location.reload();
         } else {
             console.log(response);
         }

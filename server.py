@@ -238,7 +238,7 @@ def signup():
             return redirect('/signup')
         else:
             """new account"""
-            new_player = crud.create_player(email, password, username,img)
+            new_player = crud.create_player(email, password, username,img,winning_rate={"win":0,"lose":0})
             db.session.add(new_player)
             db.session.commit()
             flash("Sign up successfully!","success")
