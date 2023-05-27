@@ -24,6 +24,7 @@ for pokemon_data_file in sorted(os.listdir('data')):
 
     # handle pokemon_data as a list of dictionaries
     for pokemon in pokemon_data:
+        print("Creating Pokemon:", pokemon.get('id'),":", pokemon.get('name'))
         if pokemon.get('id') > 1010:
             break
         abilities = pokemon.get('abilities')
