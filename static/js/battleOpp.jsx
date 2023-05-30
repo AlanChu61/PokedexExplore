@@ -56,7 +56,7 @@ function Opponent(props) {
     }
 
     function oppAttack(attacker, defender) {
-        addLog(`Opp's ${attacker.nickname} attacks ${defender.nickname}!`)
+        addLog(`${opponentInfo.username}'s ${attacker.nickname} attacks ${defender.nickname}!`)
         const [new_defender, damage] = attack(attacker, defender)
         addLog(`${attacker.nickname} made ${damage} damage to ${defender.nickname}!`)
         if (new_defender.stats.hp <= 0) {
@@ -77,10 +77,9 @@ function Opponent(props) {
         // randomly assign attacker
         const randomIndex = Math.floor(Math.random() * opponentPokemons.length)
         setAttacker(opponentPokemons[randomIndex])
-        setTimeout(() => {
-            setSelectedAttacker(opponentPokemons[randomIndex].nickname), 1000
-        })
+        setSelectedAttacker(opponentPokemons[randomIndex].nickname)
     }
+
 
 
     function OpponentPokemon(props) {
@@ -94,8 +93,7 @@ function Opponent(props) {
             <div>{props.nickname.toUpperCase()}</div>
             <div>LV: {props.level}</div>
             <div>HP: {props.stats.hp}</div>
-            <div>ATK: {props.stats.attack}</div>
-            <div>DEF: {props.stats.defense}</div>
+            <div>ATK/DEF: {props.stats.attack}/{props.stats.defense}</div>
             {!opponentActive && (<button onClick={(evt) => assignDefender(evt)}>Defender</button>)}
         </div>
     }
@@ -112,13 +110,6 @@ function Opponent(props) {
             />,
         )
     }
-    React.useEffect(() => {
-        setSelectedDefender(null)
-        if (opponentActive) {
-            assignAttacker();
-        }
-    }, [opponentActive]);
-
     React.useEffect(() => {
         if (opponentActive) {
             // battle setup
@@ -137,13 +128,13 @@ function Opponent(props) {
                 }, 1000);
             }, 1000);
         }
-    }, [attacker]);
+    }, [opponentActive]);
     return (
         <div className="row">
             {opponentPokemonList}
-            <div className="col-3">
-                <div>Opponent:{opponentInfo.username}</div>
-                <img src={opponentInfo.img} width="100px" />
+            <div className="col-4">
+                <img src={opponentInfo.img} width="80px" />
+                <div>{opponentInfo.username}</div>
                 <div>Win:{opponentInfo.winning_rate.win} Lose:{opponentInfo.winning_rate.lose}</div>
             </div>
         </div>

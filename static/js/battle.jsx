@@ -54,6 +54,7 @@ function Battle() {
     }, []);
 
     function Log(prop) {
+        console.log(prop.log)
         return (
             <div>
                 {prop.log}
@@ -61,6 +62,12 @@ function Battle() {
         )
     }
     const logs_list = logs.map((log, index) => <Log key={index} log={log} />);
+
+    const battleLog = document.getElementById('battle-log');
+    function scrollToBottom() {
+        battleLog.scrollTop = battleLog.scrollHeight;
+    }
+
 
     const addLog = React.useCallback(
         new_log => {
@@ -80,14 +87,13 @@ function Battle() {
             playerPokemons={playerPokemons} opponentPokemons={opponentPokemons} />)
     }
     else {
-        console.log(player, opponent)
+        if (battleLog) {
+            scrollToBottom();
+        }
         return (
 
             < div className="row" >
-                <h1>
-                    {player && <span>{player.username}</span>} vs. {opponent && <span>{opponent.username}</span>}
-                </h1>
-                <div className="col-10">
+                <div className="col-9">
                     <div className="col-12">
                         <Opponent opponentPokemons={opponentPokemons}
                             setAttacker={setAttacker} setDefender={setDefender}
@@ -120,8 +126,10 @@ function Battle() {
                             player={player} />
                     </div>
                 </div>
-                <div className="col-2 bg-dark text-white pr-2">
-                    {logs_list}
+                <div className="col-3" >
+                    <div className="bg-dark text-white" id="battle-log">
+                        {logs_list}
+                    </div>
                 </div>
             </div >
         )

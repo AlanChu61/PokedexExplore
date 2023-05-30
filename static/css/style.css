@@ -30,7 +30,7 @@ html,body{
     position: absolute;
     top: 0;
     left: 0;
-    height: 110%;
+    height: 100%;
     width: 100%;
     background-size: 100% 100%;
     background-image: url("../img/battle_field.png");
@@ -43,12 +43,10 @@ html,body{
     display:flex;
     background-color: #eee;
     border-radius: 10px;
-    padding-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
 }
 .container-fluid{
     max-width: 100%;
-    padding-bottom: 1.5rem;
-    
 }
 .remote-control {
     height:10%;
@@ -75,10 +73,13 @@ html,body{
   }
 
   #userInfo{
-    right:0;
-    top:5rem;
+    right:0.5rem;
+    top:2.5rem;
     position: absolute;
+    border-radius: 5px;
+    z-index: 9999;
     line-height: normal;
+    background-color: rgb(236, 245, 207);;
   }
 
   .flash-message {
@@ -105,3 +106,12 @@ html,body{
     background-color: #ff9800; /* orange */
   }
   
+  #battle-log {
+    height: 80vh;
+    overflow: auto;
+  }
+  
+  .pokemon{
+    padding: 5px;
+    line-height: normal;
+  }

@@ -59,11 +59,12 @@ function Player(props) {
         addLog(`${playerInfo.username}'s ${attacker.nickname.toUpperCase()} attacks ${defender.nickname.toUpperCase()}!`)
 
         const [new_defender, damage] = attack(attacker, defender)
+
         addLog(`${attacker.nickname.toUpperCase()} made ${damage} damage to ${defender.nickname.toUpperCase()}!`)
         if (new_defender.stats.hp <= 0) {
             addLog(`${defender.nickname.toUpperCase()} fainted!!!`)
             setOpponentPokemons(prevPokemons =>
-                prevPokemons.filter(pokemon => pokemon !== defender)
+                prevPokemons.filter(pokemon => pokemon != defender)
             );
 
         }
@@ -97,16 +98,13 @@ function Player(props) {
             <div>{props.nickname.toUpperCase()}</div>
             <div>LV: {props.level}</div>
             <div>HP: {props.stats.hp}</div>
-            <div>ATK: {props.stats.attack}</div>
-            <div>DEF: {props.stats.defense}</div>
+            <div>ATK/DEF: {props.stats.attack}/{props.stats.defense}</div>
             {playerActive && (<button onClick={(evt) => assignAttacker(evt)}>Attacker</button>)}
         </div>
     }
 
     const playerPokemonList = []
     for (const pokemon of playerPokemons) {
-        console.log(pokemon.nickname)
-        console.log(pokemon.nickname.toUpperCase())
         playerPokemonList.push(
             <PlayerPokemon
                 key={pokemon.pokemon_id}
@@ -120,15 +118,16 @@ function Player(props) {
 
     return (
         <div className="row">
-            <div className="col-3">
+            <div className="col-4">
                 <img src={playerInfo.img} width="100px" />
                 <div>{playerInfo.username}</div>
                 <div>Win:{playerInfo.winning_rate.win} Lose:{playerInfo.winning_rate.lose}</div>
+                {playerActive && selectedAttacker && selectedDefender && (
+                    <button onClick={() => playerAttack(attacker, defender)}>Attack</button>
+                )}
             </div>
             {playerPokemonList}
-            {playerActive && selectedAttacker && selectedDefender && (
-                <button onClick={() => playerAttack(attacker, defender)}>Attack</button>
-            )}
+
 
         </div >
     )
