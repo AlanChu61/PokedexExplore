@@ -137,6 +137,7 @@ def detail_pokemon_json(pokemon_id):
     # get pokemon info
     pokemon_info = crud.get_fetch_pokemon_by_id(pokemon.kind_id)
     pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
+
     # get comments
     comment_list = []
     for comment in comments:
@@ -350,6 +351,7 @@ def convert_comment_obj2dict(comment):
     comment_dict['comment_id'] = comment.comment_id
     comment_dict['content'] = comment.content
     comment_dict['created_date'] = comment.created_date
+    comment_dict['player']=comment.player.username
     return comment_dict
 
 def conver_player_obj2dict(player):

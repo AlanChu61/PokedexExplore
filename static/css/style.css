@@ -47,6 +47,7 @@ html,body{
 }
 .container-fluid{
     max-width: 100%;
+    padding-bottom: 1.5rem;
 }
 .remote-control {
     height:10%;
@@ -115,3 +116,13 @@ html,body{
     padding: 5px;
     line-height: normal;
   }
+
+#updateFrom{
+      position: absolute;
+      color:red;
+      background-color: white;
+      border: 1px solid black;
+      padding: 10px;
+      z-index: 999;
+    }
+    

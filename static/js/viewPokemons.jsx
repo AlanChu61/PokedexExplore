@@ -29,15 +29,15 @@ function ViewPokemons() {
 
 
     function Pokemon(props) {
-        return <div className="pokemon col-4 card">
+        return <div className="col-4 card">
             <div hidden>pokemon_id:{props.pokemon_id}</div>
             <a href={`/detail_pokemon/${props.pokemon_id}`}>
-                <img src={props.image} alt="pokemon image" />
+                <img src={props.image} alt="pokemon image" style={{ maxWidth: "100%" }} />
             </a>
             <div>Id: {props.id}</div>
-            <div>Nickname: {props.nickname}</div>
+            <div>Nickname: {props.nickname.toUpperCase()}</div>
             <div>LV: {props.level}</div>
-            <button onClick={handleDelete}>Release</button>
+            <button className="btn btn-info btn-sm" onClick={handleDelete}>Release</button>
         </div >
     }
     const pokemonList = []
@@ -59,11 +59,11 @@ function ViewPokemons() {
 
 
     return (
-        <div>
-            <div className="pokemonContainer row">
+        <React.Fragment>
+            <div className="row">
                 {pokemonList}
             </div>
-        </div>
+        </React.Fragment>
     );
 }
 
