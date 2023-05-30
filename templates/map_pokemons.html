@@ -8,17 +8,29 @@
 
 
 <div class="controller">
-  <div class="col-4 px-2 py-2">
-    <div>Username: 
-      {% if "username" in session %}
-      {{ session['username'] }}!
-    {% else %} NOT LOGIN
-    {% endif %}
-  </div>
-    <button type="button"class="btn btn-primary btn-sm" id="addUserMakerBtn">Show My Loaction</button>
-    <button type="button"class="btn btn-primary btn-sm" id="addPokemonMakerBtn">Add Pokemons</button>
-    <button type="button"class="btn btn-primary btn-sm" id="addPlayerMakerBtn">Add Players</button>
-  </div>
+  <div class="col-4 px-2 py-2 d-flex flex-column">
+    <div class="p-2 text-center">Username: 
+      <span class="bg-dark text-white" style="width: 200px;">
+        {% if "username" in session %}
+        {{ session['username'] }}
+        {% else %}
+        NOT LOGIN
+        {% endif %}
+      </span></div>
+      <div class="p-2 d-flex justify-content-between">
+        <button type="button" class="btn btn-primary btn-sm" id="addUserMakerBtn">Show My Location</button>
+        <button type="button" class="btn btn-primary btn-sm" id="addPokemonMakerBtn">Add Pokemons</button>
+      
+        {% if "pokemon_num" in session %}
+        <button type="button" class="btn btn-danger btn-circle btn-sm" id="addPlayerOne" {% if session['pokemon_num'] < 1 %}disabled{% endif %}>1v1</button>
+        <button type="button" class="btn btn-danger btn-circle btn-sm" id="addPlayerTwo" {% if session['pokemon_num'] < 2 %}disabled{% endif %}>2v2</button>
+        <button type="button" class="btn btn-danger btn-circle btn-sm" id="addPlayerThree" {% if session['pokemon_num'] < 3 %}disabled{% endif %}>3v3</button>
+        {% endif %}
+      </div>
+      
+      
+      
+    </div>>
 
   <div class="col-6">  
     Here shows commute time:
@@ -46,9 +58,6 @@
 
 {% block js %}
 <script src="/static/js/mapPokemon.js"></script>
-<script
-  async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3bhSLm75WR88UEUqhWYT6MdDl3unhwDU&callback=initMap">
-</script>
+<script async src="https://maps.googleapis.com/maps/api/js?key={{ map_API }}&callback=initMap"></script>
 {% endblock %}
 

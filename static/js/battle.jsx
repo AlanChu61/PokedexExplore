@@ -28,7 +28,7 @@ function Battle() {
 
     // fecth data for plaer(user) and pokemons  
     React.useEffect(() => {
-        fetch(`/get_player_pokemon`)
+        fetch(`/get_player_pokemon?battleMode=${battleMode}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

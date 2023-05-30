@@ -156,8 +156,18 @@ function initMap() {
     addUserMarkerBtn.addEventListener('click', addUserMarker);
     const addPokemonMarkersBtn = document.getElementById('addPokemonMakerBtn');
     addPokemonMarkersBtn.addEventListener('click', addPokemonMarkers);
-    const addPlayerMarkersBtn = document.getElementById('addPlayerMakerBtn');
-    addPlayerMarkersBtn.addEventListener('click', addPlayerMarkers);
+    // add event listener for adding player markers
+    document.getElementById('addPlayerOne').addEventListener('click', function () {
+        addPlayerMarkers(1);
+    });
+
+    document.getElementById('addPlayerTwo').addEventListener('click', function () {
+        addPlayerMarkers(2);
+    });
+
+    document.getElementById('addPlayerThree').addEventListener('click', function () {
+        addPlayerMarkers(3);
+    });
 
     const upBtn = document.getElementById('upBtn');
     const downBtn = document.getElementById('downBtn');
@@ -189,8 +199,14 @@ function addUserMarker() {
         userInfoWindow.open(map, userMarker);
     });
 }
+let pokemonMarkers = [];
 
 function addPokemonMarkers() {
+    pokemonMarkers.forEach((marker) => {
+        marker.setMap(null);
+    });
+    pokemonMarkers = [];
+
     fetch('/fetch_pokemon_json')
         .then((response) => {
             if (!response.ok) {
@@ -204,19 +220,20 @@ function addPokemonMarkers() {
                 const pokeLocation = {
                     lat: (map.center.lat() + (Math.random() - 0.5) * 0.5) * 1,
                     lng: (map.center.lng() + (Math.random() - 0.5) * 0.5) * 1,
-                }
+                };
                 pokemon.level += Math.floor(Math.random() * 60);
 
                 const pokemonInfoContent = `
-                <div class="pokemon-info">
-                <div>Kind ID: ${pokemon.pokemon_id}</div>
-                <div>Name: ${pokemon.name}</div>
-                <div>LV: ${pokemon.level}</div>
-                <div>Location: lat:${pokeLocation.lat.toFixed(2)}, lng:${pokeLocation.lng.toFixed(2)}</div>
-                <button onclick="calCommuteTime(event)">Cal Commute Time</button>
-                <button onclick="bringMeThere(event)">Go</button>
-                <div id="capturability"></div>
-                </div>`;
+                    <div class="pokemon-info">
+                        <div>Kind ID: ${pokemon.pokemon_id}</div>
+                        <div>Name: ${pokemon.name}</div>
+                        <div>LV: ${pokemon.level}</div>
+                        <div>Location: lat:${pokeLocation.lat.toFixed(2)}, lng:${pokeLocation.lng.toFixed(2)}</div>
+                        <button onclick="calCommuteTime(event)">Cal Commute Time</button>
+                        <button onclick="bringMeThere(event)">Go</button>
+                        <div id="capturability"></div>
+                    </div>`;
+
                 const pokemonMarker = new google.maps.Marker({
                     position: {
                         lat: pokeLocation.lat,
@@ -229,6 +246,9 @@ function addPokemonMarkers() {
                         scaledSize: new google.maps.Size(50, 50),
                     },
                 });
+
+                pokemonMarkers.push(pokemonMarker);
+
                 pokemonMarker.addListener('click', () => {
                     const pokemonInfo = new google.maps.InfoWindow();
                     pokemonInfo.setContent(pokemonInfoContent);
@@ -243,8 +263,13 @@ function addPokemonMarkers() {
             console.error('There has been a problem with your fetch operation:', error);
         });
 }
-function addPlayerMarkers() {
-    fetch('/player_list_json')
+
+let playerMarkers = [];
+
+function addPlayerMarkers(battleMode) {
+    clearPlayerMarkers();
+
+    fetch('/battle_players_json')
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -258,16 +283,18 @@ function addPlayerMarkers() {
                 const playerLocation = {
                     lat: (map.center.lat() + (Math.random() - 0.5) * 0.5).toFixed(2) * 1,
                     lng: (map.center.lng() + (Math.random() - 0.5) * 0.5).toFixed(2) * 1,
-                }
+                };
+
                 const playerInfoContent = `
-            <div class="player-info">
-            <div>Name: ${player.username}</div>
-            <div>Location: lat:${playerLocation.lat}, lng:${playerLocation.lng}</div>
-            <form action="/battle" method="GET">
-                    <input type="hidden" name="player_id" value=${player.player_id} />
-                    <button type="submit">Let's battle</button>
-                </form>
-            </div>`;
+                    <div class="player-info">
+                        <div>Name: ${player.username}</div>
+                        <div>Location: lat:${playerLocation.lat}, lng:${playerLocation.lng}</div>
+                        <form action="/battle" method="GET">
+                            <input type="hidden" name="player_id" value="${player.player_id}" />
+                            <input type="hidden" name="battle_mode" value="${battleMode}" />
+                            <button type="submit" ${battleMode <= player.pokemons.length ? '' : 'disabled'}>Let's battle</button>
+                        </form>
+                    </div>`;
 
                 const playerMarker = new google.maps.Marker({
                     position: {
@@ -281,6 +308,9 @@ function addPlayerMarkers() {
                         scaledSize: new google.maps.Size(25, 50),
                     }
                 });
+
+                playerMarkers.push(playerMarker);
+
                 playerMarker.addListener('click', () => {
                     const playerInfo = new google.maps.InfoWindow();
                     playerInfo.setContent(playerInfoContent);
@@ -294,4 +324,11 @@ function addPlayerMarkers() {
         .catch((error) => {
             console.error('There has been a problem with your fetch operation:', error);
         });
+}
+
+function clearPlayerMarkers() {
+    playerMarkers.forEach((marker) => {
+        marker.setMap(null);
+    });
+    playerMarkers = [];
 }

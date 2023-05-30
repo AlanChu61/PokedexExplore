@@ -126,3 +126,8 @@ html,body{
       z-index: 999;
     }
     
+    .btn-circle{
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 50%;
+    }

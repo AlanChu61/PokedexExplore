@@ -3,6 +3,7 @@ function PlayerList() {
     const login = document.getElementById("username");
     const [players, setPlayers] = React.useState([]);
     const [battleMode, setBattleMode] = React.useState("")
+    const playerPokeCnt = document.getElementById("userInfo").children[4].innerHTML.split(":")[1].trim()
 
     React.useEffect(() => {
         fetch(`/battle_players_json?battle_mode=${battleMode}`)
@@ -28,20 +29,17 @@ function PlayerList() {
                 <div className="text-center">
                     <img className="img-fluid" src={props.player.img} style={{ maxHeight: "100px", width: "auto" }} />
                     <div>Username: {props.player.username}</div>
-
-
                     <div>Winning Rate: {props.player.winning_rate.win}/{props.player.winning_rate.lose}</div>
                     <form action="/battle" method="GET">
                         <input type="hidden" name="player_id" value={props.player.player_id} />
                         <input type="hidden" name="battle_mode" value={battleMode} />
-                        {login && <button className="btn btn-primary btn-sm" type="submit" disabled={!hasEnoughPokemon}>Let's battle</button>}
+                        {login && battleMode && <button className="btn btn-primary btn-sm" type="submit" disabled={!hasEnoughPokemon}>Let's battle</button>}
                     </form><div>Joined since: {new Date(props.player.created_date).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                     })}</div>
                 </div>
-
             </div>
             <div className="col-9 text-center">
                 Pokemons
@@ -58,17 +56,29 @@ function PlayerList() {
         playeList.push(<PlayerInfo player={player} key={player.player_id} />)
     }
 
+    const handleBattleMode = (evt, battleMode) => {
+        evt.preventDefault();
+        if (playerPokeCnt < battleMode) {
+            alert("You don't have enough Pokemons to battle");
+            evt.target.disabled = true;
+        }
+        else {
+            setBattleMode(battleMode);
+        }
+    }
+
     return (
         <React.Fragment>
             <h1>Battle instruction:</h1>
             <div>First, make sure you have at least One Pokémon.</div>
-            <div>Next, select the number of battles you want to engage in.</div>
+            <div>Next, select the number of Pokemons you want to engage in.</div>
             <div>Finally, choose the player you want to battle against.</div>
-            <div className="d-flex justify-content-center mt-3">
-                <button className="btn btn-primary mx-2" onClick={() => setBattleMode(1)}>1v1</button>
-                <button className="btn btn-primary mx-2" onClick={() => setBattleMode(2)}>2v2</button>
-                <button className="btn btn-primary mx-2" onClick={() => setBattleMode(3)}>3v3</button>
-            </div>
+            {login && (<div className="d-flex justify-content-center mt-3">
+                <button className="btn btn-primary mx-2" onClick={(evt) =>
+                    handleBattleMode(evt, 1)}>1v1</button>
+                <button className="btn btn-primary mx-2" onClick={(evt) => handleBattleMode(evt, 2)}>2v2</button>
+                <button className="btn btn-primary mx-2" onClick={(evt) => handleBattleMode(evt, 3)}>3v3</button>
+            </div>)}
             <div>{playeList}</div>
         </React.Fragment>
     );

@@ -48,7 +48,7 @@ def fetch_pokemons():
 
 @app.route('/map_pokemons')
 def get_map_pokemons():
-    return render_template('map_pokemons.html', title="MapPokemons")
+    return render_template('map_pokemons.html', title="MapPokemons", map_API=os.environ['GOOGLE_MAP_API_KEY'])
 
 
 @app.route('/fetch_pokemon_json')
@@ -265,6 +265,7 @@ def login():
             session['email'] = email
             session['username'] = logined_player.username
             session['img'] = logined_player.img
+            session['pokemon_num'] =len(logined_player.pokemons)
             # session['winning_rate'] = logined_player.winning_rate
             flash("Login successfully!","success")
             return redirect('/view_pokemons')

@@ -41,7 +41,8 @@
               <div>ID: {{session['player_id']}}</div>
               <div>Useranme: {{session['username']}}</div>
                 <div>Email: {{session['email']}}</div>
-                <div></div><a href="/profile">Edit Profile</a></div>
+                <div>Pokemon Numbers: {{session['pokemon_num']}}</div>
+                <a href="/profile">Edit Profile</a></div>
             </div>
             {% else %}
             <li class="nav-item"><a class="nav-link"href="/login">Login</a></li>          
