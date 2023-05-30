@@ -1,7 +1,9 @@
 function Player(props) {
+
     // inital playerPokemons setup
     const playerInfo = props.player;
     const playerPokemons = props.playerPokemons;
+    const battleMode = playerPokemons.length
     // for assign a attacker (by user)
     const setAttacker = props.setAttacker;
     // for assign a defender (by random)
@@ -90,7 +92,7 @@ function Player(props) {
     function PlayerPokemon(props) {
         const isSelectedAttacker = selectedAttacker === props.nickname;
         const isSelectedDefender = selectedDefender === props.nickname;
-        return <div className={`pokemon col-4 card 
+        return <div className={`pokemon col-${Math.floor(9 / battleMode)} card 
         ${isSelectedAttacker ? 'border-success border-4' : ''}
         ${isSelectedDefender ? 'border-danger border-4' : ''}
         `} key={props.nickname}>
@@ -118,7 +120,7 @@ function Player(props) {
 
     return (
         <div className="row">
-            <div className="col-4">
+            <div className="col-3">
                 <img src={playerInfo.img} width="100px" />
                 <div>{playerInfo.username}</div>
                 <div>Win:{playerInfo.winning_rate.win} Lose:{playerInfo.winning_rate.lose}</div>

@@ -365,12 +365,12 @@ def conver_player_obj2dict(player):
     return player_dict
 
 # battle
-@app.route('/player_list', methods=['GET'])
+@app.route('/battle_players', methods=['GET'])
 def player_list():
     """Show player list page."""
     return render_template('player_list.html', title='Player List')
 
-@app.route('/player_list_json', methods=['GET'])
+@app.route('/battle_players_json', methods=['GET'])
 def player_list_json():
     if 'player_id' not in session:
         players = crud.get_all_players()
@@ -390,18 +390,21 @@ def player_list_json():
 def battle():
     """Show battle page."""
     opponent_id = request.args.get('player_id')
+    battle_mode = int(request.args.get('battle_mode'))
     opponent_username = crud.get_player_by_id(opponent_id).username
     player_username = session['username']
     flash(f"{player_username} vs. {opponent_username}","info")
-    return render_template('battle.html', title='Battle',opponent_id=opponent_id)
+    return render_template('battle.html', title='Battle',opponent_id=opponent_id,battle_mode=battle_mode)
 
 
 @app.route('/get_opponent_pokemon', methods=['GET'])
 def get_opponent_pokemon():
+        # get Battle Mode from FE
+    battle_mode = int(request.args.get('battleMode'))
     # Get opponent id from url
     opponent_id = request.args.get('opponent_id') 
     opponent = crud.get_player_by_id(opponent_id)
-    opponent_pokemons = sample(opponent.pokemons, 2)
+    opponent_pokemons = sample(opponent.pokemons, battle_mode)
     opponent_dict = conver_player_obj2dict(opponent)
     opponent_pokemons_list = []
     for pokemon in opponent_pokemons:
@@ -411,9 +414,12 @@ def get_opponent_pokemon():
 
 @app.route('/get_player_pokemon', methods=['GET'])
 def get_player_pokemon():
+    # get Battle Mode from FE
+    battle_mode =int(request.args.get('battleMode'))
+    
     # Get player's pokemon
     player = crud.get_player_by_id(session['player_id'])
-    player_pokemons = sample(player.pokemons, 2)
+    player_pokemons = sample(player.pokemons, battle_mode)
     player_dict = conver_player_obj2dict(player)
     player_pokemons_list = []
     for pokemon in player_pokemons:

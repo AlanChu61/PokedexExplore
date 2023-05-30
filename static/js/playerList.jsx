@@ -1,10 +1,12 @@
 function PlayerList() {
     //check if login
     const login = document.getElementById("username");
-
+    const [isOkABattle, setIsOkABattle] = React.useState(false);
     const [players, setPlayers] = React.useState([]);
+    const [battleMode, setBattleMode] = React.useState("")
+
     React.useEffect(() => {
-        fetch('/player_list_json')
+        fetch('/battle_players_json')
             .then(response => response.json())
             .then(data => {
                 setPlayers(data.players);
@@ -28,7 +30,8 @@ function PlayerList() {
                     <div>Winning Rate: {props.player.winning_rate.win}/{props.player.winning_rate.lose}</div>
                     <form action="/battle" method="GET">
                         <input type="hidden" name="player_id" value={props.player.player_id} />
-                        {login && <button className="btn btn-primary btn-sm" type="submit">Let's battle</button>}
+                        <input type="hidden" name="battle_mode" value={battleMode} />
+                        {login && isOkABattle && <button className="btn btn-primary btn-sm" type="submit" >Let's battle</button>}
                     </form>
                 </div>
 
@@ -42,7 +45,17 @@ function PlayerList() {
         </div >
             ;
     }
+    const handleBattleMode = (battleMode) => {
+        const otherPlayers = players.filter(player => player.player_id !== login.value);
+        const hasEnoughPokemon = otherPlayers.every(player => player.pokemons.length >= battleMode);
 
+        if (hasEnoughPokemon) {
+            setIsOkABattle(true);
+            setBattleMode(battleMode);
+        } else {
+            alert("Some players don't have enough Pokémon for this battle mode.");
+        }
+    };
 
     const playeList = []
     for (let player of players) {
@@ -50,9 +63,16 @@ function PlayerList() {
     }
 
     return (
-        <div>
+        <React.Fragment>
+            <h1>Battle instruction:</h1>
+            <div>First, make sure you have at least One Pokémon.</div>
+            <div>Next, select the number of battles you want to engage in.</div>
+            <div>Finally, choose the player you want to battle against.</div>
+            <button onClick={() => handleBattleMode(1)}>1v1</button>
+            <button onClick={() => handleBattleMode(2)}>2v2</button>
+            <button onClick={() => handleBattleMode(3)}>3v3</button>
             <div>{playeList}</div>
-        </div>
+        </React.Fragment>
     );
 }
 

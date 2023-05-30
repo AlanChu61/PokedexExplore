@@ -2,6 +2,8 @@ function Opponent(props) {
     // inital opponentPokemons setup
     const opponentInfo = props.opponent;
     const opponentPokemons = props.opponentPokemons;
+    const battleMode = opponentPokemons.length
+
 
     // for assign a defender (by user)
     const setDefender = props.setDefender;
@@ -85,7 +87,7 @@ function Opponent(props) {
     function OpponentPokemon(props) {
         const isSelectedDefender = selectedDefender == props.nickname;
         const isSelectedAttacker = selectedAttacker == props.nickname;
-        return <div className={`pokemon col-4 card 
+        return <div className={`pokemon col-${Math.floor(9 / battleMode)} card 
         ${isSelectedDefender ? 'border-danger border-4' : ''}
         ${isSelectedAttacker ? 'border-success border-4' : ''}
         `} key={props.nickname}>

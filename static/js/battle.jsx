@@ -24,10 +24,11 @@ function Battle() {
     const [logs, setLogs] = React.useState(["Battle History!"])
 
     const opponentId = document.getElementById('opponent_id').innerHTML
+    const battleMode = document.getElementById('battle_mode').innerHTML
 
     // fecth data for plaer(user) and pokemons  
     React.useEffect(() => {
-        fetch('/get_player_pokemon')
+        fetch(`/get_player_pokemon?battleMode=${battleMode}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -40,7 +41,7 @@ function Battle() {
             })
 
         // fecth data for opponent and pokemons
-        fetch(`/get_opponent_pokemon?opponent_id=${opponentId}`)
+        fetch(`/get_opponent_pokemon?opponent_id=${opponentId}&battleMode=${battleMode}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
