@@ -362,6 +362,7 @@ def conver_player_obj2dict(player):
     player_dict['email'] = player.email
     player_dict['img']= player.img
     player_dict['winning_rate']= player.winning_rate
+    player_dict['created_date'] = player.created_date
     return player_dict
 
 # battle

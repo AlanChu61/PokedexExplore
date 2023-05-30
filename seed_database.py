@@ -81,9 +81,10 @@ for i in range(0, len(user_list)):
         "lose": randint(0, 10),
     }
     player = crud.create_player(email, password, username,img,winning_rate)
+    pokemon_num = randint(1, 6)
 
     # Create Pokemon 6 times for each player
-    for i in range(0, 6):
+    for i in range(0,pokemon_num):
         random_pokemon = choice(pokemons_in_db)
         nickname = random_pokemon.name
         content = f"{nickname} is my favorite pokemon!"
