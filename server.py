@@ -20,6 +20,60 @@ app.secret_key = "ThisIsASecretKey"
 app.jinja_env.undefined = StrictUndefined
 
 
+def convert_pokemon_obj2dict(pokemon):
+    pokemon_dict = {}
+    pokemon_dict['pokemon_id'] = pokemon.pokemon_id
+    pokemon_dict['name'] = pokemon.name
+    pokemon_dict['level'] = pokemon.level
+    pokemon_dict['icon'] = pokemon.sprites['front_default']
+    print(pokemon.stats)
+    print(pokemon.level)
+    pokemon_dict['stats'] = {
+        'hp': pokemon.stats[0]['base_stat']+2*pokemon.level,
+        'attack': pokemon.stats[1]['base_stat']+0.5*pokemon.level,
+        'defense': pokemon.stats[2]['base_stat']+0.5*pokemon.level,
+    }
+    pokemon_dict['image'] = pokemon.sprites['other'].get(
+        'official-artwork').get('front_default')
+    return pokemon_dict
+
+
+def convert_pokemon_battle_obj2dict(pokemon):
+    pokemon_dict = {}
+    fetch_pokemon = crud.get_fetch_pokemon_by_id(pokemon.kind_id)
+    pokemon_dict['pokemon_id'] = pokemon.pokemon_id
+    pokemon_dict['nickname'] = pokemon.nickname
+    pokemon_dict['level'] = pokemon.level
+    pokemon_dict['stats'] = pokemon.stats
+    pokemon_dict['img'] = fetch_pokemon.sprites['other'].get(
+        'official-artwork').get('front_default')
+    pokemon_dict['back_default'] = fetch_pokemon.sprites['back_default']
+    pokemon_dict['front_default'] = fetch_pokemon.sprites['front_default']
+    return pokemon_dict
+
+
+def convert_comment_obj2dict(comment):
+    # convert comment(obj) to comment(dict)
+    comment_dict = {}
+    comment_dict['comment_id'] = comment.comment_id
+    comment_dict['content'] = comment.content
+    comment_dict['created_date'] = comment.created_date
+    comment_dict['player'] = comment.player.username
+    return comment_dict
+
+
+def conver_player_obj2dict(player):
+    # convert player(obj) to player(dict)
+    player_dict = {}
+    player_dict['player_id'] = player.player_id
+    player_dict['username'] = player.username
+    player_dict['email'] = player.email
+    player_dict['img'] = player.img
+    player_dict['winning_rate'] = player.winning_rate
+    player_dict['created_date'] = player.created_date
+    return player_dict
+
+
 @app.route('/')
 def homepage():
     """Show homepage."""
@@ -317,64 +371,13 @@ def update_profile():
     return jsonify({"username": new_username, "uploadUrl": new_img})
 
 
-def convert_pokemon_obj2dict(pokemon):
-    pokemon_dict = {}
-    pokemon_dict['pokemon_id'] = pokemon.pokemon_id
-    pokemon_dict['name'] = pokemon.name
-    pokemon_dict['level'] = pokemon.level
-    pokemon_dict['icon'] = pokemon.sprites['front_default']
-    pokemon_dict['stats'] = {
-        'hp': pokemon.stats[0]['base_stat']+2*pokemon.level,
-        'attack': pokemon.stats[1]['base_stat']+0.5*pokemon.level,
-        'defense': pokemon.stats[2]['base_stat']+0.5*pokemon.level,
-    }
-    pokemon_dict['image'] = pokemon.sprites['other'].get(
-        'official-artwork').get('front_default')
-    return pokemon_dict
-
-
-def convert_pokemon_battle_obj2dict(pokemon):
-    pokemon_dict = {}
-    fetch_pokemon = crud.get_fetch_pokemon_by_id(pokemon.kind_id)
-    pokemon_dict['pokemon_id'] = pokemon.pokemon_id
-    pokemon_dict['nickname'] = pokemon.nickname
-    pokemon_dict['level'] = pokemon.level
-    pokemon_dict['stats'] = pokemon.stats
-    pokemon_dict['img'] = fetch_pokemon.sprites['other'].get(
-        'official-artwork').get('front_default')
-    pokemon_dict['back_default'] = fetch_pokemon.sprites['back_default']
-    pokemon_dict['front_default'] = fetch_pokemon.sprites['front_default']
-    return pokemon_dict
-
-
-def convert_comment_obj2dict(comment):
-    # convert comment(obj) to comment(dict)
-    comment_dict = {}
-    comment_dict['comment_id'] = comment.comment_id
-    comment_dict['content'] = comment.content
-    comment_dict['created_date'] = comment.created_date
-    comment_dict['player'] = comment.player.username
-    return comment_dict
-
-
-def conver_player_obj2dict(player):
-    # convert player(obj) to player(dict)
-    player_dict = {}
-    player_dict['player_id'] = player.player_id
-    player_dict['username'] = player.username
-    player_dict['email'] = player.email
-    player_dict['img'] = player.img
-    player_dict['winning_rate'] = player.winning_rate
-    player_dict['created_date'] = player.created_date
-    return player_dict
-
 # battle
 
 
 @app.route('/battle_players', methods=['GET'])
 def player_list():
     """Show player list page."""
-    return render_template('player_list.html', title='Player List')
+    return render_template('player_list.html', title='Battle')
 
 
 @app.route('/battle_players_json', methods=['GET'])
