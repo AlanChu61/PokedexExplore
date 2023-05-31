@@ -3,6 +3,7 @@ let map;
 let userMarker;
 let overview_path;
 let directionsRenderer;
+const isLogin = document.getElementById("username");
 const sunnyvaleCoords = {
     lat: 37.3816,
     lng: -122.0374,
@@ -142,7 +143,6 @@ function calCommuteTime(evt) {
 
 function initMap() {
     const userLocation = sunnyvaleCoords;
-
     map = new google.maps.Map(document.querySelector('#map'), {
         center: userLocation,
         scrollwheel: false,
@@ -152,22 +152,25 @@ function initMap() {
         streetViewControl: false,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     });
-    const addUserMarkerBtn = document.getElementById('addUserMakerBtn');
-    addUserMarkerBtn.addEventListener('click', addUserMarker);
-    const addPokemonMarkersBtn = document.getElementById('addPokemonMakerBtn');
-    addPokemonMarkersBtn.addEventListener('click', addPokemonMarkers);
-    // add event listener for adding player markers
-    document.getElementById('addPlayerOne').addEventListener('click', function () {
-        addPlayerMarkers(1);
-    });
 
-    document.getElementById('addPlayerTwo').addEventListener('click', function () {
-        addPlayerMarkers(2);
-    });
+    if (isLogin) {
+        const addUserMarkerBtn = document.getElementById('addUserMakerBtn');
+        addUserMarkerBtn.addEventListener('click', addUserMarker);
+        const addPokemonMarkersBtn = document.getElementById('addPokemonMakerBtn');
+        addPokemonMarkersBtn.addEventListener('click', addPokemonMarkers);
+        // add event listener for adding player markers
+        document.getElementById('addPlayerOne').addEventListener('click', function () {
+            addPlayerMarkers(1);
+        });
 
-    document.getElementById('addPlayerThree').addEventListener('click', function () {
-        addPlayerMarkers(3);
-    });
+        document.getElementById('addPlayerTwo').addEventListener('click', function () {
+            addPlayerMarkers(2);
+        });
+
+        document.getElementById('addPlayerThree').addEventListener('click', function () {
+            addPlayerMarkers(3);
+        });
+    }
 
     const upBtn = document.getElementById('upBtn');
     const downBtn = document.getElementById('downBtn');
@@ -181,7 +184,12 @@ function initMap() {
 }
 
 function addUserMarker() {
-    const userLocation = sunnyvaleCoords;  // Replace with your desired user location
+    if (isLogin == false) {
+        alert("Please login first!");
+        return;
+    }
+
+    const userLocation = sunnyvaleCoords;
     userMarker = new google.maps.Marker({
         position: userLocation,
         title: 'You are here',
@@ -202,11 +210,6 @@ function addUserMarker() {
 let pokemonMarkers = [];
 
 function addPokemonMarkers() {
-    pokemonMarkers.forEach((marker) => {
-        marker.setMap(null);
-    });
-    pokemonMarkers = [];
-
     fetch('/fetch_pokemon_json')
         .then((response) => {
             if (!response.ok) {
@@ -267,6 +270,7 @@ function addPokemonMarkers() {
 let playerMarkers = [];
 
 function addPlayerMarkers(battleMode) {
+
     clearPlayerMarkers();
 
     fetch('/battle_players_json')

@@ -1,6 +1,6 @@
 function PlayerList() {
-    //check if login
-    const login = document.getElementById("username");
+    //check if isLogin
+    const isLogin = document.getElementById("username");
     const [players, setPlayers] = React.useState([]);
     const [battleMode, setBattleMode] = React.useState("")
 
@@ -33,7 +33,7 @@ function PlayerList() {
                     <form action="/battle" method="GET">
                         <input type="hidden" name="player_id" value={props.player.player_id} />
                         <input type="hidden" name="battle_mode" value={battleMode} />
-                        {login && battleMode && <button className="btn btn-primary btn-sm" type="submit" disabled={!hasEnoughPokemon}>Let's battle</button>}
+                        {isLogin && battleMode && <button className="btn btn-primary btn-sm" type="submit" disabled={!hasEnoughPokemon}>Let's battle</button>}
                     </form><div>Joined since: {new Date(props.player.created_date).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
@@ -74,7 +74,7 @@ function PlayerList() {
             <div>First, make sure you have at least One Pokémon.</div>
             <div>Next, select the number of Pokemons you want to engage in.</div>
             <div>Finally, choose the player you want to battle against.</div>
-            {login && (<div className="d-flex justify-content-center mt-3">
+            {isLogin && (<div className="d-flex justify-content-center mt-3">
                 <button className="btn btn-primary mx-2" onClick={(evt) =>
                     handleBattleMode(evt, 1)}>1v1</button>
                 <button className="btn btn-primary mx-2" onClick={(evt) => handleBattleMode(evt, 2)}>2v2</button>

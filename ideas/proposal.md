@@ -37,8 +37,8 @@ Link: Replace this with a link to your data model
 
 ### Nice-to-haves
 
-- Pokemon can be traded between users
-- Pokemon can be evolved
+- (x) Pokemon can be traded between users
+- (x) Pokemon can be evolved
 
 
 ## Notes

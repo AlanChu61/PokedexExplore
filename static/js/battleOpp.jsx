@@ -87,7 +87,7 @@ function Opponent(props) {
     function OpponentPokemon(props) {
         const isSelectedDefender = selectedDefender == props.nickname;
         const isSelectedAttacker = selectedAttacker == props.nickname;
-        return <div className={`pokemon col-${Math.floor(9 / battleMode)} card 
+        return <div className={`pokemon col-${Math.floor(9 / battleMode)} text-center card
         ${isSelectedDefender ? 'border-danger border-4' : ''}
         ${isSelectedAttacker ? 'border-success border-4' : ''}
         `} key={props.nickname}>
@@ -96,7 +96,7 @@ function Opponent(props) {
             <div>LV: {props.level}</div>
             <div>HP: {props.stats.hp}</div>
             <div>ATK/DEF: {props.stats.attack}/{props.stats.defense}</div>
-            {!opponentActive && (<button onClick={(evt) => assignDefender(evt)}>Defender</button>)}
+            {!opponentActive && (<button className="btn btn-warning btn-sm" onClick={(evt) => assignDefender(evt)}>Defender</button>)}
         </div>
     }
 
@@ -134,7 +134,7 @@ function Opponent(props) {
     return (
         <div className="row">
             {opponentPokemonList}
-            <div className="col-4">
+            <div className="col-3 text-center m-auto">
                 <img src={opponentInfo.img} width="80px" />
                 <div>{opponentInfo.username}</div>
                 <div>Win:{opponentInfo.winning_rate.win} Lose:{opponentInfo.winning_rate.lose}</div>

@@ -131,3 +131,12 @@ html,body{
       width: 2.5rem;
       border-radius: 50%;
     }
+
+    .page-center{
+    width: 80%;
+    margin: 0 auto;
+    }
+    .card {
+      background-color: transparent;
+    }
+    

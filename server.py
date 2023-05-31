@@ -26,17 +26,17 @@ def homepage():
 
     return render_template('homepage.html', title="HomePage")
 
+
 @app.route('/get_started')
 def get_started():
     """Show get_started."""
-    pokemons=[]
-    for i in range(1,8,3):
+    pokemons = []
+    for i in range(1, 8, 3):
         pokemon = crud.get_fetch_pokemon_by_id(i)
         pokemon_dict = convert_pokemon_obj2dict(pokemon)
         pokemons.append(pokemon_dict)
         print(pokemon_dict['name'])
     return jsonify({'pokemons': pokemons})
-
 
 
 @app.route('/fetch_pokemons')
@@ -88,7 +88,7 @@ def capture_pokemon():
 
 @app.route('/view_pokemons')
 def view_pokemons():
-    return render_template('view_pokemons.html', title="ViewPokemons")
+    return render_template('view_pokemons.html', title="View Pokemons")
 
 
 @app.route('/view_pokemons_json')
@@ -133,7 +133,7 @@ def detail_pokemon_json(pokemon_id):
     pokemon_dict['captured_date'] = pokemon.captured_date
     pokemon_dict['level'] = pokemon.level
     pokemon_dict['stats'] = pokemon.stats
-    
+
     # get pokemon info
     pokemon_info = crud.get_fetch_pokemon_by_id(pokemon.kind_id)
     pokemon_dict['kind_info'] = convert_pokemon_obj2dict(pokemon_info)
@@ -235,14 +235,15 @@ def signup():
             img = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/150.svg"
         if crud.get_player_by_email(email):
             """account exists"""
-            flash("Email already exists. Please try again!","error")
+            flash("Email already exists. Please try again!", "error")
             return redirect('/signup')
         else:
             """new account"""
-            new_player = crud.create_player(email, password, username,img,winning_rate={"win":0,"lose":0})
+            new_player = crud.create_player(
+                email, password, username, img, winning_rate={"win": 0, "lose": 0})
             db.session.add(new_player)
             db.session.commit()
-            flash("Sign up successfully!","success")
+            flash("Sign up successfully!", "success")
             session['player_id'] = new_player.player_id
             session['username'] = username
             session['email'] = email
@@ -254,7 +255,7 @@ def signup():
 def login():
     """Show login form."""
     if request.method == 'GET':
-        return render_template('login.html',title='Login')
+        return render_template('login.html', title='Login')
     else:
         """Log in a user."""
         email = request.form.get('email')
@@ -265,9 +266,9 @@ def login():
             session['email'] = email
             session['username'] = logined_player.username
             session['img'] = logined_player.img
-            session['pokemon_num'] =len(logined_player.pokemons)
+            session['pokemon_num'] = len(logined_player.pokemons)
             # session['winning_rate'] = logined_player.winning_rate
-            flash("Login successfully!","success")
+            flash("Login successfully!", "success")
             return redirect('/view_pokemons')
         else:
             flash('Email or password is incorrect. Please try again.')
@@ -279,41 +280,41 @@ def logout():
     session.clear()
     return redirect('/')
 
+
 @app.route("/upload", methods=['POST'])
 def upload_image():
-  app.logger.info('in upload route')
-  cloudinary_config(cloud_name = os.getenv('CLOUD_NAME'), api_key=os.getenv('API_KEY'), 
-                    api_secret=os.getenv('API_SECRET'))
-  upload_result = None
-  if request.method == 'POST':
-    image_to_upload = request.files['image']
-    app.logger.info('%s file_to_upload', image_to_upload)
-    if image_to_upload:
-      upload_result = upload(image_to_upload)
-      app.logger.info(upload_result)
-      return jsonify(upload_result)
+    app.logger.info('in upload route')
+    cloudinary_config(cloud_name=os.getenv('CLOUD_NAME'), api_key=os.getenv('API_KEY'),
+                      api_secret=os.getenv('API_SECRET'))
+    upload_result = None
+    if request.method == 'POST':
+        image_to_upload = request.files['image']
+        app.logger.info('%s file_to_upload', image_to_upload)
+        if image_to_upload:
+            upload_result = upload(image_to_upload)
+            app.logger.info(upload_result)
+            return jsonify(upload_result)
 
 
 @app.route('/profile', methods=['GET'])
 def profile():
     """Show login form."""
-    return render_template('profile.html',title='Profile')
+    return render_template('profile.html', title='Profile')
+
 
 @app.route('/update_profile', methods=['PUT'])
 def update_profile():
     player_id = session['player_id']
     username = request.json.get('username')
     uploadUrl = request.json.get('uploadUrl')
-    crud.update_player_by_player_id(player_id,username,uploadUrl)
-    # Updated profile    
+    crud.update_player_by_player_id(player_id, username, uploadUrl)
+    # Updated profile
     new_username = crud.get_player_by_id(player_id).username
     new_img = crud.get_player_by_id(player_id).img
     session['username'] = new_username
     session['img'] = new_img
-    flash("Update successfully!","success")
-    return jsonify({"username":new_username,"uploadUrl":new_img})
-
-
+    flash("Update successfully!", "success")
+    return jsonify({"username": new_username, "uploadUrl": new_img})
 
 
 def convert_pokemon_obj2dict(pokemon):
@@ -339,7 +340,7 @@ def convert_pokemon_battle_obj2dict(pokemon):
     pokemon_dict['nickname'] = pokemon.nickname
     pokemon_dict['level'] = pokemon.level
     pokemon_dict['stats'] = pokemon.stats
-    pokemon_dict['img']= fetch_pokemon.sprites['other'].get(
+    pokemon_dict['img'] = fetch_pokemon.sprites['other'].get(
         'official-artwork').get('front_default')
     pokemon_dict['back_default'] = fetch_pokemon.sprites['back_default']
     pokemon_dict['front_default'] = fetch_pokemon.sprites['front_default']
@@ -352,8 +353,9 @@ def convert_comment_obj2dict(comment):
     comment_dict['comment_id'] = comment.comment_id
     comment_dict['content'] = comment.content
     comment_dict['created_date'] = comment.created_date
-    comment_dict['player']=comment.player.username
+    comment_dict['player'] = comment.player.username
     return comment_dict
+
 
 def conver_player_obj2dict(player):
     # convert player(obj) to player(dict)
@@ -361,16 +363,19 @@ def conver_player_obj2dict(player):
     player_dict['player_id'] = player.player_id
     player_dict['username'] = player.username
     player_dict['email'] = player.email
-    player_dict['img']= player.img
-    player_dict['winning_rate']= player.winning_rate
+    player_dict['img'] = player.img
+    player_dict['winning_rate'] = player.winning_rate
     player_dict['created_date'] = player.created_date
     return player_dict
 
 # battle
+
+
 @app.route('/battle_players', methods=['GET'])
 def player_list():
     """Show player list page."""
     return render_template('player_list.html', title='Player List')
+
 
 @app.route('/battle_players_json', methods=['GET'])
 def player_list_json():
@@ -378,12 +383,13 @@ def player_list_json():
         players = crud.get_all_players()
     else:
         players = crud.get_other_players(session['player_id'])
-    player_list=[]
+    player_list = []
     for player in players:
-        player_dict =conver_player_obj2dict(player)
-        player_dict['pokemons']= []
+        player_dict = conver_player_obj2dict(player)
+        player_dict['pokemons'] = []
         for player_pokemon in player.pokemons:
-            player_dict['pokemons'].append(convert_pokemon_battle_obj2dict(player_pokemon))
+            player_dict['pokemons'].append(
+                convert_pokemon_battle_obj2dict(player_pokemon))
         player_list.append(player_dict)
     return jsonify({"players": player_list})
 
@@ -395,30 +401,30 @@ def battle():
     battle_mode = int(request.args.get('battle_mode'))
     opponent_username = crud.get_player_by_id(opponent_id).username
     player_username = session['username']
-    flash(f"{player_username} vs. {opponent_username}","info")
-    return render_template('battle.html', title='Battle',opponent_id=opponent_id,battle_mode=battle_mode)
+    flash(f"{player_username} vs. {opponent_username}", "info")
+    return render_template('battle.html', title='Battle', opponent_id=opponent_id, battle_mode=battle_mode)
 
 
 @app.route('/get_opponent_pokemon', methods=['GET'])
 def get_opponent_pokemon():
-        # get Battle Mode from FE
+    # get Battle Mode from FE
     battle_mode = int(request.args.get('battleMode'))
     # Get opponent id from url
-    opponent_id = request.args.get('opponent_id') 
+    opponent_id = request.args.get('opponent_id')
     opponent = crud.get_player_by_id(opponent_id)
     opponent_pokemons = sample(opponent.pokemons, battle_mode)
     opponent_dict = conver_player_obj2dict(opponent)
     opponent_pokemons_list = []
     for pokemon in opponent_pokemons:
         opponent_pokemons_list.append(convert_pokemon_battle_obj2dict(pokemon))
-    return jsonify({"opponent":opponent_dict,"opponent_pokemons": opponent_pokemons_list})
+    return jsonify({"opponent": opponent_dict, "opponent_pokemons": opponent_pokemons_list})
 
 
 @app.route('/get_player_pokemon', methods=['GET'])
 def get_player_pokemon():
     # get Battle Mode from FE
-    battle_mode =int(request.args.get('battleMode'))
-    
+    battle_mode = int(request.args.get('battleMode'))
+
     # Get player's pokemon
     player = crud.get_player_by_id(session['player_id'])
     player_pokemons = sample(player.pokemons, battle_mode)
@@ -426,35 +432,35 @@ def get_player_pokemon():
     player_pokemons_list = []
     for pokemon in player_pokemons:
         player_pokemons_list.append(convert_pokemon_battle_obj2dict(pokemon))
-    return jsonify({"player":player_dict,"player_pokemons": player_pokemons_list})
+    return jsonify({"player": player_dict, "player_pokemons": player_pokemons_list})
 
-@app.route('/handle_win', methods=['PUT'])   
+
+@app.route('/handle_win', methods=['PUT'])
 def handle_win():
     player_id = request.json.get('player_id')
     opponent_id = request.json.get('opponent_id')
-    crud.increase_win_lose(player_id,opponent_id)
+    crud.increase_win_lose(player_id, opponent_id)
     player = crud.get_player_by_id(player_id)
     opponent = crud.get_player_by_id(opponent_id)
-    return jsonify({"message":"success","player":conver_player_obj2dict(player),"opponent":conver_player_obj2dict(opponent)})
+    return jsonify({"message": "success", "player": conver_player_obj2dict(player), "opponent": conver_player_obj2dict(opponent)})
 
-@app.route('/handle_lose', methods=['PUT'])   
+
+@app.route('/handle_lose', methods=['PUT'])
 def handle_lose():
     player_id = request.json.get('player_id')
     opponent_id = request.json.get('opponent_id')
-    crud.increase_win_lose(opponent_id,player_id)
+    crud.increase_win_lose(opponent_id, player_id)
     player = crud.get_player_by_id(player_id)
     opponent = crud.get_player_by_id(opponent_id)
-    return jsonify({"message":"success","player":conver_player_obj2dict(player),"opponent":conver_player_obj2dict(opponent)})
+    return jsonify({"message": "success", "player": conver_player_obj2dict(player), "opponent": conver_player_obj2dict(opponent)})
 
 
-
-@app.route('/handle_lose',methods=['PUT'])
+@app.route('/handle_lose', methods=['PUT'])
 def increase_lost_win():
     player_id = request.json.get('player_id')
     opponent_id = request.json.get('opponent_id')
-    crud.increase_win_lose(opponent_id,player_id,)
-    return jsonify({"message":"success"})
-
+    crud.increase_win_lose(opponent_id, player_id,)
+    return jsonify({"message": "success"})
 
 
 if __name__ == '__main__':

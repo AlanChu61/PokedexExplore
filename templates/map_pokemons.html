@@ -18,10 +18,9 @@
         {% endif %}
       </span></div>
       <div class="p-2 d-flex justify-content-between">
+        {% if "pokemon_num" in session %}
         <button type="button" class="btn btn-primary btn-sm" id="addUserMakerBtn">Show My Location</button>
         <button type="button" class="btn btn-primary btn-sm" id="addPokemonMakerBtn">Add Pokemons</button>
-      
-        {% if "pokemon_num" in session %}
         <button type="button" class="btn btn-danger btn-circle btn-sm" id="addPlayerOne" {% if session['pokemon_num'] < 1 %}disabled{% endif %}>1v1</button>
         <button type="button" class="btn btn-danger btn-circle btn-sm" id="addPlayerTwo" {% if session['pokemon_num'] < 2 %}disabled{% endif %}>2v2</button>
         <button type="button" class="btn btn-danger btn-circle btn-sm" id="addPlayerThree" {% if session['pokemon_num'] < 3 %}disabled{% endif %}>3v3</button>
@@ -30,7 +29,7 @@
       
       
       
-    </div>>
+    </div>
 
   <div class="col-6">  
     Here shows commute time:

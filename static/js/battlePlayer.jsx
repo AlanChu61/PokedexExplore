@@ -92,7 +92,7 @@ function Player(props) {
     function PlayerPokemon(props) {
         const isSelectedAttacker = selectedAttacker === props.nickname;
         const isSelectedDefender = selectedDefender === props.nickname;
-        return <div className={`pokemon col-${Math.floor(9 / battleMode)} card 
+        return <div className={`col-${Math.floor(9 / battleMode)} text-center card
         ${isSelectedAttacker ? 'border-success border-4' : ''}
         ${isSelectedDefender ? 'border-danger border-4' : ''}
         `} key={props.nickname}>
@@ -101,7 +101,7 @@ function Player(props) {
             <div>LV: {props.level}</div>
             <div>HP: {props.stats.hp}</div>
             <div>ATK/DEF: {props.stats.attack}/{props.stats.defense}</div>
-            {playerActive && (<button onClick={(evt) => assignAttacker(evt)}>Attacker</button>)}
+            {playerActive && (<button className="btn btn-warning btn-sm" onClick={(evt) => assignAttacker(evt)}>Attacker</button>)}
         </div>
     }
 
@@ -120,17 +120,15 @@ function Player(props) {
 
     return (
         <div className="row">
-            <div className="col-3">
+            <div className="col-3 text-center m-auto">
                 <img src={playerInfo.img} width="100px" />
                 <div>{playerInfo.username}</div>
                 <div>Win:{playerInfo.winning_rate.win} Lose:{playerInfo.winning_rate.lose}</div>
                 {playerActive && selectedAttacker && selectedDefender && (
-                    <button onClick={() => playerAttack(attacker, defender)}>Attack</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => playerAttack(attacker, defender)}>Attack</button>
                 )}
             </div>
             {playerPokemonList}
-
-
         </div >
     )
 }

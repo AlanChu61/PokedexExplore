@@ -21,7 +21,7 @@ function Battle() {
     const [defender, setDefender] = React.useState({})
     const [selectedAttacker, setSelectedAttacker] = React.useState(null)
     const [selectedDefender, setSelectedDefender] = React.useState(null)
-    const [logs, setLogs] = React.useState(["Battle History!"])
+    const [logs, setLogs] = React.useState([])
 
     const opponentId = document.getElementById('opponent_id').innerHTML
     const battleMode = document.getElementById('battle_mode').innerHTML
@@ -54,14 +54,14 @@ function Battle() {
             })
     }, []);
 
-    function Log(prop) {
-        console.log(prop.log)
+    function Log(props) {
         return (
-            <div>
-                {prop.log}
+            <div className>
+                {props.log}
             </div>
-        )
+        );
     }
+
     const logs_list = logs.map((log, index) => <Log key={index} log={log} />);
 
     const battleLog = document.getElementById('battle-log');
@@ -129,6 +129,9 @@ function Battle() {
                 </div>
                 <div className="col-3" >
                     <div className="bg-dark text-white" id="battle-log">
+                        <div className="text-center">
+                            Battle History
+                        </div>
                         {logs_list}
                     </div>
                 </div>

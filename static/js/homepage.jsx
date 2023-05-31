@@ -51,7 +51,7 @@ function Homepage() {
             <div className="col-12">
                 <img className="img-fluid mx-auto d-block" src="/static/img/oak.png" />
             </div>
-            <div className="row border bg-dark">
+            <div className="row border bg-dark page-center">
                 <div className="text-white text-left col-10">
                     {introText[currentIndex]}
                 </div>
@@ -118,12 +118,12 @@ function Homepage() {
         const [isHovered, setIsHovered] = React.useState(false);
         return (
             <div
-                className="pokeball col-4"
+                className="col-4"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
                 {isHovered ? (
-                    <div className="row showHover">
+                    <div className="row showHover d-flex justify-content-between">
                         <div className="col-5">
                             <img src={props.image} height="100rem" width="auto" />
                             <div>#{props.pokemon_id} {props.name}</div>
@@ -133,9 +133,8 @@ function Homepage() {
                             <div>HP: {props.stats.hp}</div>
                             <div>Attack: {props.stats.attack}</div>
                             <div>Defense: {props.stats.defense}</div>
-
                         </div>
-                        <button onClick={selectPokemon}>I want you!</button>
+                        <button className="btn btn-success btn-sm" onClick={selectPokemon}>I want you!</button>
                     </div>
                 ) : (
                     <img className="img-fluid mx-auto d-block" src="static/img/pokeBall.png" width="75rem" height="auto" />
@@ -161,11 +160,11 @@ function Homepage() {
                 <img className="img-fluid mx-auto d-block" src="/static/img/oak.png" />
             </div>
             {currentIndex === text.length - 1 && !isSelected && (
-                <div className="row">{pokeBalls}</div>
+                <div className="row page-center">{pokeBalls}</div>
             )}
             <div className="row pt-5 mx-5">
                 {!isSelected ? (
-                    <div className="row border bg-dark">
+                    <div className="row border bg-dark page-center">
                         <div className="text-white col-10">
                             {text[currentIndex]}
                         </div>
@@ -175,7 +174,7 @@ function Homepage() {
                             )}
                         </div>
                     </div>
-                ) : <div className="row border bg-dark">
+                ) : <div className="row border bg-dark page-center">
                     <div className="text-white col-10">
                         {post_text[currentIndex]}
                     </div>
@@ -187,7 +186,6 @@ function Homepage() {
                 </div>}
             </div>
             {(isSelected && (currentIndex === post_text.length - 1)) ? (
-
                 <a href="/map_pokemons">
                     <div className="text-center">Start your Journey</div></a>
             ) : (
