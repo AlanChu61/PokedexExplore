@@ -3,7 +3,7 @@ function PlayerList() {
     const login = document.getElementById("username");
     const [players, setPlayers] = React.useState([]);
     const [battleMode, setBattleMode] = React.useState("")
-    const playerPokeCnt = document.getElementById("userInfo").children[4].innerHTML.split(":")[1].trim()
+
 
     React.useEffect(() => {
         fetch(`/battle_players_json?battle_mode=${battleMode}`)
@@ -58,6 +58,7 @@ function PlayerList() {
 
     const handleBattleMode = (evt, battleMode) => {
         evt.preventDefault();
+        const playerPokeCnt = document.getElementById("userInfo").children[4].innerHTML.split(":")[1].trim();
         if (playerPokeCnt < battleMode) {
             alert("You don't have enough Pokemons to battle");
             evt.target.disabled = true;
