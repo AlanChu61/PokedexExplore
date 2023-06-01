@@ -302,6 +302,7 @@ def signup():
             session['username'] = username
             session['email'] = email
             session['img'] = img
+            session['pokemon_num'] = len(new_player.pokemons)
             return redirect('/')
 
 

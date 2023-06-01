@@ -73,7 +73,7 @@ function PlayerList() {
     return (
         <React.Fragment>
             <h1>Battle instruction:</h1>
-            <div>First, make sure you have at least One Pokémon. <a href="/view_pokemons">Click to see</a></div>
+            <div>First, make sure you have at least One Pokémon. {isLogin && <a href="/view_pokemons">Click to see</a>}</div>
             <div>Next, select the number of Pokemons you want to engage in.</div>
             <div>Finally, choose the player you want to battle against.</div>
             {isLogin && (<div className="d-flex justify-content-center my-3">
