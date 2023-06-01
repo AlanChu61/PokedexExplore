@@ -1,7 +1,7 @@
 from datetime import datetime
+from random import choice, randint
 import os
 import json
-from random import choice, randint
 import model
 import crud
 import server
@@ -44,7 +44,6 @@ for pokemon_data_file in sorted(os.listdir('data')):
         stats = pokemon.get('stats')
         types = pokemon.get('types')
         weight = pokemon.get('weight')
-
         pokemon = crud.create_fetch_pokemon(abilities, base_experience, forms, game_indices, height, held_items,
                                             is_default, location_area_encounters, moves, name, order, past_types, species, sprites, stats, types, weight)
         pokemons_in_db.append(pokemon)

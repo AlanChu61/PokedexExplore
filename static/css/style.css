@@ -140,3 +140,17 @@ html,body{
       background-color: transparent;
     }
     
+
+    @media (max-width: 767px) {
+      #dropDown {
+        display: inline-block
+      }
+      #navBarMenu {
+        display: none
+      }
+    }
+    @media (min-width: 768px) {
+      #dropDownMenu {
+        display: none
+      }
+    }
