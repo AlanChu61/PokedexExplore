@@ -1,156 +1,202 @@
-*{
-    font-size: 1.25rem;
-    font-family: 'Cute Font', cursive;
-    box-sizing: border-box;
+* {
+  font-size: 1.25rem;
+  font-family: 'Cute Font', cursive;
+  box-sizing: border-box;
 }
-html,body{
-    height: 100vh;
+
+html, body {
+  height: 100vh;
 }
+
 #homepage::before {
-    content: "";
-    position: absolute;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-image: url("../img/lab.png");
-    opacity: 0.25;
-    z-index: -1; 
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-image: url("../img/lab.png");
+  opacity: 0.25;
+  z-index: -1;
 }
+
 .centered-element {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
 }
+
 #battle::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-size: 100% 100%;
-    background-image: url("../img/battle_field.png");
-    opacity: 0.25;
-    z-index: -1; 
-  }  
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-size: 100% 100%;
+  background-image: url("../img/battle_field.png");
+  opacity: 0.25;
+  z-index: -1;
+}
 
-.controller{
-    width: 100%;
-    display:flex;
-    background-color: #eee;
-    border-radius: 10px;
-    padding-bottom: 1.25rem;
+.controller {
+  width: 100%;
+  display: flex;
+  background-color: #eee;
+  border-radius: 10px;
+  padding-bottom: 1.25rem;
 }
-.container-fluid{
-    max-width: 100%;
-    padding-bottom: 1.5rem;
+
+.container-fluid {
+  max-width: 100%;
+  padding-bottom: 1.5rem;
 }
+
 .remote-control {
-    height:10%;
-    background-color: #eee;
-    border-radius: 10px;
+  height: 10%;
+  background-color: #eee;
+  border-radius: 10px;
 }
-  
-  .controlBtn {
-    background-color: #ccc;
-    border-radius: 50%;
-    margin: 5px;
+
+.controlBtn {
+  background-color: #ccc;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 1.5rem;
+}
+
+.showHover {
+  position: absolute;
+  line-height: normal;
+}
+
+#userInfo {
+  right: 0.5rem;
+  top: 2.5rem;
+  position: absolute;
+  border-radius: 5px;
+  z-index: 9999;
+  line-height: normal;
+  background-color: rgb(236, 245, 207);
+}
+
+.flash-message {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.success {
+  background-color: #4CAF50; /* green */
+}
+
+.error {
+  background-color: #f44336; /* red */
+}
+
+.info {
+  background-color: #2196F3; /* blue */
+}
+
+.warning {
+  background-color: #ff9800; /* orange */
+}
+
+#battle-log {
+  height: 80vh;
+  overflow: auto;
+}
+
+.pokemon {
+  padding: 5px;
+  line-height: normal;
+}
+
+#updateFrom {
+  position: absolute;
+  color: red;
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  z-index: 999;
+}
+
+.btn-circle {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+}
+
+@media (max-width: 767px) {
+  #dropDownMenu {
+    display: inline-block;
   }
- footer {
-    position: fixed;
-    bottom: 0;
+
+  #navBarMenu {
+    display: none;
+  }
+
+  .oak-img {
+    width: 6rem;
+  }
+
+  .page-center {
     width: 100%;
-    height: 1.5rem;           
+    margin: 0 auto;
   }
 
-  .showHover{
-    position: absolute;
-    line-height: normal;
-    
+  .card {
+    background-color: transparent;
+  }
+}
+
+@media (min-width: 768px) {
+  #dropDownMenu {
+    display: none;
   }
 
-  #userInfo{
-    right:0.5rem;
-    top:2.5rem;
-    position: absolute;
-    border-radius: 5px;
-    z-index: 9999;
-    line-height: normal;
-    background-color: rgb(236, 245, 207);;
+  #navBarMenu {
+    display: block;
   }
 
-  .flash-message {
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    color: #ffffff;
-    text-align: center;
-  }
-  
-  .success {
-    background-color: #4CAF50; /* green */
-  }
-  
-  .error {
-    background-color: #f44336; /* red */
-  }
-  
-  .info {
-    background-color: #2196F3; /* blue */
-  }
-  
-  .warning {
-    background-color: #ff9800; /* orange */
-  }
-  
-  #battle-log {
-    height: 80vh;
-    overflow: auto;
-  }
-  
-  .pokemon{
-    padding: 5px;
-    line-height: normal;
+  .oak-img {
+    width: 7.5rem;
   }
 
-#updateFrom{
-      position: absolute;
-      color:red;
-      background-color: white;
-      border: 1px solid black;
-      padding: 10px;
-      z-index: 999;
-    }
-    
-    .btn-circle{
-      height: 2.5rem;
-      width: 2.5rem;
-      border-radius: 50%;
-    }
-
-    .page-center{
+  .page-center {
+    height:20%;
     width: 80%;
     margin: 0 auto;
-    }
-    .card {
-      background-color: transparent;
-    }
-    
+  }
 
-    @media (max-width: 767px) {
-      #dropDown {
-        display: inline-block
-      }
-      #navBarMenu {
-        display: none
-      }
-    }
-    @media (min-width: 768px) {
-      #dropDownMenu {
-        display: none
-      }
-    }
+  .card {
+    background-color: transparent;
+  }
+}
+
+@keyframes blinking {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.blinking {
+  animation: blinking 1.5s infinite;
+}

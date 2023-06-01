@@ -57,7 +57,7 @@ function Homepage() {
                 </div>
                 <div className="col-2 d-flex justify-content-end">
                     {currentIndex < introText.length - 1 && (
-                        <button className="btn btn-primary btn-sm" onClick={handleNextText} disabled={currentIndex === introText.length - 1}>&#8681;</button>
+                        <button className="btn btn-transparent" onClick={handleNextText} disabled={currentIndex === introText.length - 1}><i className="fa fa-toggle-down bg-dark text-white blinking"></i></button>
                     )}
                 </div>
             </div>
@@ -123,12 +123,12 @@ function Homepage() {
                 onMouseLeave={() => setIsHovered(false)}
             >
                 {isHovered ? (
-                    <div className="row showHover d-flex justify-content-between">
-                        <div className="col-5">
+                    <div className="row showHover d-flex justify-content-between flex-wrap">
+                        <div className="col-12 col-md-5">
                             <img src={props.image} height="100rem" width="auto" />
                             <div>#{props.pokemon_id} {props.name}</div>
                         </div>
-                        <div className="col-7">
+                        <div className="col-12 col-md-7">
                             <div>LV: {props.level}</div>
                             <div>HP: {props.stats.hp}</div>
                             <div>Attack: {props.stats.attack}</div>
@@ -137,7 +137,7 @@ function Homepage() {
                         <button className="btn btn-success btn-sm" onClick={selectPokemon}>I want you!</button>
                     </div>
                 ) : (
-                    <img className="img-fluid mx-auto d-block" src="static/img/pokeBall.png" width="75rem" height="auto" />
+                    <img className="img-fluid mx-auto d-block" src="static/img/pokeBall.png" width="50rem" height="auto" />
                 )
                 }
             </div >
@@ -157,41 +157,50 @@ function Homepage() {
     return (
         <React.Fragment >
             <div className="col-12 lab">
-                <img className="img-fluid mx-auto d-block" src="/static/img/oak.png" />
+                <img className="mx-auto d-block oak-img" src="/static/img/oak.png" />
             </div>
-            {currentIndex === text.length - 1 && !isSelected && (
-                <div className="row page-center">{pokeBalls}</div>
+            {(isSelected && (currentIndex === post_text.length - 1)) ? (
+                <a href="/map_pokemons">
+                    <div className="text-center blinking">Start your Journey</div>
+                </a>
+            ) : (
+                <div className="text-center blinking">Click to continue</div>
             )}
-            <div className="row pt-5 mx-5">
+
+            <div className="row d-flex flex-row flex-wrap">
                 {!isSelected ? (
-                    <div className="row border bg-dark page-center">
+                    <div className="row border bg-dark page-center align-items-center">
                         <div className="text-white col-10">
                             {text[currentIndex]}
                         </div>
-                        <div className="col-2 d-flex justify-content-end">
+                        <div className="col-2 d-flex justify-content-end align-items-center">
                             {currentIndex < text.length - 1 && (
-                                <button onClick={handleNextText} disabled={currentIndex === text.length - 1}>&#8681;</button>
+                                <button className="btn btn-transparent" onClick={handleNextText} disabled={currentIndex === text.length - 1}>
+                                    <i className="fa fa-toggle-down bg-dark text-white blinking"></i>
+                                </button>
+
                             )}
                         </div>
+
                     </div>
                 ) : <div className="row border bg-dark page-center">
                     <div className="text-white col-10">
                         {post_text[currentIndex]}
                     </div>
-                    <div className="col-2 d-flex justify-content-end">
+                    <div className="col-2 d-flex justify-content-end align-items-center">
                         {currentIndex < post_text.length - 1 && (
-                            <button onClick={handleNextText}>&#8681;</button>
+                            <button className="btn btn-transparent" onClick={handleNextText}>
+                                <i className="fa fa-toggle-down bg-dark text-white blinking"></i>
+                            </button>
+
                         )}
                     </div>
                 </div>}
             </div>
-            {(isSelected && (currentIndex === post_text.length - 1)) ? (
-                <a href="/map_pokemons">
-                    <div className="text-center">Start your Journey</div></a>
-            ) : (
-                <div className="text-center">Click to continue</div>
-
+            {currentIndex === text.length - 1 && !isSelected && (
+                <div className="row page-center my-2">{pokeBalls}</div>
             )}
+
 
         </React.Fragment >
     );
