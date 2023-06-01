@@ -94,7 +94,7 @@ function Battle() {
         return (
 
             < div className="row" >
-                <div className="col-9">
+                <div className="col-12 col-md-9">
                     <div className="col-12">
                         <Opponent opponentPokemons={opponentPokemons}
                             setAttacker={setAttacker} setDefender={setDefender}
@@ -127,7 +127,7 @@ function Battle() {
                             player={player} />
                     </div>
                 </div>
-                <div className="col-3" >
+                <div className="col-12 col-md-3" >
                     <div className="bg-dark text-white" id="battle-log">
                         <div className="text-center">
                             Battle History

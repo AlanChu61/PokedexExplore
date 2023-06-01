@@ -192,7 +192,7 @@ function BattleOver(props) {
                     </div>
                 </div>
             </div >
-            <a className="text-center" href="/player_list">
+            <a className="text-center" href="/battle_players">
                 <div className="text-center">
                     Battle with others
                 </div>

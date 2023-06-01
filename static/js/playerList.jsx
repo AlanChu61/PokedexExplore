@@ -25,23 +25,25 @@ function PlayerList() {
             </div>)
         }
         return <div className="row border rounded">
-            <div className="col-3 d-flex align-items-center justify-content-center">
+            <div className="col-12 col-md-3 d-flex align-items-center justify-content-center">
                 <div className="text-center">
                     <img className="img-fluid" src={props.player.img} style={{ maxHeight: "100px", width: "auto" }} />
-                    <div>Username: {props.player.username}</div>
-                    <div>Winning Rate: {props.player.winning_rate.win}/{props.player.winning_rate.lose}</div>
-                    <form action="/battle" method="GET">
-                        <input type="hidden" name="player_id" value={props.player.player_id} />
-                        <input type="hidden" name="battle_mode" value={battleMode} />
-                        {isLogin && battleMode && <button className="btn btn-primary btn-sm" type="submit" disabled={!hasEnoughPokemon}>Let's battle</button>}
-                    </form><div>Joined since: {new Date(props.player.created_date).toLocaleDateString("en-US", {
+                    <div>{props.player.username}</div>
+                    <div>Winning Rate: {props.player.winning_rate.win}/{props.player.winning_rate.lose}</div>                    <div>Joined since: {new Date(props.player.created_date).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                     })}</div>
+                    <form action="/battle" method="GET">
+                        <input type="hidden" name="player_id" value={props.player.player_id} />
+                        <input type="hidden" name="battle_mode" value={battleMode} />
+                        <div class="d-flex justify-content-center">
+                            {isLogin && battleMode && <button className="button-fight btn-sm" type="submit" disabled={!hasEnoughPokemon}>Let's battle</button>}
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div className="col-9 text-center">
+            <div className="col-12 col-md-9 text-center">
                 Pokemons
                 <div className="row">
                     {pokemonList}
@@ -71,10 +73,10 @@ function PlayerList() {
     return (
         <React.Fragment>
             <h1>Battle instruction:</h1>
-            <div>First, make sure you have at least One Pokémon.</div>
+            <div>First, make sure you have at least One Pokémon. <a href="/view_pokemons">Click to see</a></div>
             <div>Next, select the number of Pokemons you want to engage in.</div>
             <div>Finally, choose the player you want to battle against.</div>
-            {isLogin && (<div className="d-flex justify-content-center mt-3">
+            {isLogin && (<div className="d-flex justify-content-center my-3">
                 <button className="btn btn-primary mx-2" onClick={(evt) =>
                     handleBattleMode(evt, 1)}>1v1</button>
                 <button className="btn btn-primary mx-2" onClick={(evt) => handleBattleMode(evt, 2)}>2v2</button>
