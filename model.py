@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 db = SQLAlchemy()
 
+
 class Fetch_Pokemon(db.Model):
     """A pokemon(from fetch API)."""
 
@@ -47,7 +48,8 @@ class Player (db.Model):
     img = db.Column(db.String(255), nullable=True)
     created_date = db.Column(
         db.DateTime, nullable=False, default=datetime.utcnow)
-    winning_rate = db.Column(db.JSON, nullable=True, default ={"win":0,"lose":0})
+    winning_rate = db.Column(db.JSON, nullable=True,
+                             default={"win": 0, "lose": 0})
     pokemons = db.relationship(
         "Pokemon", secondary="player_pokemons", back_populates="player")
     comments = db.relationship("Comment", back_populates="player")
@@ -110,8 +112,9 @@ class Comment(db.Model):
 
         return f'<Comment {self.player} made {self.pokemon} about {self.content}>'
 
+
 def connect_to_db(flask_app, db_uri="postgresql:///pokemons", echo=True):
-    
+
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -120,8 +123,6 @@ def connect_to_db(flask_app, db_uri="postgresql:///pokemons", echo=True):
     db.init_app(flask_app)
 
     print("Connected to the db!")
-
-
 
 
 if __name__ == '__main__':
