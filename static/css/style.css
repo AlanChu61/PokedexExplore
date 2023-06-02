@@ -84,7 +84,7 @@ footer {
   line-height: normal;
   background-color: rgb(236, 245, 207);
 }
-#username{
+#userInfoBtn{
   font-weight: bold;
   text-align: center;
 }
@@ -173,7 +173,7 @@ footer {
     height: 20vh;
     overflow: auto;
   }
-  #username{
+  #userInfoBtn{
     height: 50px;
     width: 50px;
   }
@@ -211,7 +211,7 @@ footer {
   }#battle-log {
     height: 100%;
     overflow: auto;
-  }  #username{
+  }  #userInfoBtn{
     height: 75px;
     width: 75px;
   }

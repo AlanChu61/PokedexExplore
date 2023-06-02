@@ -1,6 +1,6 @@
 function PlayerList() {
     //check if isLogin
-    const isLogin = document.getElementById("username");
+    const isLogin = document.getElementById("userInfoBtn");
     const [players, setPlayers] = React.useState([]);
     const [battleMode, setBattleMode] = React.useState("")
 

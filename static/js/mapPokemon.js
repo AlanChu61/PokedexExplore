@@ -3,7 +3,7 @@ let map;
 let userMarker;
 let overview_path;
 let directionsRenderer;
-const isLogin = document.getElementById("username");
+const isLogin = document.getElementById("userInfoBtn");
 const sunnyvaleCoords = {
     lat: 37.3816,
     lng: -122.0374,

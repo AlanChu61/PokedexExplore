@@ -29,7 +29,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     {% if 'username' in session %}
-      <button class="btn btn-primary rounded-circle" id="username" onclick="toggleUserInfo()">{{ session['username'] }}</button>
+      <button class="btn btn-primary rounded-circle" id="userInfoBtn" onclick="toggleUserInfo()">{{ session['username'] }}</button>
       <div id="userInfo" style="display: none;">
         <img id="userImg" src="{{ session['img'] }}" width="50px" />
         <div>ID: {{ session['player_id'] }}</div>
