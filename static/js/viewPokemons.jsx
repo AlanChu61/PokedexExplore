@@ -29,6 +29,7 @@ function ViewPokemons() {
 
 
     function Pokemon(props) {
+        console.log(props)
         return <div className="col-4 card">
             <div hidden>pokemon_id:{props.pokemon_id}</div>
             <a href={`/detail_pokemon/${props.pokemon_id}`}>
@@ -68,4 +69,3 @@ function ViewPokemons() {
 }
 
 ReactDOM.render(<ViewPokemons />, document.getElementById('pokemon_container'));
-

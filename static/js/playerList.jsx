@@ -37,7 +37,7 @@ function PlayerList() {
                     <form action="/battle" method="GET">
                         <input type="hidden" name="player_id" value={props.player.player_id} />
                         <input type="hidden" name="battle_mode" value={battleMode} />
-                        <div class="d-flex justify-content-center">
+                        <div className="d-flex justify-content-center">
                             {isLogin && battleMode && <button className="button-fight btn-sm" type="submit" disabled={!hasEnoughPokemon}>Let's battle</button>}
                         </div>
                     </form>
