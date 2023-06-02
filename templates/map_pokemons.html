@@ -8,7 +8,8 @@
 
 <div class="controller col-12">
 
-  <div class="col-8 order-3 col-lg-4 order-lg-1 px-2 py-2 d-flex flex-column">
+  <div class="col-8 order-3 col-lg-4 order-lg-1 px-2 py-2">
+    
     <div class="p-2 text-center">Username: 
       <span class="bg-dark text-white" style="width: 200px;">
         {% if "username" in session %}
@@ -18,13 +19,17 @@
         {% endif %}
       </span>
     </div>
-    <div class="p-2 d-flex justify-content-between">
+    <div class="p-2 col-12 col-lg-12 d-flex flex-column">
       {% if "pokemon_num" in session %}
+      <div class ="d-flex justify-content-around">
       <button type="button" class="btn btn-primary btn-sm" id="addUserMakerBtn">Show My Location</button>
       <button type="button" class="btn btn-primary btn-sm" id="addPokemonMakerBtn">Add Pokemons</button>
+      </div>
+      <div class ="d-flex justify-content-around">
       <button type="button" class="btn btn-danger btn-circle btn-sm" id="addPlayerOne" {% if session['pokemon_num'] < 1 %}disabled{% endif %}>1v1</button>
       <button type="button" class="btn btn-danger btn-circle btn-sm" id="addPlayerTwo" {% if session['pokemon_num'] < 2 %}disabled{% endif %}>2v2</button>
       <button type="button" class="btn btn-danger btn-circle btn-sm" id="addPlayerThree" {% if session['pokemon_num'] < 3 %}disabled{% endif %}>3v3</button>
+      </div>
       {% endif %}
     </div>
   </div>

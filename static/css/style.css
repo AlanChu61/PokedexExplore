@@ -77,16 +77,19 @@ footer {
 
 #userInfo {
   right: 0.5rem;
-  top: 2.5rem;
+  top: 3rem;
   position: absolute;
   border-radius: 5px;
   z-index: 9999;
   line-height: normal;
   background-color: rgb(236, 245, 207);
 }
-
+#username{
+  font-weight: bold;
+  text-align: center;
+}
 .flash-message {
-  padding: 10px;
+
   border-radius: 5px;
   margin-bottom: 10px;
   color: #ffffff;
@@ -108,7 +111,6 @@ footer {
 .warning {
   background-color: #ff9800; /* orange */
 }
-
 
 
 .pokemon {
@@ -171,6 +173,10 @@ footer {
     height: 20vh;
     overflow: auto;
   }
+  #username{
+    height: 50px;
+    width: 50px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -205,6 +211,9 @@ footer {
   }#battle-log {
     height: 100%;
     overflow: auto;
+  }  #username{
+    height: 75px;
+    width: 75px;
   }
 }
 
