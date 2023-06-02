@@ -280,9 +280,9 @@ def signup():
 
     """Create a new user."""
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        username = request.form.get('username')
+        email = request.form.get('email').strip()
+        password = request.form.get('password').strip()
+        username = request.form.get('username').strip()
         if request.form.get('imageUrl'):
             img = request.form.get('imageUrl')
         else:
@@ -298,6 +298,7 @@ def signup():
             db.session.add(new_player)
             db.session.commit()
             flash("Sign up successfully!", "success")
+            # save user info in session
             session['player_id'] = new_player.player_id
             session['username'] = username
             session['email'] = email
@@ -313,8 +314,8 @@ def login():
         return render_template('login.html', title='Login')
     else:
         """Log in a user."""
-        email = request.form.get('email')
-        password = request.form.get('password')
+        email = request.form.get('email').strip()
+        password = request.form.get('password').strip()
         logined_player = crud.player_login(email, password)
         if logined_player:
             session['player_id'] = logined_player.player_id
@@ -326,7 +327,7 @@ def login():
             flash("Login successfully!", "success")
             return redirect('/view_pokemons')
         else:
-            flash('Email or password is incorrect. Please try again.')
+            flash("Email or password is incorrect. Please try again. ", "error")
             return redirect('/login')
 
 
@@ -371,6 +372,12 @@ def update_profile():
     flash("Update successfully!", "success")
     return jsonify({"username": new_username, "uploadUrl": new_img})
 
+
+@app.route('/update_pokemon_num', methods=['GET'])
+def update_pokemon_num():
+    session['pokemon_num'] = len(
+        crud.get_pokemons_by_user_id(session['player_id']))
+    return jsonify({"pokemon_num": session['pokemon_num']})
 
 # battle
 

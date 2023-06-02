@@ -1,7 +1,10 @@
 function capturePokemon(evt) {
     evt.preventDefault();
     const name = evt.target.parentElement.childNodes[0].childNodes[1].innerHTML.split(" ")[1].trim()
-    const nickname = prompt("Please enter a nickname for your pokemon?", name);
+    let nickname = prompt("Please enter a nickname for your pokemon?", name);
+    if (nickname == null) {
+        nickname = name
+    }
     const level = evt.target.parentElement.childNodes[1].childNodes[0].innerHTML.split(":")[1].trim()
     const [lat, lng] = [35, 6762, 139.6503]
     const kind_id = evt.target.parentElement.childNodes[0].childNodes[1].innerHTML.split(" ")[0].replace("#", "").trim()
@@ -20,6 +23,7 @@ function capturePokemon(evt) {
         .then((response) => response.json())
         .then((data) => {
             alert(data.status);
+            updatePokemonNum();
         })
         .catch((error) => {
             console.error('There has been a problem with your fetch operation:', error);
@@ -123,7 +127,7 @@ function Homepage() {
                 onMouseLeave={() => setIsHovered(false)}
             >
                 {isHovered ? (
-                    <div className="row showHover d-flex justify-content-between flex-wrap">
+                    <div className="row showHover d-flex justify-content-between flex-wrap mx-1">
                         <div className="col-12 col-md-5">
                             <img src={props.image} height="100rem" width="auto" />
                             <div>#{props.pokemon_id} {props.name}</div>

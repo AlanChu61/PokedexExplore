@@ -20,7 +20,7 @@ function ViewPokemons() {
             .then((response) => response.json())
             .then((data) => {
                 setPokemons(pokemons.filter(pokemon => pokemon.pokemon_id != pokemon_id));
-                console.log('Success');
+                updatePokemonNum();
             })
             .catch((error) => {
                 console.error('Error:');
@@ -61,9 +61,16 @@ function ViewPokemons() {
 
     return (
         <React.Fragment>
-            <div className="row">
+            <h1 className="text-center">My Pokemons</h1>
+            {pokemonList.length === 0 ? (
+                <React.Fragment>
+                    <h3 className="text-center">You don't have any pokemon</h3>
+                    <h3 className="text-center">Please meet <a href="/">Professor Oak</a> to get one.</h3>
+                    <h3 className="text-center">Please go to the <a href="/map_pokemons">map</a> to capture some.</h3>
+                </React.Fragment>
+            ) : <div className="row">
                 {pokemonList}
-            </div>
+            </div>}
         </React.Fragment>
     );
 }

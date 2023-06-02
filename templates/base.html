@@ -19,9 +19,11 @@
     
     <title>{{title}} | PokeDex Explore</title> 
 </head>
+
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-warning" id="navBarBase">
-    <a class="navbar-brand" href="/">PokeDex Explore | APP</a>
+    <a class="navbar-brand mx-2" href="/">PokeDex Explore</a>
     <div class="ml-auto order-lg-last">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -33,13 +35,13 @@
         <div>ID: {{ session['player_id'] }}</div>
         <div>Username: {{ session['username'] }}</div>
         <div>Email: {{ session['email'] }}</div>
-        <div>Pokemon Numbers: {{ session['pokemon_num'] }}</div>
+        <div id="pokemon_num">Pokemon Numbers: {{ session['pokemon_num'] }}</div>
         <a href="/profile">Edit Profile</a>
       </div>
+      {% endif %}
     </div>
-    {% endif %}
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mx-2">
         <li class="nav-item active"><a class="nav-link" href="/">Homepage</a></li>
         <li class="nav-item active"><a class="nav-link" href="/battle_players">Battle</a></li>
         <li class="nav-item active"><a class="nav-link" href="/map_pokemons">Map</a></li>
@@ -53,8 +55,6 @@
       </ul>
     </div>   
   </nav>
-  
-    
     
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -70,12 +70,9 @@
 {% block content %}
 {% endblock %}
 
-
 <footer class="text-center text-white bg-warning">
   &copy; <span id="currentYear"></span> Alan Hwader Chu. All rights reserved.
 </footer>
-
-
 {% block js %}
 {% endblock %}
 <script>
@@ -91,5 +88,14 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script>
+  function updatePokemonNum(){
+    fetch('/update_pokemon_num')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("pokemon_num").textContent = `Pokemon Numbers: ${data.pokemon_num}`;
+    });
+  }
+</script>
 </body>
 </html>

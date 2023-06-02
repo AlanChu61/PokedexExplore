@@ -49,7 +49,7 @@ function bringMeThere() {
             captureBtnParent.removeChild(captureBtn);
             const newCaptureBtn = document.createElement('button');
             newCaptureBtn.innerHTML = "Capture";
-            newCaptureBtn.setAttribute("onclick", "capturePokemon(event)");
+            newCaptureBtn.addEventListener("click", capturePokemon);
             captureBtnParent.insertAdjacentElement("beforeend", newCaptureBtn);
         }
 
@@ -59,7 +59,10 @@ function bringMeThere() {
 
 function capturePokemon(evt) {
     const name = evt.target.parentElement.children[1].innerHTML.split(":")[1].trim();
-    const nickname = prompt("Please enter a nickname for your pokemon?", name);
+    let nickname = prompt("Please enter a nickname for your pokemon?", name);
+    if (nickname == null) {
+        nickname = name
+    }
     const level = evt.target.parentElement.children[2].innerHTML.split(":")[1]
     const [lat, lng] = evt.target.parentElement.children[2].innerHTML.split(":");
     const kind_id = evt.target.parentElement.children[0].innerHTML.split(":")[1]
@@ -78,13 +81,14 @@ function capturePokemon(evt) {
         .then((response) => response.json())
         .then((data) => {
             alert(data.status);
+            updatePokemonNum();
         })
         .catch((error) => {
             console.error('There has been a problem with your fetch operation:', error);
         });
 }
 
-function calCommuteTime(evt) {
+function getCommuteTime(evt) {
     const locationString = evt.target.parentElement.children[3].innerHTML;
     const regex = /lat:([-+]?\d+(?:\.\d+)?), lng:([-+]?\d+(?:\.\d+)?)/;
     const matches = locationString.match(regex);
@@ -124,7 +128,7 @@ function calCommuteTime(evt) {
             const startAddress = response.routes[0].legs[0].start_address;
             const endAddress = response.routes[0].legs[0].end_address;
 
-            const commuteDiv = document.getElementById('calCommuteTime');
+            const commuteDiv = document.getElementById('getCommuteTime');
             commuteDiv.innerHTML = "";
 
             const commuteDetail = document.createElement('div');
@@ -134,8 +138,11 @@ function calCommuteTime(evt) {
                 <div>End Address: ${endAddress}</div>
             `;
             commuteDiv.appendChild(commuteDetail);
+            const bringMeThereBtn = document.getElementById('bringMeThereBtn');
+            bringMeThereBtn.style.display = 'inline-block';
 
         }
+
     });
 }
 
@@ -232,8 +239,8 @@ function addPokemonMarkers() {
                         <div>Name: ${pokemon.name}</div>
                         <div>LV: ${pokemon.level}</div>
                         <div>Location: lat:${pokeLocation.lat.toFixed(2)}, lng:${pokeLocation.lng.toFixed(2)}</div>
-                        <button onclick="calCommuteTime(event)">Cal Commute Time</button>
-                        <button onclick="bringMeThere(event)">Go</button>
+                        <button onclick="getCommuteTime(event)">Get Commute Time</button>
+                        <button id="bringMeThereBtn" onclick="bringMeThere(event)"style="display: none;">Go</button>
                         <div id="capturability"></div>
                     </div>`;
 

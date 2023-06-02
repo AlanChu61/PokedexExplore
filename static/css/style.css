@@ -141,16 +141,8 @@ footer {
   * {
     font-size:16px;
   }
-  #dropDownMenu {
-    display: inline-block;
-  }
-
-  #navBarMenu {
-    display: none;
-  }
-
   .oak-img {
-    height: 40%;
+    height: 30vh;
   }
 
   .page-center {
@@ -182,16 +174,8 @@ footer {
 }
 
 @media (min-width: 768px) {
-  #dropDownMenu {
-    display: none;
-  }
-
-  /* #navBarMenu {
-    display: block;
-  } */
-
   .oak-img {
-    height: 40%;
+    height: 40vh;
   }
 
   .page-center {
@@ -219,7 +203,7 @@ footer {
     background-color: #333333;
     font-size: 36px;
   }#battle-log {
-    height: 80vh;
+    height: 100%;
     overflow: auto;
   }
 }
