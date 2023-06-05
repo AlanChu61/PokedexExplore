@@ -339,3 +339,8 @@ margin-bottom: 0;
 .shake-def-animation {
   animation: shake-def 1s ease-in-out;
 }
+button[disabled] {
+  background-color: gray !important; 
+  color: white !important; 
+  cursor: not-allowed !important;
+}

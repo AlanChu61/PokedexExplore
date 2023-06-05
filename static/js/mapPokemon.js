@@ -40,6 +40,9 @@ function bringMeThere() {
         let distance = ((pokeLocation.lat() - userMarker.getPosition().lat()) ** 2 + (pokeLocation.lng() - userMarker.getPosition().lng()) ** 2) ** 0.5;
 
         const captureBtn = document.getElementById('capturability');
+        if (!captureBtn) {
+            return;
+        }
         const captureBtnParent = captureBtn.parentElement;
         if (distance > 0.02) {
             captureBtn.innerHTML = "Too far";
@@ -122,13 +125,14 @@ function getCommuteTime(evt) {
         // [{'lat': 37.3816, 'lng': -122.0374},...]
         overview_path = response.routes[0].overview_path;
         if (status === 'OK') {
+            overview_path = response.routes[0].overview_path;
             directionsRenderer.setMap(map);
             directionsRenderer.setDirections(response);
             const commuteTime = response.routes[0].legs[0].duration.text;
             const startAddress = response.routes[0].legs[0].start_address;
             const endAddress = response.routes[0].legs[0].end_address;
 
-            const commuteDiv = document.getElementById('getCommuteTime');
+            const commuteDiv = document.getElementById('showCommuteTime');
             commuteDiv.innerHTML = "";
 
             const commuteDetail = document.createElement('div');
@@ -141,11 +145,12 @@ function getCommuteTime(evt) {
             const bringMeThereBtn = document.getElementById('bringMeThereBtn');
             bringMeThereBtn.style.display = 'inline-block';
 
+        } else {
+            console.error('Directions request failed with status: ' + status);
         }
 
     });
 }
-
 
 
 function initMap() {

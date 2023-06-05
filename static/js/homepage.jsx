@@ -50,7 +50,6 @@ function Homepage() {
     const handleNextText = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
     }
-    console.log(isLogin)
     if (!isLogin) {
         return <React.Fragment>
             <div className="col-12">

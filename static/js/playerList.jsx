@@ -16,7 +16,6 @@ function PlayerList() {
     function PlayerInfo(props) {
         const pokemonList = []
         const hasEnoughPokemon = props.player.pokemons.length >= battleMode;
-        console.log(hasEnoughPokemon)
 
         for (let pokemon of props.player.pokemons) {
             pokemonList.push(<div className="col-4" key={pokemon.pokemon_id}>
@@ -42,7 +41,10 @@ function PlayerList() {
                         <input type="hidden" name="player_id" value={props.player.player_id} />
                         <input type="hidden" name="battle_mode" value={battleMode} />
                         <div className="d-flex justify-content-center">
-                            {isLogin && battleMode && <button className="btn-sm btn-primary" type="submit" disabled={!hasEnoughPokemon}>Let's battle</button>}
+                            {isLogin && battleMode &&
+                                (<button className="btn-sm btn-primary" type="submit" disabled={!hasEnoughPokemon}>
+                                    {!hasEnoughPokemon ? 'Not Available' : "Let's battle"}
+                                </button>)}
                         </div>
                     </form>
                 </div>

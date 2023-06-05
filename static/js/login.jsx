@@ -13,7 +13,9 @@ function Login() {
                 <label htmlFor="password">Password:</label>
                 <input type="password" className="form-control" id="password" name="password" value={password} placeholder="Password" onChange={evt => setPassword(evt.target.value)} />
             </div>
-            <button type="submit" className="btn btn-primary">Login</button>
-        </form></div >
+            <div className="d-flex justify-content-end my-2">
+                <button type="submit" className="btn btn-primary">Login</button>
+            </div>
+        </form ></div >
 }
 ReactDOM.render(<Login />, document.getElementById('login_form'));

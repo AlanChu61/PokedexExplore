@@ -34,11 +34,11 @@ function Signup() {
         <form action="/signup" method="POST">
             <div className="form-group">
                 <label htmlFor="email" >Email:</label>
-                <input type="text" className="form-control" id="email" name="email" value={email} onChange={evt => setEmail(evt.target.value)} />
+                <input type="email" className="form-control" id="email" name="email" value={email} onChange={evt => setEmail(evt.target.value)} />
             </div>
             <div className="form-group">
                 <label htmlFor="password">Password:</label>
-                <input type="text" className="form-control" id="password" name="password" value={password} onChange={evt => setPassword(evt.target.value)} />
+                <input type="password" className="form-control" id="password" name="password" value={password} onChange={evt => setPassword(evt.target.value)} />
             </div>
             <div>
                 <label htmlFor="username" >Username:</label>
@@ -52,7 +52,6 @@ function Signup() {
                     id="image"
                     name="image"
                     accept="image/*"
-                    required
                     onChange={handleFileChange}
                 />
                 {fileSelected && <span>&#10004;</span>}
@@ -63,7 +62,9 @@ function Signup() {
                 <img src={uploadUrl} alt="image preview" width="100px" />
             </div>
             }
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <div className="d-flex justify-content-end my-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </form>
     </div>;
 }
