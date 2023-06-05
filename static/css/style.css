@@ -8,86 +8,17 @@ html, body {
   height: 100vh;
 }
 
-#homepage::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-image: url("../img/lab.png");
-  opacity: 0.25;
-  z-index: -1;
+.container-fluid {
+  max-width: 100%;
+  padding-bottom: 1.5rem;
 }
-
 .centered-element {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
-}
-
-#battle::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-size: 100% 100%;
-  background-image: url("../img/battle_field.png");
-  opacity: 0.25;
-  z-index: -1;
-}
-
-.controller {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  background-color: #eee;
-  border-radius: 10px;
-  padding-bottom: 1.25rem;
-}
-
-.container-fluid {
-  max-width: 100%;
-  padding-bottom: 1.5rem;
-}
-
-
-.controlBtn {
-  background-color: #ccc;
-  border-radius: 50%;
-  margin: 5px;
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 1.5rem;
-}
-
-.showHover {
-  position: absolute;
-  line-height: normal;
-}
-
-#userInfo {
-  right: 0.5rem;
-  top: 3rem;
-  position: absolute;
-  border-radius: 5px;
-  z-index: 9999;
-  line-height: normal;
-  background-color: rgb(236, 245, 207);
-}
-#userInfoBtn{
-  font-weight: bold;
-  text-align: center;
-}
+}/* Flash msg */
 .flash-message {
 
   border-radius: 5px;
@@ -110,6 +41,98 @@ footer {
 
 .warning {
   background-color: #ff9800; /* orange */
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 1.5rem;
+}
+/* base page */
+
+#userInfo {
+  right: 0rem;
+  top: 3rem;
+  position: absolute;
+  border-radius: 5px;
+  z-index: 9999;
+  line-height: normal;
+}
+#userInfoBtn{
+  font-weight: bold;
+  text-align: center;
+}
+
+
+#homepage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-image: url("../img/lab.png");
+  opacity: 0.25;
+  z-index: -1;
+}
+.showHover {
+  position: absolute;
+  line-height: normal;
+}
+
+
+/* custom color class based on Pokedex design */
+/* For detail page */
+.pokedex-bg{
+  background-color:#DE1537;
+
+}
+.pokedex-blue{
+background-color: #27A4F3;
+}
+.pokedex-green{
+background-color: #4CA459;
+}
+.pokedex-gray{
+background-color: #DEDEDE;
+}
+
+.pokeStat-table {
+padding: 0;
+border-radius: 5px;
+margin-bottom: 0;
+}
+
+/* For battle page */
+#battle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-size: 100% 100%;
+  background-image: url("../img/battle_field.png");
+  opacity: 0.25;
+  z-index: -1;
+}
+
+/* For map page */
+.controller {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #eee;
+  border-radius: 10px;
+  padding-bottom: 1.25rem;
+}
+
+
+.controlBtn {
+  background-color: #ccc;
+  border-radius: 50%;
+  margin: 5px;
 }
 
 
@@ -138,7 +161,7 @@ footer {
   border: solid 10px #817c7c;
 }
 
-/* for mobile */
+/* For mobile */
 @media (max-width: 767px) {
   * {
     font-size:16px;
@@ -178,7 +201,7 @@ footer {
     width: 50px;
   }
 }
-
+/* For Desktop */
 @media (min-width: 768px) {
   .oak-img {
     height: 40vh;
@@ -216,7 +239,7 @@ footer {
     width: 75px;
   }
 }
-
+/* For homapage blinking text */
 @keyframes blinking {
   0% {
     opacity: 1;
@@ -228,13 +251,12 @@ footer {
     opacity: 1;
   }
 }
-
 .blinking {
   animation: blinking 1.5s infinite;
 }
 
-/* Fight button */
-.button-fight {
+/* For Attack button */
+.button-attack {
   margin: 5px;
   padding: 15px 30px;
   text-align: center;
@@ -254,13 +276,66 @@ footer {
   touch-action: manipulation;
 }
 
-.button-fight:hover {
+.button-attack:hover {
   background-position: right center;
   /* change the direction of the change here */
   color: #fff;
   text-decoration: none;
 }
 
-.button-fight:active {
+.button-attack:active {
   transform: scale(0.95);
+}
+
+.button-fight.disabled {
+  pointer-events: none;
+  background-color: gray;
+  opacity: 0.5; /* Optional: Reduce opacity to visually indicate the button is disabled */
+}
+
+.table{
+  border-radius: 5px;
+}
+
+@keyframes shake-atk {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-20px);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  75% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake-def {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-20px);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+  75% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.shake-atk-animation {
+  animation: shake-atk 1s ease-in-out;
+}
+
+.shake-def-animation {
+  animation: shake-def 1s ease-in-out;
 }

@@ -32,6 +32,7 @@ function capturePokemon(evt) {
 
 
 function Homepage() {
+    const isLogin = document.getElementById("userInfoBtn");
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const [startedPokemon, setStartedPokemon] = React.useState([]);
     const [isSelected, setIsSelected] = React.useState(false);
@@ -49,11 +50,11 @@ function Homepage() {
     const handleNextText = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
     }
-
-    if (!document.getElementById("username")) {
+    console.log(isLogin)
+    if (!isLogin) {
         return <React.Fragment>
             <div className="col-12">
-                <img className="img-fluid mx-auto d-block" src="/static/img/oak.png" />
+                <img className="oak-img mx-auto d-block" src="/static/img/oak.png" />
             </div>
             <div className="row border bg-dark page-center">
                 <div className="text-white text-left col-10">
@@ -69,7 +70,8 @@ function Homepage() {
         </React.Fragment>
 
     }
-    const username = document.getElementById("username").innerHTML.trim();
+
+    const username = document.getElementById("userInfoBtn").innerHTML.trim();
     const text = [
         "Hello there! Welcome to the world of Pokémon!",
         "My name is Oak! People call me the Pokémon Prof!",
@@ -127,12 +129,12 @@ function Homepage() {
                 onMouseLeave={() => setIsHovered(false)}
             >
                 {isHovered ? (
-                    <div className="row showHover d-flex justify-content-between flex-wrap mx-1">
-                        <div className="col-12 col-md-5">
+                    <div className="row showHover d-flex justify-content-between flex-wrap mx-1 col-3 col-md-3">
+                        <div className="col-12 col-md-5 text-center img-fluid">
                             <img src={props.image} height="100rem" width="auto" />
                             <div>#{props.pokemon_id} {props.name}</div>
                         </div>
-                        <div className="col-12 col-md-7">
+                        <div className="col-12 col-md-7 ">
                             <div>LV: {props.level}</div>
                             <div>HP: {props.stats.hp}</div>
                             <div>Attack: {props.stats.attack}</div>

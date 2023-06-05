@@ -19,6 +19,7 @@ function Battle() {
     const [opponentActive, setOpponentActive] = React.useState(false)
     const [attacker, setAttacker] = React.useState({})
     const [defender, setDefender] = React.useState({})
+    const [isAttacking, setIsAttacking] = React.useState(false)
     const [selectedAttacker, setSelectedAttacker] = React.useState(null)
     const [selectedDefender, setSelectedDefender] = React.useState(null)
     const [logs, setLogs] = React.useState([])
@@ -56,11 +57,12 @@ function Battle() {
 
     function Log(props) {
         return (
-            <div className>
+            <div className="log">
                 {props.log}
             </div>
         );
     }
+
 
     const logs_list = logs.map((log, index) => <Log key={index} log={log} />);
 
@@ -92,7 +94,6 @@ function Battle() {
             scrollToBottom();
         }
         return (
-
             < div className="row" >
                 <div className="col-12 col-md-9">
                     <div className="col-12">
@@ -109,6 +110,8 @@ function Battle() {
                             selectedDefender={selectedDefender}
                             setSelectedAttacker={setSelectedAttacker}
                             setSelectedDefender={setSelectedDefender}
+                            isAttacking={isAttacking}
+                            setIsAttacking={setIsAttacking}
                             opponent={opponent} />
                     </div>
                     <div className="col-12">
@@ -124,6 +127,8 @@ function Battle() {
                             selectedDefender={selectedDefender}
                             setSelectedAttacker={setSelectedAttacker}
                             setSelectedDefender={setSelectedDefender}
+                            isAttacking={isAttacking}
+                            setIsAttacking={setIsAttacking}
                             player={player} />
                     </div>
                 </div>

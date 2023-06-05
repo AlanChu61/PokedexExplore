@@ -28,6 +28,8 @@ function Opponent(props) {
 
     // attack method 
     const attack = props.attack;
+    const isAttacking = props.isAttacking;
+    const setIsAttacking = props.setIsAttacking
 
     // player's turn
     const setPlayerActive = props.setPlayerActive;
@@ -58,20 +60,25 @@ function Opponent(props) {
     }
 
     function oppAttack(attacker, defender) {
-        addLog(`${opponentInfo.username}'s ${attacker.nickname} attacks ${defender.nickname}!`)
+        setIsAttacking(true)
+        addLog(`\u2003 ${opponentInfo.username.toUpperCase()}'s ${attacker.nickname.toUpperCase()} attacks ${defender.nickname.toUpperCase()}!`)
         const [new_defender, damage] = attack(attacker, defender)
-        addLog(`${attacker.nickname} made ${damage} damage to ${defender.nickname}!`)
+        addLog(`\u2003 ${attacker.nickname.toUpperCase()} made ${damage} damage to ${defender.nickname}!`)
         if (new_defender.stats.hp <= 0) {
-            addLog(`${defender.nickname} fainted!`)
+            addLog(`\u2003 ${defender.nickname.toUpperCase()} fainted!!`)
             setPlayerPokemons(prevPokemons =>
                 prevPokemons.filter(pokemon => pokemon !== defender)
             );
         }
         // switch turn
-        setSelectedAttacker(null);
-        setSelectedDefender(null);
-        setOpponentActive(false)
-        setPlayerActive(true)
+        setTimeout(() => {
+            setIsAttacking(false);
+            setOpponentActive(false);
+            setSelectedAttacker(null);
+            setSelectedDefender(null);
+            setOpponentActive(false);
+            setPlayerActive(true);
+        }, 1000);
 
     }
 
@@ -87,11 +94,19 @@ function Opponent(props) {
     function OpponentPokemon(props) {
         const isSelectedDefender = selectedDefender == props.nickname;
         const isSelectedAttacker = selectedAttacker == props.nickname;
+        console.log('isSelectedAttacker', isSelectedAttacker)
+        console.log('isAttacking', isAttacking)
+
         return <div className={`pokemon col-${Math.floor(9 / battleMode)} text-center card
         ${isSelectedDefender ? 'border-danger border-4' : ''}
         ${isSelectedAttacker ? 'border-success border-4' : ''}
         `} key={props.nickname}>
-            <div><img src={props.front_default} /></div>
+            <div className=
+                {`
+                ${isSelectedAttacker && isAttacking ? 'shake-atk-animation' : ''}
+                ${isSelectedDefender && isAttacking ? 'shake-def-animation' : ''}
+            `}><img
+                    src={props.front_default} /></div>
             <div>{props.nickname.toUpperCase()}</div>
             <div>LV: {props.level}</div>
             <div>HP: {props.stats.hp}</div>
@@ -116,7 +131,7 @@ function Opponent(props) {
         if (opponentActive) {
             // battle setup
             setTimeout(() => {
-                addLog(`---- ${opponentInfo.username}'s turn ----`);
+                addLog(`-- ${opponentInfo.username}'s turn --`);
                 // set attacker
                 setTimeout(() => {
                     assignAttacker();

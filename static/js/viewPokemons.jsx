@@ -29,16 +29,15 @@ function ViewPokemons() {
 
 
     function Pokemon(props) {
-        console.log(props)
-        return <div className="col-4 card">
+        return <div className="col-6 col-md-4 card my-1">
             <div hidden>pokemon_id:{props.pokemon_id}</div>
             <a href={`/detail_pokemon/${props.pokemon_id}`}>
-                <img src={props.image} alt="pokemon image" style={{ maxWidth: "100%" }} />
+                <img className="img-fluid" src={props.image} alt="pokemon image" style={{ maxWidth: "100%" }} />
             </a>
-            <div>Id: {props.id}</div>
-            <div>Nickname: {props.nickname.toUpperCase()}</div>
+            <div>ID: {props.id}</div>
+            <div>{props.nickname.toUpperCase()}</div>
             <div>LV: {props.level}</div>
-            <button className="btn btn-info btn-sm" onClick={handleDelete}>Release</button>
+            <button className="btn btn-info btn-sm text-white" onClick={handleDelete}>Release</button>
         </div >
     }
     const pokemonList = []
@@ -61,7 +60,6 @@ function ViewPokemons() {
 
     return (
         <React.Fragment>
-            <h1 className="text-center">My Pokemons</h1>
             {pokemonList.length === 0 ? (
                 <React.Fragment>
                     <h3 className="text-center">You don't have any pokemon</h3>

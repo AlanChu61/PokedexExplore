@@ -153,7 +153,9 @@ function BattleOver(props) {
             <div className="row">
                 <div className="col-9">
                     <div className="row">
-                        {opponentPokemonList}
+                        {opponentPokemonList.length == 0 ? (
+                            <div className="col-12 text-center">All opponent Pokémon have fainted!</div>
+                        ) : { opponentPokemonList }}
                     </div>
                 </div>
                 <div className="col-3">
@@ -168,11 +170,12 @@ function BattleOver(props) {
             </div >
 
 
-            <div className="row">< div className="col-12" >
-                {winner == playerInfo ? <h1 className="text-center">You Win!</h1> : <h1 className="text-center">You Lose!</h1>
-                }
-            </div >
+            <div className="row">
+                < div className="col-12" >
+                    {winner == playerInfo ? <h1 className="text-center">You Win!</h1> : <h1 className="text-center">You Lose!</h1>}
+                </div >
             </div>
+
             <div className="row">
                 <div className="col-3">
                     <img src={playerInfo.img} width="100px" />
@@ -188,7 +191,9 @@ function BattleOver(props) {
                 </div>
                 <div className="col-9">
                     <div className="row">
-                        {playerPokemonList}
+                        {playerPokemonList.length == 0 ? (
+                            <div className="col-12 text-center">All My Pokémon have fainted!</div>
+                        ) : { playerPokemonList }}
                     </div>
                 </div>
             </div >
