@@ -74,21 +74,21 @@ function Player(props) {
         }
         // switch turn
         setTimeout(() => {
-            setIsAttacking(false)
             setAttacker(null);
             setDefender(null);
             setPlayerActive(false);
+            setIsAttacking(false)
             setSelectedAttacker(null);
             setSelectedDefender(null);
         }, 2000)
 
     }
     React.useEffect(() => {
-        if (!attacker && !defender) {
+        if (!playerActive && !attacker && !defender) {
             setOpponentActive(true);
             assignDefender();
         }
-    }, [attacker, defender])
+    }, [attacker, defender, playerActive])
 
 
 
@@ -98,7 +98,8 @@ function Player(props) {
         setDefender(playerPokemons[randomIndex])
         setTimeout(() => {
             setSelectedDefender(playerPokemons[randomIndex].nickname)
-        }, 2000)
+        }, 1000)
+
     }
 
 
@@ -134,7 +135,6 @@ function Player(props) {
             />,
         )
     }
-
     return (
         <div className="row">
             <div className="col-3 text-center m-auto">

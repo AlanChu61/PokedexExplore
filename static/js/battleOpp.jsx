@@ -61,29 +61,31 @@ function Opponent(props) {
     }
 
     function oppAttack(attacker, defender) {
-        setIsAttacking(true)
         addLog(`\u2003 ${opponentInfo.username.toUpperCase()}'s ${attacker.nickname.toUpperCase()} attacks ${defender.nickname.toUpperCase()}!`)
         const [new_defender, damage] = attack(attacker, defender)
-        addLog(`\u2003 ${attacker.nickname.toUpperCase()} made ${damage} damage to ${defender.nickname}!`)
+        setIsAttacking(true)
+        setTimeout(() => {
+            addLog(`\u2003 ${attacker.nickname.toUpperCase()} made ${damage} damage to ${defender.nickname}!`)
+        }, 2000);
         if (new_defender.stats.hp <= 0) {
             addLog(`\u2003 ${defender.nickname.toUpperCase()} fainted!!`)
-            setPlayerPokemons(prevPokemons =>
-                prevPokemons.filter(pokemon => pokemon !== defender)
-            );
+            setTimeout(() => {
+                setPlayerPokemons(prevPokemons =>
+                    prevPokemons.filter(pokemon => pokemon !== defender)
+                );
+            }, 1000);
         }
         // switch turn
         setTimeout(() => {
-            setIsAttacking(false);
-            setAttacker(null);
             setDefender(null);
+            setOpponentActive(false);
+            setIsAttacking(false);
+            setPlayerActive(true);
             setSelectedAttacker(null);
             setSelectedDefender(null);
-            setOpponentActive(false);
-            setPlayerActive(true);
         }, 2000);
 
     }
-
 
 
     function assignAttacker() {
@@ -92,6 +94,7 @@ function Opponent(props) {
         setAttacker(opponentPokemons[randomIndex])
         setSelectedAttacker(opponentPokemons[randomIndex].nickname)
     }
+
 
 
 
@@ -130,7 +133,7 @@ function Opponent(props) {
     }
 
     React.useEffect(() => {
-        if (opponentActive) {
+        if (opponentActive && !attacker) {
             // battle setup
             setTimeout(() => {
                 addLog(`-- ${opponentInfo.username}'s turn --`);
@@ -138,8 +141,9 @@ function Opponent(props) {
             // set attacker
             setTimeout(() => {
                 assignAttacker();
-            }, 2000);
-            // set defender}
+            }, 1000);
+            // set defender
+            // set on BattlePlayer side
         }
     }, [opponentActive]);
 
