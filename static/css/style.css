@@ -18,7 +18,8 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
-}/* Flash msg */
+}
+/* Flash msg */
 .flash-message {
 
   border-radius: 5px;
@@ -357,3 +358,5 @@ button[disabled] {
 .battle-player-img{
   max-width: 80px;
 }
+
+

@@ -29,7 +29,7 @@ function Signup() {
     };
 
 
-    return <div className="centered-element">
+    return <div className="d-flex flex-column justify-content-center align-items-center py-3">
         <h1>Signup</h1>
         <form action="/signup" method="POST">
             <div className="form-group">
@@ -59,7 +59,7 @@ function Signup() {
             {uploadUrl && <div className="form-group">
                 <label htmlFor="image">Image Preview</label>
                 <input type="hidden" name="imageUrl" value={uploadUrl} />
-                <img src={uploadUrl} alt="image preview" width="100px" />
+                <img src={uploadUrl} alt="image preview" height="80px" />
             </div>
             }
             <div className="d-flex justify-content-end my-2">

@@ -53,9 +53,9 @@ function Profile() {
     };
 
     return (
-        <div className="centered-element">
+        <div className="d-flex flex-column justify-content-center align-items-center py-3">
             <h1>{username}'s Profile</h1>
-            <img src={uploadUrl} alt="profile image" width="200px" />
+            <img src={uploadUrl} alt="profile image" height="100px" />
             <form onSubmit={handleUpdateForm}>
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>
@@ -69,6 +69,7 @@ function Profile() {
                         disabled
                     />
                 </div>
+
                 <div>
                     <label htmlFor="username">Username:</label>
                     <input
@@ -80,6 +81,7 @@ function Profile() {
                         onChange={(evt) => setUsername(evt.target.value)}
                     />
                 </div>
+
                 <div className="form-group">
                     <label htmlFor="image">Choose Image</label>
                     <input
@@ -96,7 +98,7 @@ function Profile() {
                     <div className="form-group">
                         <label htmlFor="image">Image Preview</label>
                         <input type="hidden" name="imageUrl" value={uploadUrl} />
-                        <img src={uploadUrl} alt="image preview" width="100px" />
+                        <img src={uploadUrl} alt="image preview" height="50px" />
                     </div>
                 )}
                 <button type="submit" className="btn btn-primary">

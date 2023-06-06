@@ -1,7 +1,7 @@
 function Login() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    return <div className="centered-element">
+    return <div className="d-flex flex-column justify-content-center align-items-center py-3">
         <h1>Login</h1>
         <form action="/login" method="POST">
             <div className="form-group">
@@ -16,6 +16,7 @@ function Login() {
             <div className="d-flex justify-content-end my-2">
                 <button type="submit" className="btn btn-primary">Login</button>
             </div>
-        </form ></div >
+        </form >
+    </div >
 }
 ReactDOM.render(<Login />, document.getElementById('login_form'));

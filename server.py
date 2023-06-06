@@ -334,6 +334,7 @@ def login():
 @app.route('/logout', methods=['GET'])
 def logout():
     session.clear()
+    flash("Logout successfully!", "info")
     return redirect('/')
 
 
