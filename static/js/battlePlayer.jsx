@@ -75,13 +75,21 @@ function Player(props) {
         // switch turn
         setTimeout(() => {
             setIsAttacking(false)
+            setAttacker(null);
+            setDefender(null);
             setPlayerActive(false);
             setSelectedAttacker(null);
             setSelectedDefender(null);
+        }, 2000)
+
+    }
+    React.useEffect(() => {
+        if (!attacker && !defender) {
             setOpponentActive(true);
             assignDefender();
-        }, 1000)
-    }
+        }
+    }, [attacker, defender])
+
 
 
     function assignDefender() {
@@ -90,13 +98,11 @@ function Player(props) {
         setDefender(playerPokemons[randomIndex])
         setTimeout(() => {
             setSelectedDefender(playerPokemons[randomIndex].nickname)
-        }, 3000)
+        }, 2000)
     }
 
 
     function PlayerPokemon(props) {
-        console.log(props.nickname)
-        console.log(selectedAttacker)
         const isSelectedAttacker = selectedAttacker === props.nickname;
         const isSelectedDefender = selectedDefender === props.nickname;
 
@@ -132,7 +138,7 @@ function Player(props) {
     return (
         <div className="row">
             <div className="col-3 text-center m-auto">
-                <img src={playerInfo.img} width="100px" />
+                <img className="battle-player-img" src={playerInfo.img} />
                 <div>{playerInfo.username}</div>
                 <div>Win:{playerInfo.winning_rate.win} Lose:{playerInfo.winning_rate.lose}</div>
                 {playerActive && selectedAttacker && selectedDefender && (

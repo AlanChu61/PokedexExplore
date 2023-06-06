@@ -3,25 +3,23 @@ function BattleOver(props) {
     const opponentInfo = props.opponent;
     const setPlayerInfo = props.setPlayer;
     const setOpponentInfo = props.setOpponent;
-    const playerPokemons = props.playerPokemons
-    const opponentPokemons = props.opponentPokemons
-    const [winner, setWinner] = React.useState("")
-    const [isWinBtnClicked, setIsWinBtnClicked] = React.useState(false)
-    const [isLoseBtnClicked, setIsLoseBtnClicked] = React.useState(false)
+    const playerPokemons = props.playerPokemons;
+    const opponentPokemons = props.opponentPokemons;
+    const [winner, setWinner] = React.useState("");
+    const [isWinBtnClicked, setIsWinBtnClicked] = React.useState(false);
+    const [isLoseBtnClicked, setIsLoseBtnClicked] = React.useState(false);
 
     React.useEffect(() => {
-        if (opponentPokemons.length == 0) {
+        if (opponentPokemons.length === 0) {
             setWinner(playerInfo);
-
         } else {
             setWinner(opponentInfo);
         }
-    }, [playerInfo, opponentInfo, winner]);
-
+    }, [playerInfo, opponentInfo, opponentPokemons.length]);
 
     function handleIncreaseWin(evt) {
         evt.preventDefault();
-        setIsWinBtnClicked(true)
+        setIsWinBtnClicked(true);
         fetch('/handle_win', {
             method: 'PUT',
             body: JSON.stringify({
@@ -41,7 +39,6 @@ function BattleOver(props) {
             .then((data) => {
                 setPlayerInfo(data.player);
                 setOpponentInfo(data.opponent);
-
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -50,7 +47,7 @@ function BattleOver(props) {
 
     function handleIncreaseLose(evt) {
         evt.preventDefault();
-        setIsLoseBtnClicked(true)
+        setIsLoseBtnClicked(true);
         fetch('/handle_lose', {
             method: 'PUT',
             body: JSON.stringify({
@@ -77,131 +74,152 @@ function BattleOver(props) {
     }
 
     function PlayerPokemon(props) {
-
         function handleAddComment(evt) {
             evt.preventDefault();
-            const content = prompt("Enter Some comment", `${props.nickname} is so awseome!`)
-            if (content == "") {
-                alert("Please enter comment")
-                return
+            const content = prompt("Enter Some comment", `${props.nickname} is so awesome!`);
+            if (content === "") {
+                alert("Please enter comment");
+                return;
             }
             fetch(`/create_comment/${props.pokemon_id}`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
-                }, body: JSON.stringify({
+                },
+                body: JSON.stringify({
                     content: content,
                 }),
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log("comment added")
+                    console.log("comment added");
                 });
         }
 
-        return <div className={`pokemon col-6 card`} key={props.nickname}>
-            <div>
-                <a href={`detail_pokemon/${props.pokemon_id}`}>
-                    <img src={props.front_default} />
-                </a>
+        return (
+            <div className={`pokemon col-6 card`} key={props.nickname}>
+                <div>
+                    <a href={`detail_pokemon/${props.pokemon_id}`}>
+                        <img src={props.front_default} />
+                    </a>
+                </div>
+                <div>{props.nickname.toUpperCase()}</div>
+                <div>LV: {props.level}</div>
+                <button className="btn btn-info" onClick={handleAddComment}>
+                    Leave some comments
+                </button>
             </div>
-            <div>{props.nickname.toUpperCase()}</div>
-            <div>LV: {props.level}</div>
-            <button className="btn btn-info" onClick={handleAddComment}>Leave some comments</button>
-        </div >
+        );
     }
 
     function OpponentPokemon(props) {
-        return <div className={`pokemon col-6 card`} key={props.nickname}>
-            <div>
-                <img src={props.front_default} />
+        return (
+            <div className={`pokemon col-6 card`} key={props.nickname}>
+                <div>
+                    <img src={props.front_default} />
+                </div>
+                <div>{props.nickname.toUpperCase()}</div>
+                <div>LV: {props.level}</div>
             </div>
-            <div>{props.nickname.toUpperCase()}</div>
-            <div>LV: {props.level}</div>
-        </div >
+        );
     }
 
-    const playerPokemonList = []
-    for (const pokemon of playerPokemons) {
-        playerPokemonList.push(
-            <PlayerPokemon
-                key={pokemon.pokemon_id}
-                pokemon_id={pokemon.pokemon_id}
-                nickname={pokemon.nickname}
-                level={pokemon.level}
-                front_default={pokemon.front_default}
-            />,
-        )
-    }
-    const opponentPokemonList = []
-    for (const pokemon of opponentPokemons) {
-        opponentPokemonList.push(
-            <OpponentPokemon
-                key={pokemon.pokemon_id}
-                pokemon_id={pokemon.pokemon_id}
-                nickname={pokemon.nickname}
-                level={pokemon.level}
-                front_default={pokemon.front_default}
-            />,
-        )
-    }
+    const playerPokemonList = playerPokemons.map((pokemon) => (
+        <PlayerPokemon
+            key={pokemon.pokemon_id}
+            pokemon_id={pokemon.pokemon_id}
+            nickname={pokemon.nickname}
+            level={pokemon.level}
+            front_default={pokemon.front_default}
+        />
+    ));
 
-
+    const opponentPokemonList = opponentPokemons.map((pokemon) => (
+        <OpponentPokemon
+            key={pokemon.pokemon_id}
+            pokemon_id={pokemon.pokemon_id}
+            nickname={pokemon.nickname}
+            level={pokemon.level}
+            front_default={pokemon.front_default}
+        />
+    ));
 
     return (
         <React.Fragment>
             <div className="row">
                 <div className="col-9">
                     <div className="row">
-                        {opponentPokemonList.length == 0 ? (
-                            <div className="col-12 text-center">All opponent Pokémon have fainted!</div>
-                        ) : { opponentPokemonList }}
+                        {opponentPokemonList.length === 0 ? (
+                            <div className="col-12 text-center">
+                                All opponent Pokémon have fainted!
+                            </div>
+                        ) : (
+                            opponentPokemonList
+                        )}
                     </div>
                 </div>
                 <div className="col-3">
-                    <img src={opponentInfo.img} width="100px" />
+                    <img className="battle-player-img" src={opponentInfo.img} width="100px" />
                     <div>{opponentInfo.username}</div>
-                    <div>Win:{opponentInfo.winning_rate.win}
-                    </div>
-                    <div>Lose:{opponentInfo.winning_rate.lose}
-                    </div>
+                    <div>Win:{opponentInfo.winning_rate.win}</div>
+                    <div>Lose:{opponentInfo.winning_rate.lose}</div>
                 </div>
-
-            </div >
-
-
-            <div className="row">
-                < div className="col-12" >
-                    {winner == playerInfo ? <h1 className="text-center">You Win!</h1> : <h1 className="text-center">You Lose!</h1>}
-                </div >
             </div>
 
             <div className="row">
-                <div className="col-3">
-                    <img src={playerInfo.img} width="100px" />
-                    <div>{playerInfo.username}</div>
-                    <div>Win:{playerInfo.winning_rate.win}
-                        {winner == playerInfo &&
-                            <button className="btn btn-success" hidden={isWinBtnClicked} onClick={handleIncreaseWin}> +1 </button>}</div>
-                    <div>Lose:{playerInfo.winning_rate.lose}
-                        {winner == opponentInfo && (
-                            <button className="btn btn-danger" hidden={isLoseBtnClicked} onClick={handleIncreaseLose}> +1 </button>)
-                        }</div>
+                <div className="col-12">
+                    {winner === playerInfo ? (
+                        <h1 className="text-center">You Win!</h1>
+                    ) : (
+                        <h1 className="text-center">You Lose!</h1>
+                    )}
+                </div>
+            </div>
 
+            <div className="row">
+                <div className="col-3 text-center m-auto">
+                    <img className="battle-player-img" src={playerInfo.img} />
+                    <div>{playerInfo.username}</div>
+                    <div>
+                        Win:{playerInfo.winning_rate.win}
+                        {winner === playerInfo && (
+                            <button
+                                className="btn btn-success"
+                                hidden={isWinBtnClicked}
+                                onClick={handleIncreaseWin}
+                            >
+                                +1
+                            </button>
+                        )}
+                    </div>
+                    <div>
+                        Lose:{playerInfo.winning_rate.lose}
+                        {winner === opponentInfo && (
+                            <button
+                                className="btn btn-danger"
+                                hidden={isLoseBtnClicked}
+                                onClick={handleIncreaseLose}
+                            >
+                                +1
+                            </button>
+                        )}
+                    </div>
                 </div>
                 <div className="col-9">
                     <div className="row">
-                        {playerPokemonList.length == 0 ? (
-                            <div className="col-12 text-center">All My Pokémon have fainted!</div>
-                        ) : { playerPokemonList }}
+                        {playerPokemonList.length === 0 ? (
+                            <div className="col-12 text-center">
+                                All My Pokémon have fainted!
+                            </div>
+                        ) : (
+                            playerPokemonList
+                        )}
                     </div>
                 </div>
-            </div >
+            </div>
             <a className="text-center" href="/battle_players">
-                <div className="text-center">
-                    Battle with others
-                </div>
+                <div className="text-center">Battle with others</div>
             </a>
-        </React.Fragment >)
-
+        </React.Fragment>
+    );
 }

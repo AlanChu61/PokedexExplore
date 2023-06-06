@@ -344,3 +344,7 @@ button[disabled] {
   color: white !important; 
   cursor: not-allowed !important;
 }
+
+.battle-player-img{
+  max-width: 80px;
+}

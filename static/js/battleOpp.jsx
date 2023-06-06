@@ -21,6 +21,7 @@ function Opponent(props) {
     let attacker = props.attacker;
     let defender = props.defender;
 
+
     const selectedAttacker = props.selectedAttacker;
     const setSelectedAttacker = props.setSelectedAttacker;
     const selectedDefender = props.selectedDefender;
@@ -73,14 +74,17 @@ function Opponent(props) {
         // switch turn
         setTimeout(() => {
             setIsAttacking(false);
-            setOpponentActive(false);
+            setAttacker(null);
+            setDefender(null);
             setSelectedAttacker(null);
             setSelectedDefender(null);
             setOpponentActive(false);
             setPlayerActive(true);
-        }, 1000);
+        }, 2000);
 
     }
+
+
 
     function assignAttacker() {
         // randomly assign attacker
@@ -94,9 +98,6 @@ function Opponent(props) {
     function OpponentPokemon(props) {
         const isSelectedDefender = selectedDefender == props.nickname;
         const isSelectedAttacker = selectedAttacker == props.nickname;
-        console.log('isSelectedAttacker', isSelectedAttacker)
-        console.log('isAttacking', isAttacking)
-
         return <div className={`pokemon col-${Math.floor(9 / battleMode)} text-center card
         ${isSelectedDefender ? 'border-danger border-4' : ''}
         ${isSelectedAttacker ? 'border-success border-4' : ''}
@@ -127,30 +128,34 @@ function Opponent(props) {
             />,
         )
     }
+
     React.useEffect(() => {
         if (opponentActive) {
             // battle setup
             setTimeout(() => {
                 addLog(`-- ${opponentInfo.username}'s turn --`);
-                // set attacker
-                setTimeout(() => {
-                    assignAttacker();
-                    // set defender
-                    setTimeout(() => {
-                        // attack
-                        setTimeout(() => {
-                            oppAttack(attacker, defender);
-                        }, 1000);
-                    }, 2000);
-                }, 1000);
             }, 1000);
+            // set attacker
+            setTimeout(() => {
+                assignAttacker();
+            }, 2000);
+            // set defender}
         }
     }, [opponentActive]);
+
+    React.useEffect(() => {
+        if (opponentActive && attacker && defender) {
+            setTimeout(() => {
+                oppAttack(attacker, defender);
+            }, 1000);
+        }
+    }, [attacker, defender])
+
     return (
         <div className="row">
             {opponentPokemonList}
             <div className="col-3 text-center m-auto">
-                <img src={opponentInfo.img} width="80px" />
+                <img className="battle-player-img" src={opponentInfo.img} />
                 <div>{opponentInfo.username}</div>
                 <div>Win:{opponentInfo.winning_rate.win} Lose:{opponentInfo.winning_rate.lose}</div>
             </div>
