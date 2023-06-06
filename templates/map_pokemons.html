@@ -8,9 +8,9 @@
 
 <div class="controller col-12">
 
-  <div class="col-8 order-3 col-lg-4 order-lg-1 px-2 py-2">
+  <div class="col-8 order-3 col-lg-4 order-lg-1 px-2 my-1">
     
-    <div class="p-2 text-center">Username: 
+    <div class="p-1 text-center">Username: 
       <span class="bg-dark text-white" style="width: 200px;">
         {% if "username" in session %}
         {{ session['username'] }}
@@ -19,9 +19,9 @@
         {% endif %}
       </span>
     </div>
-    <div class="p-2 col-12 col-lg-12 d-flex flex-column">
+    <div class="p-1 col-12 col-lg-12 d-flex flex-column">
       {% if "pokemon_num" in session %}
-      <div class ="d-flex justify-content-around">
+      <div class ="d-flex justify-content-around m-1">
       <button type="button" class="btn btn-primary btn-sm" id="addUserMakerBtn">Show My Location</button>
       <button type="button" class="btn btn-primary btn-sm" id="addPokemonMakerBtn">Add Pokemons</button>
       </div>
@@ -46,7 +46,7 @@
   
       
   <div class="remote-control col-4 order-2 col-lg-2 order-lg-3 d-flex justify-content-center align-items-center my-auto">
-    <div class="border border-3 rounded-circle circle ">
+    <div class="border border-3 rounded-circle circle">
     <div class="d-flex justify-content-center">
       <div class="square-btn ">
         <button class="controlBtn border-0 bg-transparent" id="upBtn">

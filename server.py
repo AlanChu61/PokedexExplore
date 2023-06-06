@@ -108,8 +108,8 @@ def get_map_pokemons():
 @app.route('/fetch_pokemon_json')
 def fetch_pokemon_json():
     """Show all pokemons."""
-    pokemons = crud.get_fetch_pokemon()  # array
-    random_pokemons = sample(pokemons, 7)  # array
+    pokemons = crud.get_fetch_pokemon()
+    random_pokemons = sample(pokemons, 7)
     pokemons = []
     for pokemon in random_pokemons:
         pokemon_dict = convert_pokemon_obj2dict(pokemon)
@@ -226,8 +226,9 @@ def delete_pokemon(pokemon_id):
         return {
             "success": False,
             "status": f"Your deleted failed!"}
-# Comment
 
+
+# Comment
 
 @app.route('/create_comment/<int:pokemon_id>', methods=['POST'])
 def create_comment(pokemon_id):
@@ -269,7 +270,8 @@ def delete_comment(comment_id):
         return {
             "success": False,
             "status": f"Your deleted failed!"}
-# sign up
+
+# Player Profile: signup, login, logout
 
 
 @app.route('/signup', methods=['POST', 'GET'])
@@ -336,6 +338,8 @@ def logout():
     session.clear()
     flash("Logout successfully!", "info")
     return redirect('/')
+
+# Player update profile
 
 
 @app.route("/upload", methods=['POST'])
@@ -409,8 +413,11 @@ def player_list_json():
 @app.route('/battle', methods=['GET'])
 def battle():
     """Show battle page."""
+    # get opponent id from url
     opponent_id = request.args.get('player_id')
+    # get battle mode and conver to int from url
     battle_mode = int(request.args.get('battle_mode'))
+    # get opponent username and player username
     opponent_username = crud.get_player_by_id(opponent_id).username
     player_username = session['username']
     flash(f"{player_username} vs. {opponent_username}", "info")
