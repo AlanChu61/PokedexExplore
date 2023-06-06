@@ -293,6 +293,10 @@ def signup():
             """account exists"""
             flash("Email already exists. Please try again!", "error")
             return redirect('/signup')
+        elif crud.get_player_by_username(username):
+            """account exists"""
+            flash("Username already exists. Please try again!", "error")
+            return redirect('/signup')
         else:
             """new account"""
             new_player = crud.create_player(

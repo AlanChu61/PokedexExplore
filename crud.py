@@ -20,8 +20,9 @@ def get_fetch_pokemon():
 # players
 
 
-def create_player(email, password, username,img,winning_rate):
-    player = Player(email=email, password=password, username=username,img=img,winning_rate=winning_rate)
+def create_player(email, password, username, img, winning_rate):
+    player = Player(email=email, password=password,
+                    username=username, img=img, winning_rate=winning_rate)
     return player
 
 
@@ -33,13 +34,19 @@ def get_player_by_email(email):
     return Player.query.filter(Player.email == email).first()
 
 
+def get_player_by_username(username):
+    return Player.query.filter(Player.username == username).first()
+
+
 def get_player_by_id(player_id):
     return Player.query.get(player_id)
+
 
 def get_other_players(player_id):
     return Player.query.filter(Player.player_id != player_id).all()
 
-def update_player_by_player_id(player_id,username,img):
+
+def update_player_by_player_id(player_id, username, img):
     player = Player.query.get(player_id)
     player.username = username
     player.img = img
@@ -132,24 +139,15 @@ def get_random_opponent(player_id):
     opponents = Player.query.filter(Player.player_id != player_id).all()
     return sample(opponents, 1)[0]
 
-# def increase_win_lose(player_id, opponent_id):
-#     player = Player.query.get(player_id)
-#     player.winning_rate['win'] += 1
-#     opponent = Player.query.get(opponent_id)
-#     opponent.winning_rate['lose'] += 1
-#     db.session.add_all([player, opponent])
-#     db.session.commit()
-#     return True
 
 def increase_win_lose(player_id, opponent_id):
     player = Player.query.get(player_id)
-    current_winning_rate = player.winning_rate.copy() 
+    current_winning_rate = player.winning_rate.copy()
     current_winning_rate['win'] += 1
-    player.winning_rate = current_winning_rate  
+    player.winning_rate = current_winning_rate
     opponent = Player.query.get(opponent_id)
-    current_winning_rate = opponent.winning_rate.copy() 
+    current_winning_rate = opponent.winning_rate.copy()
     current_winning_rate['lose'] += 1
-    opponent.winning_rate = current_winning_rate 
+    opponent.winning_rate = current_winning_rate
     db.session.commit()
     return True
-
