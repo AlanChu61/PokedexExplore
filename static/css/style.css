@@ -164,7 +164,7 @@ margin-bottom: 0;
 /* For mobile */
 @media (max-width: 767px) {
   * {
-    font-size:16px;
+    font-size:14px;
   }
   .oak-img {
     height: 30vh;
@@ -192,9 +192,13 @@ margin-bottom: 0;
     border-radius: 15%;
     background-color: #333333;
     font-size: 24px;
-  }#battle-log {
+  }
+  #battle-log {
     height: 20vh;
     overflow: auto;
+  }
+  .log{
+    font-size: 12px;
   }
   #userInfoBtn{
     height: 50px;
@@ -231,10 +235,15 @@ margin-bottom: 0;
     border-radius: 15%;
     background-color: #333333;
     font-size: 36px;
-  }#battle-log {
-    height: 100%;
+  }
+  #battle-log {
+    height: 80vh;
     overflow: auto;
-  }  #userInfoBtn{
+  }
+  .log{
+    font-size: 20px;
+  }  
+  #userInfoBtn{
     height: 75px;
     width: 75px;
   }

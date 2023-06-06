@@ -145,7 +145,7 @@ function BattleOver(props) {
     ));
 
     return (
-        <React.Fragment>
+        <div className="container">
             <div className="row">
                 <div className="col-9">
                     <div className="row">
@@ -159,7 +159,7 @@ function BattleOver(props) {
                     </div>
                 </div>
                 <div className="col-3">
-                    <img className="battle-player-img" src={opponentInfo.img} width="100px" />
+                    <img className="battle-player-img" src={opponentInfo.img} />
                     <div>{opponentInfo.username}</div>
                     <div>Win:{opponentInfo.winning_rate.win}</div>
                     <div>Lose:{opponentInfo.winning_rate.lose}</div>
@@ -220,6 +220,6 @@ function BattleOver(props) {
             <a className="text-center" href="/battle_players">
                 <div className="text-center">Battle with others</div>
             </a>
-        </React.Fragment>
+        </div>
     );
 }
