@@ -19,7 +19,7 @@ Link: Replace this with a link to your data model
     - (v)Pokemon can be captured by the user(C)  
     - (v)Pokemon can be viewed by the user(R)
     - (v)Pokemon can be edited/deleted by the user(U/D)
-- Use can make comments on Pokemon
+- User can make comments on Pokemon
     - (v)Comment can be created by the user(C)
     - (v)Comment can be viewed by the user(R)
     - (v)Comment can be edited/deleted by the user(U/D)
