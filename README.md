@@ -64,11 +64,13 @@ The battle reaches its conclusion when either all of your Pokemon or all of your
 #### Signup and Login
 Feel free to join our community! Click ***Signup*** to sign up.
 Make sure upload your personal avatar. You can upload your avatar from your device. The backend will send a post request to Cloudinary to upload your avatar. The backend will receive the url of your avatar and store it in the database. If you don't upload your avatar, the default avatar will be used(A Mewtwo).
+
 <img src="src/screenshots/desktop/signup.png" alt="Signup Page" width="300" height="auto">
 <img src="src/screenshots/desktop/login.png" alt="Login Page" width="300" height="auto">
 
 #### Edit profile
 In the top-right corner of the navigation bar, you'll find a button that reveals additional information about you. Clicking on this button will lead you to a page where you can view and edit your profile. In the ***Edit Profile page***, you have the option to modify your username and upload a new profile photo, allowing you to personalize and update your profile according to your preferences.
+
 <img src="src/screenshots/desktop/userInfo.png" alt="userInfo Page" width="300" height="auto">
 <img src="src/screenshots/desktop/editProfile.png" alt="Edit Profile Page" width="300" height="auto">
 
