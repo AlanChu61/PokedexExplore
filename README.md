@@ -3,6 +3,8 @@ This app is deployed on AWS Lightsail. [Click to Play](http://44.224.223.55/)
 
 Learn more about the developer! [![Linkedin](https://i.stack.imgur.com/gVE0j.png) LinkedIn](https://www.linkedin.com/in/alan-hwader-chu/)
 
+[Demo on YouTube](https://www.youtube.com/watch?v=ATzHJeBBbiE)
+
 ## Project description: 
 Introducing Pokedex Explore, a top-notch full-stack web application crafted for Pokemon enthusiasts worldwide. Dive into a unique Pokemon adventure in the Bay Area and engage with over a thousand diverse Pokemon.
 
