@@ -14,8 +14,8 @@ Pokedex Explore isn't just about catching Pokemon; it's a celebration of your jo
 
 Don't wait. Begin your extraordinary Pokemon adventure with Pokedex Explore today!
 
-<img src="src/screenshots/desktop/mapMarker.png" alt="Map Page" >
-<img src="src/screenshots/desktop/battle.png" alt="Battle Page" >
+<img src="src/screenshots/mobile/mapMarker.png" alt="Map Page" width="150" height="auto">
+<img src="src/screenshots/mobile/battle.png" alt="Battle Page" width="150" height="auto">
 
 ## Tech Stack
 **Frontend:** [React](https://reactjs.org/), [JavaScript](https://www.javascript.com/), [Jinja](https://palletsprojects.com/p/jinja/), [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML), [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS), [Bootstrap](https://getbootstrap.com/)
